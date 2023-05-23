@@ -15,7 +15,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,9 +29,10 @@ import javax.swing.JTextField;
 public class Administrador extends javax.swing.JFrame {
 
     static CardLayout cardLayout;
+    //Para hacer el Modelo de la tabla del horario
+    DefaultTableModel ModeloTabla = new DefaultTableModel();
 
     String sx;
-    int op;
 
     public Administrador() {
         initComponents();
@@ -34,25 +40,25 @@ public class Administrador extends javax.swing.JFrame {
         bt_minimizar.setColor1Background(new Color(0, 0, 0, 0));
         bt_cerrar.setColor1Background(new Color(0, 0, 0, 0));
         cardLayout = (CardLayout) (CardLayout.getLayout());
-        bt_m.setVisible(true);
         bt_f1.setVisible(false);
         bt_m1.setVisible(true);
-        bt_f.setVisible(false);
-        bt_m2.setVisible(true);
-        bt_f2.setVisible(false);
         esconder.setVisible(false);
         esconder1.setVisible(false);
-        esconder2.setVisible(false);
-        esconder3.setVisible(false);
-        esconder4.setVisible(false);
-        esconder5.setVisible(false);
-        BT_Replegar.setVisible(false);
-        Especialidades.setVisible(false);
-        BT_Replegar1.setVisible(false);
-        MenuPuesto.setVisible(false);
         cardLayout.show(CardLayout, "Inicio");
-        sx = "M";
-        op = 0;
+
+        CB_Orden.addItem("-");
+        CB_Orden.addItem("Ascendente");
+        CB_Orden.addItem("Descendente");
+
+        CB_Servicio.addItem("-");
+
+        MostrarServicios();
+        MostraDoctores();
+
+        LlenarTodosDatos("Todas", "", "", "");
+        
+        BT_Home.setColor1Background(new Color(82, 132, 192));
+
     }
 
     /**
@@ -69,160 +75,67 @@ public class Administrador extends javax.swing.JFrame {
         JP_BarraLateral = new org.example.Custom.PanelRound();
         JP_CerraSesionBarraL = new javax.swing.JPanel();
         BT_CerrarSesion = new Componentes.AllButton();
-        BT_Datos = new Componentes.AllButton();
         BT_Menu = new Componentes.AllButton();
-        BT_Inicio = new Componentes.AllButton();
-        BT_Doctor = new Componentes.AllButton();
-        BT_Administrador = new Componentes.AllButton();
-        BT_Empleado = new Componentes.AllButton();
+        BT_Home = new Componentes.AllButton();
+        BT_Datos = new Componentes.AllButton();
         CardLayout = new javax.swing.JPanel();
-        Empleados = new javax.swing.JPanel();
-        blurBackground4 = new Componentes.BlurBackground();
-        TPuesto = new org.example.Custom.PanelRound();
-        BT_Desplegar1 = new javax.swing.JLabel();
-        BT_Replegar1 = new javax.swing.JLabel();
-        TipoPuesto = new org.example.Custom.AnimatedTextField();
-        MenuPuesto = new javax.swing.JPanel();
-        bt_op13 = new Componentes.AllButton();
-        bt_op14 = new Componentes.AllButton();
-        bt_op15 = new Componentes.AllButton();
-        bt_op16 = new Componentes.AllButton();
-        bt_op17 = new Componentes.AllButton();
-        bt_op18 = new Componentes.AllButton();
-        bt_op19 = new Componentes.AllButton();
-        NombreApellido2 = new org.example.Custom.PanelRound();
-        TX_NombreApellido2 = new org.example.Custom.AnimatedTextField();
-        Telefono2 = new org.example.Custom.PanelRound();
-        TX_Telefono2 = new org.example.Custom.AnimatedTextField();
-        Edad2 = new org.example.Custom.PanelRound();
-        TX_Edad2 = new org.example.Custom.AnimatedTextField();
-        Usuario2 = new org.example.Custom.PanelRound();
-        TX_Usuario2 = new org.example.Custom.AnimatedTextField();
-        NoDocumento2 = new org.example.Custom.PanelRound();
-        TX_NoDocumento2 = new org.example.Custom.AnimatedTextField();
-        Contraseña2 = new org.example.Custom.PanelRound();
-        ver4 = new javax.swing.JLabel();
-        esconder4 = new javax.swing.JLabel();
-        TX_Contraseña2 = new org.example.Custom.AnimatedPasswordField();
-        BT_Registrarse2 = new Componentes.AllButton();
-        ConfirmarContr2 = new org.example.Custom.PanelRound();
-        ver5 = new javax.swing.JLabel();
-        esconder5 = new javax.swing.JLabel();
-        TX_ConfirmarContra2 = new org.example.Custom.AnimatedPasswordField();
-        label_f2 = new javax.swing.JLabel();
-        label_m2 = new javax.swing.JLabel();
-        bt_f2 = new javax.swing.JLabel();
-        bt_m2 = new javax.swing.JLabel();
-        barra_superior2 = new javax.swing.JPanel();
-        bt_cerrar2 = new Componentes.AllButton();
-        bt_minimizar2 = new Componentes.AllButton();
-        Administradores = new javax.swing.JPanel();
+        Datos = new javax.swing.JPanel();
         blurBackground3 = new Componentes.BlurBackground();
         NombreApellido1 = new org.example.Custom.PanelRound();
-        TX_NombreApellido1 = new org.example.Custom.AnimatedTextField();
+        Update_name = new org.example.Custom.AnimatedTextField();
         Telefono1 = new org.example.Custom.PanelRound();
-        TX_Telefono1 = new org.example.Custom.AnimatedTextField();
+        Update_phone = new org.example.Custom.AnimatedTextField();
         Edad1 = new org.example.Custom.PanelRound();
-        TX_Edad1 = new org.example.Custom.AnimatedTextField();
+        update_age = new org.example.Custom.AnimatedTextField();
         Usuario1 = new org.example.Custom.PanelRound();
-        TX_Usuario1 = new org.example.Custom.AnimatedTextField();
+        update_user = new org.example.Custom.AnimatedTextField();
         NoDocumento1 = new org.example.Custom.PanelRound();
-        TX_NoDocumento1 = new org.example.Custom.AnimatedTextField();
+        update_id = new org.example.Custom.AnimatedTextField();
         Contraseña1 = new org.example.Custom.PanelRound();
-        ver2 = new javax.swing.JLabel();
-        esconder2 = new javax.swing.JLabel();
-        TX_Contraseña1 = new org.example.Custom.AnimatedPasswordField();
-        BT_Registrarse1 = new Componentes.AllButton();
+        ver = new javax.swing.JLabel();
+        esconder = new javax.swing.JLabel();
+        Update_password = new org.example.Custom.AnimatedPasswordField();
         ConfirmarContr1 = new org.example.Custom.PanelRound();
-        ver3 = new javax.swing.JLabel();
-        esconder3 = new javax.swing.JLabel();
-        TX_ConfirmarContra1 = new org.example.Custom.AnimatedPasswordField();
-        label_f1 = new javax.swing.JLabel();
-        label_m1 = new javax.swing.JLabel();
+        ver1 = new javax.swing.JLabel();
+        esconder1 = new javax.swing.JLabel();
+        update_confirm = new org.example.Custom.AnimatedPasswordField();
+        BT_Actualizar = new Componentes.AllButton();
         bt_f1 = new javax.swing.JLabel();
         bt_m1 = new javax.swing.JLabel();
         barra_superior1 = new javax.swing.JPanel();
         bt_cerrar1 = new Componentes.AllButton();
         bt_minimizar1 = new Componentes.AllButton();
-        Doctores = new javax.swing.JPanel();
-        blurBackground2 = new Componentes.BlurBackground();
-        NombreApellido = new org.example.Custom.PanelRound();
-        TX_NombreApellido = new org.example.Custom.AnimatedTextField();
-        Telefono = new org.example.Custom.PanelRound();
-        TX_Telefono = new org.example.Custom.AnimatedTextField();
-        Edad = new org.example.Custom.PanelRound();
-        TX_Edad = new org.example.Custom.AnimatedTextField();
-        TEspecialidad = new org.example.Custom.PanelRound();
-        BT_Desplegar = new javax.swing.JLabel();
-        BT_Replegar = new javax.swing.JLabel();
-        TipoEspecialidad = new org.example.Custom.AnimatedTextField();
-        Especialidades = new Componentes.BlurBackground();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        MenuEspecialidades = new javax.swing.JPanel();
-        bt_op1 = new Componentes.AllButton();
-        bt_op2 = new Componentes.AllButton();
-        bt_op3 = new Componentes.AllButton();
-        bt_op4 = new Componentes.AllButton();
-        bt_op5 = new Componentes.AllButton();
-        bt_op6 = new Componentes.AllButton();
-        bt_op7 = new Componentes.AllButton();
-        bt_op8 = new Componentes.AllButton();
-        bt_op9 = new Componentes.AllButton();
-        bt_op10 = new Componentes.AllButton();
-        bt_op11 = new Componentes.AllButton();
-        bt_op12 = new Componentes.AllButton();
-        Usuario = new org.example.Custom.PanelRound();
-        TX_Usuario = new org.example.Custom.AnimatedTextField();
-        NoConsultorio = new org.example.Custom.PanelRound();
-        TX_NoConsultorio = new org.example.Custom.AnimatedTextField();
-        NoDocumento = new org.example.Custom.PanelRound();
-        TX_NoDocumento = new org.example.Custom.AnimatedTextField();
-        Contraseña = new org.example.Custom.PanelRound();
-        ver = new javax.swing.JLabel();
-        esconder = new javax.swing.JLabel();
-        TX_Contraseña = new org.example.Custom.AnimatedPasswordField();
-        BT_Registrarse = new Componentes.AllButton();
-        ConfirmarContr = new org.example.Custom.PanelRound();
-        ver1 = new javax.swing.JLabel();
-        esconder1 = new javax.swing.JLabel();
-        TX_ConfirmarContra = new org.example.Custom.AnimatedPasswordField();
-        label_f = new javax.swing.JLabel();
-        label_m = new javax.swing.JLabel();
-        bt_f = new javax.swing.JLabel();
-        bt_m = new javax.swing.JLabel();
+        Inicio = new javax.swing.JPanel();
+        blurBackground8 = new Componentes.BlurBackground();
         barra_superior = new javax.swing.JPanel();
         bt_cerrar = new Componentes.AllButton();
         bt_minimizar = new Componentes.AllButton();
-        Datos = new javax.swing.JPanel();
-        blurBackground5 = new Componentes.BlurBackground();
-        BT_Actualizar = new Componentes.AllButton();
-        barra_superior4 = new javax.swing.JPanel();
-        bt_cerrar4 = new Componentes.AllButton();
-        bt_minimizar4 = new Componentes.AllButton();
-        NombreApellido4 = new org.example.Custom.PanelRound();
-        TX_NombreApellido4 = new org.example.Custom.AnimatedTextField();
-        Telefono4 = new org.example.Custom.PanelRound();
-        TX_Telefono4 = new org.example.Custom.AnimatedTextField();
-        Edad4 = new org.example.Custom.PanelRound();
-        TX_Edad4 = new org.example.Custom.AnimatedTextField();
-        Usuario4 = new org.example.Custom.PanelRound();
-        TX_Usuario4 = new org.example.Custom.AnimatedTextField();
-        NoDocumento4 = new org.example.Custom.PanelRound();
-        TX_NoDocumento4 = new org.example.Custom.AnimatedTextField();
-        Contraseña4 = new org.example.Custom.PanelRound();
-        ver8 = new javax.swing.JLabel();
-        esconder8 = new javax.swing.JLabel();
-        TX_Contraseña4 = new org.example.Custom.AnimatedPasswordField();
-        ConfirmarContr4 = new org.example.Custom.PanelRound();
-        ver9 = new javax.swing.JLabel();
-        esconder9 = new javax.swing.JLabel();
-        TX_ConfirmarContra4 = new org.example.Custom.AnimatedPasswordField();
-        label_f4 = new javax.swing.JLabel();
-        label_m4 = new javax.swing.JLabel();
-        bt_f4 = new javax.swing.JLabel();
-        bt_m4 = new javax.swing.JLabel();
-        Inicio = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        panelRound1 = new org.example.Custom.PanelRound();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Tabla = new Componentes.Table();
+        jLabel1 = new javax.swing.JLabel();
+        BT_CambiarEstado = new Componentes.AllButton();
+        lb_Estado = new javax.swing.JLabel();
+        panelRound2 = new org.example.Custom.PanelRound();
+        icon_do = new Componentes.BlurBackground();
+        lb_doctor = new javax.swing.JLabel();
+        nu_do = new javax.swing.JLabel();
+        label_total = new javax.swing.JLabel();
+        panelRound3 = new org.example.Custom.PanelRound();
+        blurBackground11 = new Componentes.BlurBackground();
+        icon_ad = new javax.swing.JLabel();
+        nu_ad = new javax.swing.JLabel();
+        label_completadas = new javax.swing.JLabel();
+        panelRound4 = new org.example.Custom.PanelRound();
+        blurBackground12 = new Componentes.BlurBackground();
+        icon_em = new javax.swing.JLabel();
+        label_pendiente = new javax.swing.JLabel();
+        nu_em = new javax.swing.JLabel();
+        CB_Doctor = new Componentes.ComboBoxSuggestion();
+        CB_EstadoCita = new Componentes.ComboBoxSuggestion();
+        CB_Orden = new Componentes.ComboBoxSuggestion();
+        CB_Servicio = new Componentes.ComboBoxSuggestion();
+        BT_Filtrar = new Componentes.AllButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -261,19 +174,6 @@ public class Administrador extends javax.swing.JFrame {
 
         JP_BarraLateral.add(JP_CerraSesionBarraL, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 70, 60));
 
-        BT_Datos.setBackground(new java.awt.Color(122, 173, 252));
-        BT_Datos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/registro.png"))); // NOI18N
-        BT_Datos.setColor1Background(new java.awt.Color(122, 173, 252));
-        BT_Datos.setColor2Over(new java.awt.Color(82, 132, 192));
-        BT_Datos.setColor3Click(new java.awt.Color(74, 93, 242));
-        BT_Datos.setEnableColorGradient(true);
-        BT_Datos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_DatosMouseClicked(evt);
-            }
-        });
-        JP_BarraLateral.add(BT_Datos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 50, 40));
-
         BT_Menu.setBackground(new java.awt.Color(122, 173, 252));
         BT_Menu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menu.png"))); // NOI18N
         BT_Menu.setColor1Background(new java.awt.Color(122, 173, 252));
@@ -287,62 +187,31 @@ public class Administrador extends javax.swing.JFrame {
         });
         JP_BarraLateral.add(BT_Menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 50, 40));
 
-        BT_Inicio.setBackground(new java.awt.Color(122, 173, 252));
-        BT_Inicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/house.png"))); // NOI18N
-        BT_Inicio.setColor1Background(new java.awt.Color(122, 173, 252));
-        BT_Inicio.setColor2Over(new java.awt.Color(82, 132, 192));
-        BT_Inicio.setColor3Click(new java.awt.Color(74, 93, 242));
-        BT_Inicio.setEnableColorGradient(true);
-        BT_Inicio.addMouseListener(new java.awt.event.MouseAdapter() {
+        BT_Home.setBackground(new java.awt.Color(122, 173, 252));
+        BT_Home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/house.png"))); // NOI18N
+        BT_Home.setColor1Background(new java.awt.Color(122, 173, 252));
+        BT_Home.setColor2Over(new java.awt.Color(82, 132, 192));
+        BT_Home.setColor3Click(new java.awt.Color(74, 93, 242));
+        BT_Home.setEnableColorGradient(true);
+        BT_Home.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_InicioMouseClicked(evt);
+                BT_HomeMouseClicked(evt);
             }
         });
-        BT_Inicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_InicioActionPerformed(evt);
-            }
-        });
-        JP_BarraLateral.add(BT_Inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 50, 40));
+        JP_BarraLateral.add(BT_Home, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 50, 40));
 
-        BT_Doctor.setBackground(new java.awt.Color(122, 173, 252));
-        BT_Doctor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/doctor.png"))); // NOI18N
-        BT_Doctor.setColor1Background(new java.awt.Color(122, 173, 252));
-        BT_Doctor.setColor2Over(new java.awt.Color(82, 132, 192));
-        BT_Doctor.setColor3Click(new java.awt.Color(74, 93, 242));
-        BT_Doctor.setEnableColorGradient(true);
-        BT_Doctor.addMouseListener(new java.awt.event.MouseAdapter() {
+        BT_Datos.setBackground(new java.awt.Color(122, 173, 252));
+        BT_Datos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/registro.png"))); // NOI18N
+        BT_Datos.setColor1Background(new java.awt.Color(122, 173, 252));
+        BT_Datos.setColor2Over(new java.awt.Color(82, 132, 192));
+        BT_Datos.setColor3Click(new java.awt.Color(74, 93, 242));
+        BT_Datos.setEnableColorGradient(true);
+        BT_Datos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_DoctorMouseClicked(evt);
+                BT_DatosMouseClicked(evt);
             }
         });
-        JP_BarraLateral.add(BT_Doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 50, 40));
-
-        BT_Administrador.setBackground(new java.awt.Color(122, 173, 252));
-        BT_Administrador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/administrador.png"))); // NOI18N
-        BT_Administrador.setColor1Background(new java.awt.Color(122, 173, 252));
-        BT_Administrador.setColor2Over(new java.awt.Color(82, 132, 192));
-        BT_Administrador.setColor3Click(new java.awt.Color(74, 93, 242));
-        BT_Administrador.setEnableColorGradient(true);
-        BT_Administrador.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_AdministradorMouseClicked(evt);
-            }
-        });
-        JP_BarraLateral.add(BT_Administrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 50, 40));
-
-        BT_Empleado.setBackground(new java.awt.Color(122, 173, 252));
-        BT_Empleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/empleado.png"))); // NOI18N
-        BT_Empleado.setColor1Background(new java.awt.Color(122, 173, 252));
-        BT_Empleado.setColor2Over(new java.awt.Color(82, 132, 192));
-        BT_Empleado.setColor3Click(new java.awt.Color(74, 93, 242));
-        BT_Empleado.setEnableColorGradient(true);
-        BT_Empleado.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_EmpleadoMouseClicked(evt);
-            }
-        });
-        JP_BarraLateral.add(BT_Empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 50, 40));
+        JP_BarraLateral.add(BT_Datos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 50, 40));
 
         Background.add(JP_BarraLateral, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 570));
 
@@ -350,449 +219,7 @@ public class Administrador extends javax.swing.JFrame {
         CardLayout.setForeground(new java.awt.Color(204, 255, 255));
         CardLayout.setLayout(new java.awt.CardLayout());
 
-        Empleados.setBackground(new java.awt.Color(255, 255, 255));
-
-        blurBackground4.setEnableCustomRectangle(true);
-        blurBackground4.setImage(new javax.swing.ImageIcon(getClass().getResource("/Crear Empleado.png"))); // NOI18N
-        blurBackground4.setRadius(1);
-        blurBackground4.setRoundBottomLeft(1);
-        blurBackground4.setRoundBottomRight(40);
-        blurBackground4.setRoundTopLeft(1);
-        blurBackground4.setRoundTopRight(40);
-        blurBackground4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TPuesto.setRadius(20);
-        TPuesto.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        BT_Desplegar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/desplegar.png"))); // NOI18N
-        BT_Desplegar1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_Desplegar1MouseClicked(evt);
-            }
-        });
-        TPuesto.add(BT_Desplegar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 12, -1, 20));
-
-        BT_Replegar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/replegar.png"))); // NOI18N
-        BT_Replegar1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_Replegar1MouseClicked(evt);
-            }
-        });
-        TPuesto.add(BT_Replegar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 12, -1, 20));
-
-        TipoPuesto.setEditable(false);
-        TipoPuesto.setForeground(new java.awt.Color(153, 153, 153));
-        TipoPuesto.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TipoPuesto.setHint("Seleccione una opción");
-        TipoPuesto.setHintColor(new java.awt.Color(153, 153, 153));
-        TPuesto.add(TipoPuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 320, 40));
-
-        blurBackground4.add(TPuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 100, 370, 40));
-
-        MenuPuesto.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        bt_op13.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op13.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op13.setText("        1.      Enfermería");
-        bt_op13.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op13.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op13.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op13.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op13.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op13.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op13.setEnableColorGradient(true);
-        bt_op13.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op13MouseClicked(evt);
-            }
-        });
-        MenuPuesto.add(bt_op13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 40));
-
-        bt_op14.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op14.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op14.setText("        2.      Paramédico");
-        bt_op14.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op14.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op14.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op14.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op14.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op14.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op14.setEnableColorGradient(true);
-        bt_op14.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op14.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op14MouseClicked(evt);
-            }
-        });
-        MenuPuesto.add(bt_op14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 370, 40));
-
-        bt_op15.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op15.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op15.setText("        3.      Limpieza");
-        bt_op15.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op15.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op15.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op15.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op15.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op15.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op15.setEnableColorGradient(true);
-        bt_op15.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op15.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op15MouseClicked(evt);
-            }
-        });
-        MenuPuesto.add(bt_op15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 370, 40));
-
-        bt_op16.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op16.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op16.setText("        4.      Cocina");
-        bt_op16.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op16.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op16.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op16.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op16.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op16.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op16.setEnableColorGradient(true);
-        bt_op16.setFocusPainted(true);
-        bt_op16.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op16.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op16.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op16MouseClicked(evt);
-            }
-        });
-        MenuPuesto.add(bt_op16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 370, 40));
-
-        bt_op17.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op17.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op17.setText("        5.      Camillero");
-        bt_op17.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op17.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op17.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op17.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op17.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op17.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op17.setEnableColorGradient(true);
-        bt_op17.setFocusPainted(true);
-        bt_op17.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op17.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op17MouseClicked(evt);
-            }
-        });
-        MenuPuesto.add(bt_op17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 370, 40));
-
-        bt_op18.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op18.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op18.setText("        6.      Chofer");
-        bt_op18.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op18.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op18.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op18.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op18.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op18.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op18.setEnableColorGradient(true);
-        bt_op18.setFocusPainted(true);
-        bt_op18.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op18.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op18MouseClicked(evt);
-            }
-        });
-        MenuPuesto.add(bt_op18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 370, 40));
-
-        bt_op19.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op19.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op19.setText("        7.      Relacionista industrial");
-        bt_op19.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op19.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op19.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op19.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op19.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op19.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op19.setEnableColorGradient(true);
-        bt_op19.setFocusPainted(true);
-        bt_op19.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op19.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op19MouseClicked(evt);
-            }
-        });
-        MenuPuesto.add(bt_op19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 370, 40));
-
-        blurBackground4.add(MenuPuesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 140, 360, 290));
-
-        NombreApellido2.setRadius(20);
-        NombreApellido2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_NombreApellido2.setForeground(new java.awt.Color(0, 0, 0));
-        TX_NombreApellido2.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_NombreApellido2.setHint("Ej: Rodolfo Rivera");
-        TX_NombreApellido2.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_NombreApellido2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_NombreApellido2KeyTyped(evt);
-            }
-        });
-        NombreApellido2.add(TX_NombreApellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground4.add(NombreApellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 100, 370, 40));
-
-        Telefono2.setRadius(20);
-        Telefono2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_Telefono2.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Telefono2.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Telefono2.setHint("Ej: 3166705696");
-        TX_Telefono2.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Telefono2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Telefono2KeyTyped(evt);
-            }
-        });
-        Telefono2.add(TX_Telefono2, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground4.add(Telefono2, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 210, 370, 40));
-
-        Edad2.setRadius(20);
-        Edad2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_Edad2.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Edad2.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Edad2.setHint("Ej: 16");
-        TX_Edad2.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Edad2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Edad2KeyTyped(evt);
-            }
-        });
-        Edad2.add(TX_Edad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 190, 40));
-
-        blurBackground4.add(Edad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, 220, 40));
-
-        Usuario2.setRadius(20);
-        Usuario2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_Usuario2.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Usuario2.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Usuario2.setHint("Ej: Rodor");
-        TX_Usuario2.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Usuario2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Usuario2KeyTyped(evt);
-            }
-        });
-        Usuario2.add(TX_Usuario2, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground4.add(Usuario2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 210, 370, 40));
-
-        NoDocumento2.setRadius(20);
-        NoDocumento2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_NoDocumento2.setForeground(new java.awt.Color(0, 0, 0));
-        TX_NoDocumento2.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_NoDocumento2.setHint("Ej: 32692328");
-        TX_NoDocumento2.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_NoDocumento2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_NoDocumento2KeyTyped(evt);
-            }
-        });
-        NoDocumento2.add(TX_NoDocumento2, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground4.add(NoDocumento2, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 420, 370, 40));
-
-        Contraseña2.setRadius(20);
-        Contraseña2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        ver4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver.png"))); // NOI18N
-        ver4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ver4MouseClicked(evt);
-            }
-        });
-        Contraseña2.add(ver4, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        esconder4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esconder.png"))); // NOI18N
-        esconder4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                esconder4MouseClicked(evt);
-            }
-        });
-        Contraseña2.add(esconder4, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        TX_Contraseña2.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Contraseña2.setDisabledTextColor(new java.awt.Color(153, 153, 153));
-        TX_Contraseña2.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Contraseña2.setHint("Escriba una contraseña");
-        TX_Contraseña2.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Contraseña2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Contraseña2KeyTyped(evt);
-            }
-        });
-        Contraseña2.add(TX_Contraseña2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
-
-        blurBackground4.add(Contraseña2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 310, 370, 40));
-
-        BT_Registrarse2.setText("Registrar  Empleado");
-        BT_Registrarse2.setChangeCoefficient(20);
-        BT_Registrarse2.setColor1Background(new java.awt.Color(82, 132, 192));
-        BT_Registrarse2.setColor1Foreground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse2.setColor2Over(new java.awt.Color(40, 76, 118));
-        BT_Registrarse2.setColor2OverForeground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse2.setColor3Click(new java.awt.Color(102, 153, 255));
-        BT_Registrarse2.setColor3ClickForeground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse2.setEnableColorGradient(true);
-        BT_Registrarse2.setEnableShadow(true);
-        BT_Registrarse2.setFont(new java.awt.Font("Century", 1, 15)); // NOI18N
-        BT_Registrarse2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        BT_Registrarse2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_Registrarse2MouseClicked(evt);
-            }
-        });
-        BT_Registrarse2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Registrarse2ActionPerformed(evt);
-            }
-        });
-        blurBackground4.add(BT_Registrarse2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 500, 280, 38));
-
-        ConfirmarContr2.setRadius(20);
-        ConfirmarContr2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        ver5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver.png"))); // NOI18N
-        ver5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ver5MouseClicked(evt);
-            }
-        });
-        ConfirmarContr2.add(ver5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        esconder5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esconder.png"))); // NOI18N
-        esconder5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                esconder5MouseClicked(evt);
-            }
-        });
-        ConfirmarContr2.add(esconder5, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        TX_ConfirmarContra2.setForeground(new java.awt.Color(0, 0, 0));
-        TX_ConfirmarContra2.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_ConfirmarContra2.setHint("Repita la contraseña");
-        TX_ConfirmarContra2.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_ConfirmarContra2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TX_ConfirmarContra2ActionPerformed(evt);
-            }
-        });
-        TX_ConfirmarContra2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_ConfirmarContra2KeyTyped(evt);
-            }
-        });
-        ConfirmarContr2.add(TX_ConfirmarContra2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
-
-        blurBackground4.add(ConfirmarContr2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 420, 370, 40));
-
-        label_f2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                label_f2MouseClicked(evt);
-            }
-        });
-        blurBackground4.add(label_f2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 300, 30, 40));
-
-        label_m2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                label_m2MouseClicked(evt);
-            }
-        });
-        blurBackground4.add(label_m2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, 40, 40));
-
-        bt_f2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/F.png"))); // NOI18N
-        blurBackground4.add(bt_f2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, 80, 50));
-
-        bt_m2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/M.png"))); // NOI18N
-        blurBackground4.add(bt_m2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, 80, 50));
-
-        barra_superior2.setOpaque(false);
-        barra_superior2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                barra_superior2MouseDragged(evt);
-            }
-        });
-        barra_superior2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                barra_superior2MousePressed(evt);
-            }
-        });
-        barra_superior2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        bt_cerrar2.setText("X");
-        bt_cerrar2.setChangeCoefficient(15);
-        bt_cerrar2.setColor1Background(new java.awt.Color(172, 206, 252));
-        bt_cerrar2.setColor2Over(new java.awt.Color(102, 153, 255));
-        bt_cerrar2.setColor3Click(new java.awt.Color(0, 102, 255));
-        bt_cerrar2.setEnableColorGradient(true);
-        bt_cerrar2.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
-        bt_cerrar2.setRoundBottomLeft(0);
-        bt_cerrar2.setRoundBottomRight(0);
-        bt_cerrar2.setRoundTopLeft(0);
-        bt_cerrar2.setRoundTopRight(15);
-        bt_cerrar2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_cerrar2MouseClicked(evt);
-            }
-        });
-        barra_superior2.add(bt_cerrar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(949, 0, 50, 22));
-
-        bt_minimizar2.setText("-");
-        bt_minimizar2.setChangeCoefficient(15);
-        bt_minimizar2.setColor1Background(new java.awt.Color(172, 206, 252));
-        bt_minimizar2.setColor2Over(new java.awt.Color(102, 153, 255));
-        bt_minimizar2.setColor3Click(new java.awt.Color(0, 102, 255));
-        bt_minimizar2.setEnableColorGradient(true);
-        bt_minimizar2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        bt_minimizar2.setRoundBottomLeft(15);
-        bt_minimizar2.setRoundBottomRight(0);
-        bt_minimizar2.setRoundTopLeft(0);
-        bt_minimizar2.setRoundTopRight(0);
-        bt_minimizar2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_minimizar2MouseClicked(evt);
-            }
-        });
-        barra_superior2.add(bt_minimizar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(899, 0, 50, 22));
-
-        blurBackground4.add(barra_superior2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 30));
-
-        javax.swing.GroupLayout EmpleadosLayout = new javax.swing.GroupLayout(Empleados);
-        Empleados.setLayout(EmpleadosLayout);
-        EmpleadosLayout.setHorizontalGroup(
-            EmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EmpleadosLayout.createSequentialGroup()
-                .addComponent(blurBackground4, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        EmpleadosLayout.setVerticalGroup(
-            EmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EmpleadosLayout.createSequentialGroup()
-                .addComponent(blurBackground4, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 28, Short.MAX_VALUE))
-        );
-
-        CardLayout.add(Empleados, "Empleados");
-
-        Administradores.setBackground(new java.awt.Color(255, 255, 255));
+        Datos.setBackground(new java.awt.Color(255, 255, 255));
 
         blurBackground3.setEnableCustomRectangle(true);
         blurBackground3.setImage(new javax.swing.ImageIcon(getClass().getResource("/Crear Admi.png"))); // NOI18N
@@ -806,190 +233,176 @@ public class Administrador extends javax.swing.JFrame {
         NombreApellido1.setRadius(20);
         NombreApellido1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TX_NombreApellido1.setForeground(new java.awt.Color(0, 0, 0));
-        TX_NombreApellido1.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_NombreApellido1.setHint("Ej: Rodolfo Rivera");
-        TX_NombreApellido1.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_NombreApellido1.addKeyListener(new java.awt.event.KeyAdapter() {
+        Update_name.setForeground(new java.awt.Color(0, 0, 0));
+        Update_name.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        Update_name.setHint("Ej: Rodolfo Rivera");
+        Update_name.setHintColor(new java.awt.Color(153, 153, 153));
+        Update_name.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_NombreApellido1KeyTyped(evt);
+                Update_nameKeyTyped(evt);
             }
         });
-        NombreApellido1.add(TX_NombreApellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        NombreApellido1.add(Update_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground3.add(NombreApellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 370, 40));
+        blurBackground3.add(NombreApellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 370, 45));
 
         Telefono1.setRadius(20);
         Telefono1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TX_Telefono1.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Telefono1.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Telefono1.setHint("Ej: 3166705696");
-        TX_Telefono1.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Telefono1.addKeyListener(new java.awt.event.KeyAdapter() {
+        Update_phone.setForeground(new java.awt.Color(0, 0, 0));
+        Update_phone.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        Update_phone.setHint("Ej: 3166705696");
+        Update_phone.setHintColor(new java.awt.Color(153, 153, 153));
+        Update_phone.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Telefono1KeyTyped(evt);
+                Update_phoneKeyTyped(evt);
             }
         });
-        Telefono1.add(TX_Telefono1, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        Telefono1.add(Update_phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground3.add(Telefono1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 255, 370, 40));
+        blurBackground3.add(Telefono1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 255, 370, 45));
 
         Edad1.setRadius(20);
         Edad1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TX_Edad1.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Edad1.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Edad1.setHint("Ej: 16");
-        TX_Edad1.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Edad1.addKeyListener(new java.awt.event.KeyAdapter() {
+        update_age.setForeground(new java.awt.Color(0, 0, 0));
+        update_age.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        update_age.setHint("Ej: 16");
+        update_age.setHintColor(new java.awt.Color(153, 153, 153));
+        update_age.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Edad1KeyTyped(evt);
+                update_ageKeyTyped(evt);
             }
         });
-        Edad1.add(TX_Edad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 190, 40));
+        Edad1.add(update_age, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 190, 45));
 
-        blurBackground3.add(Edad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 360, 220, 40));
+        blurBackground3.add(Edad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 360, 220, 45));
 
         Usuario1.setRadius(20);
         Usuario1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TX_Usuario1.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Usuario1.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Usuario1.setHint("Ej: Rodor");
-        TX_Usuario1.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Usuario1.addKeyListener(new java.awt.event.KeyAdapter() {
+        update_user.setForeground(new java.awt.Color(0, 0, 0));
+        update_user.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        update_user.setHint("Ej: Rodor");
+        update_user.setHintColor(new java.awt.Color(153, 153, 153));
+        update_user.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Usuario1KeyTyped(evt);
+                update_userKeyTyped(evt);
             }
         });
-        Usuario1.add(TX_Usuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        Usuario1.add(update_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground3.add(Usuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 140, 370, 40));
+        blurBackground3.add(Usuario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 140, 370, 45));
 
         NoDocumento1.setRadius(20);
         NoDocumento1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TX_NoDocumento1.setForeground(new java.awt.Color(0, 0, 0));
-        TX_NoDocumento1.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_NoDocumento1.setHint("Ej: 32692328");
-        TX_NoDocumento1.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_NoDocumento1.addKeyListener(new java.awt.event.KeyAdapter() {
+        update_id.setForeground(new java.awt.Color(0, 0, 0));
+        update_id.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        update_id.setHint("Ej: 32692328");
+        update_id.setHintColor(new java.awt.Color(153, 153, 153));
+        update_id.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_NoDocumento1KeyTyped(evt);
+                update_idKeyTyped(evt);
             }
         });
-        NoDocumento1.add(TX_NoDocumento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        NoDocumento1.add(update_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground3.add(NoDocumento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 470, 370, 40));
+        blurBackground3.add(NoDocumento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 470, 370, 45));
 
         Contraseña1.setRadius(20);
         Contraseña1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ver2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver.png"))); // NOI18N
-        ver2.addMouseListener(new java.awt.event.MouseAdapter() {
+        ver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver.png"))); // NOI18N
+        ver.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ver2MouseClicked(evt);
+                verMouseClicked(evt);
             }
         });
-        Contraseña1.add(ver2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
+        Contraseña1.add(ver, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
 
-        esconder2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esconder.png"))); // NOI18N
-        esconder2.addMouseListener(new java.awt.event.MouseAdapter() {
+        esconder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esconder.png"))); // NOI18N
+        esconder.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                esconder2MouseClicked(evt);
+                esconderMouseClicked(evt);
             }
         });
-        Contraseña1.add(esconder2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
+        Contraseña1.add(esconder, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
 
-        TX_Contraseña1.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Contraseña1.setDisabledTextColor(new java.awt.Color(153, 153, 153));
-        TX_Contraseña1.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Contraseña1.setHint("Escriba una contraseña");
-        TX_Contraseña1.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Contraseña1.addKeyListener(new java.awt.event.KeyAdapter() {
+        Update_password.setForeground(new java.awt.Color(0, 0, 0));
+        Update_password.setDisabledTextColor(new java.awt.Color(153, 153, 153));
+        Update_password.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        Update_password.setHint("Escriba una contraseña");
+        Update_password.setHintColor(new java.awt.Color(153, 153, 153));
+        Update_password.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Contraseña1KeyTyped(evt);
+                Update_passwordKeyTyped(evt);
             }
         });
-        Contraseña1.add(TX_Contraseña1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
+        Contraseña1.add(Update_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 45));
 
-        blurBackground3.add(Contraseña1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 255, 370, 40));
-
-        BT_Registrarse1.setText("Registrar Administrador");
-        BT_Registrarse1.setChangeCoefficient(20);
-        BT_Registrarse1.setColor1Background(new java.awt.Color(82, 132, 192));
-        BT_Registrarse1.setColor1Foreground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse1.setColor2Over(new java.awt.Color(40, 76, 118));
-        BT_Registrarse1.setColor2OverForeground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse1.setColor3Click(new java.awt.Color(102, 153, 255));
-        BT_Registrarse1.setColor3ClickForeground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse1.setEnableColorGradient(true);
-        BT_Registrarse1.setEnableShadow(true);
-        BT_Registrarse1.setFont(new java.awt.Font("Century", 1, 15)); // NOI18N
-        BT_Registrarse1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        BT_Registrarse1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_Registrarse1MouseClicked(evt);
-            }
-        });
-        BT_Registrarse1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_Registrarse1ActionPerformed(evt);
-            }
-        });
-        blurBackground3.add(BT_Registrarse1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 450, 280, 38));
+        blurBackground3.add(Contraseña1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 255, 370, 45));
 
         ConfirmarContr1.setRadius(20);
         ConfirmarContr1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ver3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver.png"))); // NOI18N
-        ver3.addMouseListener(new java.awt.event.MouseAdapter() {
+        ver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver.png"))); // NOI18N
+        ver1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ver3MouseClicked(evt);
+                ver1MouseClicked(evt);
             }
         });
-        ConfirmarContr1.add(ver3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
+        ConfirmarContr1.add(ver1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
 
-        esconder3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esconder.png"))); // NOI18N
-        esconder3.addMouseListener(new java.awt.event.MouseAdapter() {
+        esconder1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esconder.png"))); // NOI18N
+        esconder1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                esconder3MouseClicked(evt);
+                esconder1MouseClicked(evt);
             }
         });
-        ConfirmarContr1.add(esconder3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
+        ConfirmarContr1.add(esconder1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
 
-        TX_ConfirmarContra1.setForeground(new java.awt.Color(0, 0, 0));
-        TX_ConfirmarContra1.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_ConfirmarContra1.setHint("Repita la contraseña");
-        TX_ConfirmarContra1.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_ConfirmarContra1.addActionListener(new java.awt.event.ActionListener() {
+        update_confirm.setForeground(new java.awt.Color(0, 0, 0));
+        update_confirm.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        update_confirm.setHint("Repita la contraseña");
+        update_confirm.setHintColor(new java.awt.Color(153, 153, 153));
+        update_confirm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TX_ConfirmarContra1ActionPerformed(evt);
+                update_confirmActionPerformed(evt);
             }
         });
-        TX_ConfirmarContra1.addKeyListener(new java.awt.event.KeyAdapter() {
+        update_confirm.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_ConfirmarContra1KeyTyped(evt);
+                update_confirmKeyTyped(evt);
             }
         });
-        ConfirmarContr1.add(TX_ConfirmarContra1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
+        ConfirmarContr1.add(update_confirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 45));
 
-        blurBackground3.add(ConfirmarContr1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 360, 370, 40));
+        blurBackground3.add(ConfirmarContr1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 360, 370, 45));
 
-        label_f1.addMouseListener(new java.awt.event.MouseAdapter() {
+        BT_Actualizar.setText("Actualizar");
+        BT_Actualizar.setChangeCoefficient(20);
+        BT_Actualizar.setColor1Background(new java.awt.Color(82, 132, 192));
+        BT_Actualizar.setColor1Foreground(new java.awt.Color(255, 255, 255));
+        BT_Actualizar.setColor2Over(new java.awt.Color(40, 76, 118));
+        BT_Actualizar.setColor2OverForeground(new java.awt.Color(255, 255, 255));
+        BT_Actualizar.setColor3Click(new java.awt.Color(102, 153, 255));
+        BT_Actualizar.setColor3ClickForeground(new java.awt.Color(255, 255, 255));
+        BT_Actualizar.setEnableColorGradient(true);
+        BT_Actualizar.setEnableShadow(true);
+        BT_Actualizar.setFont(new java.awt.Font("Century", 1, 15)); // NOI18N
+        BT_Actualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BT_Actualizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                label_f1MouseClicked(evt);
+                BT_ActualizarMouseClicked(evt);
             }
         });
-        blurBackground3.add(label_f1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 360, 30, 40));
-
-        label_m1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                label_m1MouseClicked(evt);
+        BT_Actualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_ActualizarActionPerformed(evt);
             }
         });
-        blurBackground3.add(label_m1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 360, 40, 40));
+        blurBackground3.add(BT_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 460, 240, 38));
 
         bt_f1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/F.png"))); // NOI18N
         blurBackground3.add(bt_f1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 360, 80, 50));
@@ -1048,519 +461,33 @@ public class Administrador extends javax.swing.JFrame {
 
         blurBackground3.add(barra_superior1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 30));
 
-        javax.swing.GroupLayout AdministradoresLayout = new javax.swing.GroupLayout(Administradores);
-        Administradores.setLayout(AdministradoresLayout);
-        AdministradoresLayout.setHorizontalGroup(
-            AdministradoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AdministradoresLayout.createSequentialGroup()
+        javax.swing.GroupLayout DatosLayout = new javax.swing.GroupLayout(Datos);
+        Datos.setLayout(DatosLayout);
+        DatosLayout.setHorizontalGroup(
+            DatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DatosLayout.createSequentialGroup()
                 .addComponent(blurBackground3, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-        AdministradoresLayout.setVerticalGroup(
-            AdministradoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AdministradoresLayout.createSequentialGroup()
+        DatosLayout.setVerticalGroup(
+            DatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DatosLayout.createSequentialGroup()
                 .addComponent(blurBackground3, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 28, Short.MAX_VALUE))
         );
 
-        CardLayout.add(Administradores, "Administradores");
+        CardLayout.add(Datos, "Datos");
 
-        Doctores.setBackground(new java.awt.Color(255, 255, 255));
+        Inicio.setBackground(new java.awt.Color(255, 255, 255));
 
-        blurBackground2.setEnableCustomRectangle(true);
-        blurBackground2.setImage(new javax.swing.ImageIcon(getClass().getResource("/Crear Doctores.png"))); // NOI18N
-        blurBackground2.setRadius(1);
-        blurBackground2.setRoundBottomLeft(1);
-        blurBackground2.setRoundBottomRight(40);
-        blurBackground2.setRoundTopLeft(1);
-        blurBackground2.setRoundTopRight(40);
-        blurBackground2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        NombreApellido.setRadius(20);
-        NombreApellido.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_NombreApellido.setForeground(new java.awt.Color(0, 0, 0));
-        TX_NombreApellido.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_NombreApellido.setHint("Ej: Rodolfo Rivera");
-        TX_NombreApellido.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_NombreApellido.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_NombreApellidoKeyTyped(evt);
-            }
-        });
-        NombreApellido.add(TX_NombreApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground2.add(NombreApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, 370, 40));
-
-        Telefono.setRadius(20);
-        Telefono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_Telefono.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Telefono.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Telefono.setHint("Ej: 3166705696");
-        TX_Telefono.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Telefono.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_TelefonoKeyTyped(evt);
-            }
-        });
-        Telefono.add(TX_Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground2.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 370, 40));
-
-        Edad.setRadius(20);
-        Edad.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_Edad.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Edad.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Edad.setHint("Ej: 16");
-        TX_Edad.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Edad.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_EdadKeyTyped(evt);
-            }
-        });
-        Edad.add(TX_Edad, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 190, 40));
-
-        blurBackground2.add(Edad, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 220, 40));
-
-        TEspecialidad.setRadius(20);
-        TEspecialidad.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        BT_Desplegar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/desplegar.png"))); // NOI18N
-        BT_Desplegar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_DesplegarMouseClicked(evt);
-            }
-        });
-        TEspecialidad.add(BT_Desplegar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 12, -1, 20));
-
-        BT_Replegar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/replegar.png"))); // NOI18N
-        BT_Replegar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_ReplegarMouseClicked(evt);
-            }
-        });
-        TEspecialidad.add(BT_Replegar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 12, -1, 20));
-
-        TipoEspecialidad.setEditable(false);
-        TipoEspecialidad.setForeground(new java.awt.Color(0, 0, 0));
-        TipoEspecialidad.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TipoEspecialidad.setHint("Seleccione una opción");
-        TipoEspecialidad.setHintColor(new java.awt.Color(153, 153, 153));
-        TEspecialidad.add(TipoEspecialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 320, 40));
-
-        blurBackground2.add(TEspecialidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 80, 370, 40));
-
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        MenuEspecialidades.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        bt_op1.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op1.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op1.setText("        1.   Pediatria");
-        bt_op1.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op1.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op1.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op1.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op1.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op1.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op1.setEnableColorGradient(true);
-        bt_op1.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op1MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 40));
-
-        bt_op2.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op2.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op2.setText("        2.   Medicina   General ");
-        bt_op2.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op2.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op2.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op2.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op2.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op2.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op2.setEnableColorGradient(true);
-        bt_op2.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op2MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 370, 40));
-
-        bt_op3.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op3.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op3.setText("        3.   Ecografía");
-        bt_op3.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op3.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op3.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op3.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op3.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op3.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op3.setEnableColorGradient(true);
-        bt_op3.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op3MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 370, 40));
-
-        bt_op4.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op4.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op4.setText("        4.    Oftalmología");
-        bt_op4.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op4.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op4.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op4.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op4.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op4.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op4.setEnableColorGradient(true);
-        bt_op4.setFocusPainted(true);
-        bt_op4.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op4MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 370, 40));
-
-        bt_op5.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op5.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op5.setText("        5.    Optometría");
-        bt_op5.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op5.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op5.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op5.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op5.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op5.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op5.setEnableColorGradient(true);
-        bt_op5.setFocusPainted(true);
-        bt_op5.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op5MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 160, 370, 40));
-
-        bt_op6.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op6.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op6.setText("        6.    Odontología   General");
-        bt_op6.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op6.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op6.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op6.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op6.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op6.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op6.setEnableColorGradient(true);
-        bt_op6.setFocusPainted(true);
-        bt_op6.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op6MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 370, 40));
-
-        bt_op7.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op7.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op7.setText("        7.    Ginecología ");
-        bt_op7.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op7.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op7.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op7.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op7.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op7.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op7.setEnableColorGradient(true);
-        bt_op7.setFocusPainted(true);
-        bt_op7.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op7MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 370, 40));
-
-        bt_op8.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op8.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op8.setText("        8.    Radiología");
-        bt_op8.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op8.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op8.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op8.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op8.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op8.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op8.setEnableColorGradient(true);
-        bt_op8.setFocusPainted(true);
-        bt_op8.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op8MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 370, 40));
-
-        bt_op9.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op9.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op9.setText("        9.    Cardiología");
-        bt_op9.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op9.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op9.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op9.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op9.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op9.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op9.setEnableColorGradient(true);
-        bt_op9.setFocusPainted(true);
-        bt_op9.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op9MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 370, 40));
-
-        bt_op10.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op10.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op10.setText("       10.   Medicina General ");
-        bt_op10.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op10.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op10.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op10.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op10.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op10.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op10.setEnableColorGradient(true);
-        bt_op10.setFocusPainted(true);
-        bt_op10.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op10MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 360, 370, 40));
-
-        bt_op11.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op11.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op11.setText("       11.   Medicina Interna");
-        bt_op11.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op11.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op11.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op11.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op11.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op11.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op11.setEnableColorGradient(true);
-        bt_op11.setFocusPainted(true);
-        bt_op11.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op11MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 370, 40));
-
-        bt_op12.setBackground(new java.awt.Color(242, 242, 242));
-        bt_op12.setForeground(new java.awt.Color(153, 153, 153));
-        bt_op12.setText("       12.  Ortopedia");
-        bt_op12.setColor1Background(new java.awt.Color(242, 242, 242));
-        bt_op12.setColor1Foreground(new java.awt.Color(153, 153, 153));
-        bt_op12.setColor2Over(new java.awt.Color(225, 236, 255));
-        bt_op12.setColor2OverForeground(new java.awt.Color(153, 153, 153));
-        bt_op12.setColor3Click(new java.awt.Color(189, 205, 234));
-        bt_op12.setColor3ClickForeground(new java.awt.Color(153, 153, 153));
-        bt_op12.setEnableColorGradient(true);
-        bt_op12.setFocusPainted(true);
-        bt_op12.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
-        bt_op12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bt_op12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_op12MouseClicked(evt);
-            }
-        });
-        MenuEspecialidades.add(bt_op12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 370, 40));
-
-        jScrollPane2.setViewportView(MenuEspecialidades);
-
-        Especialidades.add(jScrollPane2);
-        jScrollPane2.setBounds(-10, 0, 370, 249);
-
-        blurBackground2.add(Especialidades, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 120, 360, 249));
-
-        Usuario.setRadius(20);
-        Usuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_Usuario.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Usuario.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Usuario.setHint("Ej: Rodor");
-        TX_Usuario.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Usuario.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_UsuarioKeyTyped(evt);
-            }
-        });
-        Usuario.add(TX_Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground2.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 300, 370, 40));
-
-        NoConsultorio.setRadius(20);
-        NoConsultorio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_NoConsultorio.setForeground(new java.awt.Color(0, 0, 0));
-        TX_NoConsultorio.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_NoConsultorio.setHint("Ej: 32692328");
-        TX_NoConsultorio.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_NoConsultorio.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_NoConsultorioKeyTyped(evt);
-            }
-        });
-        NoConsultorio.add(TX_NoConsultorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground2.add(NoConsultorio, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 190, 370, 40));
-
-        NoDocumento.setRadius(20);
-        NoDocumento.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_NoDocumento.setForeground(new java.awt.Color(0, 0, 0));
-        TX_NoDocumento.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_NoDocumento.setHint("Ej: 32692328");
-        TX_NoDocumento.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_NoDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_NoDocumentoKeyTyped(evt);
-            }
-        });
-        NoDocumento.add(TX_NoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground2.add(NoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 410, 370, 40));
-
-        Contraseña.setRadius(20);
-        Contraseña.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        ver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver.png"))); // NOI18N
-        ver.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                verMouseClicked(evt);
-            }
-        });
-        Contraseña.add(ver, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        esconder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esconder.png"))); // NOI18N
-        esconder.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                esconderMouseClicked(evt);
-            }
-        });
-        Contraseña.add(esconder, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        TX_Contraseña.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Contraseña.setDisabledTextColor(new java.awt.Color(153, 153, 153));
-        TX_Contraseña.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Contraseña.setHint("Escriba una contraseña");
-        TX_Contraseña.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Contraseña.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_ContraseñaKeyTyped(evt);
-            }
-        });
-        Contraseña.add(TX_Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
-
-        blurBackground2.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 410, 370, 40));
-
-        BT_Registrarse.setText("Registrar Doctor");
-        BT_Registrarse.setChangeCoefficient(20);
-        BT_Registrarse.setColor1Background(new java.awt.Color(82, 132, 192));
-        BT_Registrarse.setColor1Foreground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse.setColor2Over(new java.awt.Color(40, 76, 118));
-        BT_Registrarse.setColor2OverForeground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse.setColor3Click(new java.awt.Color(102, 153, 255));
-        BT_Registrarse.setColor3ClickForeground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse.setEnableColorGradient(true);
-        BT_Registrarse.setEnableShadow(true);
-        BT_Registrarse.setFont(new java.awt.Font("Century", 1, 15)); // NOI18N
-        BT_Registrarse.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        BT_Registrarse.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_RegistrarseMouseClicked(evt);
-            }
-        });
-        BT_Registrarse.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_RegistrarseActionPerformed(evt);
-            }
-        });
-        blurBackground2.add(BT_Registrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 490, 240, 38));
-
-        ConfirmarContr.setRadius(20);
-        ConfirmarContr.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        ver1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver.png"))); // NOI18N
-        ver1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ver1MouseClicked(evt);
-            }
-        });
-        ConfirmarContr.add(ver1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        esconder1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esconder.png"))); // NOI18N
-        esconder1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                esconder1MouseClicked(evt);
-            }
-        });
-        ConfirmarContr.add(esconder1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        TX_ConfirmarContra.setForeground(new java.awt.Color(0, 0, 0));
-        TX_ConfirmarContra.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_ConfirmarContra.setHint("Repita la contraseña");
-        TX_ConfirmarContra.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_ConfirmarContra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TX_ConfirmarContraActionPerformed(evt);
-            }
-        });
-        TX_ConfirmarContra.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_ConfirmarContraKeyTyped(evt);
-            }
-        });
-        ConfirmarContr.add(TX_ConfirmarContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
-
-        blurBackground2.add(ConfirmarContr, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 510, 370, 40));
-
-        label_f.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                label_fMouseClicked(evt);
-            }
-        });
-        blurBackground2.add(label_f, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 300, 30, 40));
-
-        label_m.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                label_mMouseClicked(evt);
-            }
-        });
-        blurBackground2.add(label_m, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, 40, 40));
-
-        bt_f.setIcon(new javax.swing.ImageIcon(getClass().getResource("/F.png"))); // NOI18N
-        blurBackground2.add(bt_f, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, 80, 50));
-
-        bt_m.setIcon(new javax.swing.ImageIcon(getClass().getResource("/M.png"))); // NOI18N
-        blurBackground2.add(bt_m, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, 80, 50));
+        blurBackground8.setEnableCustomRectangle(true);
+        blurBackground8.setImage(new javax.swing.ImageIcon(getClass().getResource("/Todos empleados.png"))); // NOI18N
+        blurBackground8.setRadius(1);
+        blurBackground8.setRoundBottomLeft(1);
+        blurBackground8.setRoundBottomRight(40);
+        blurBackground8.setRoundTopLeft(1);
+        blurBackground8.setRoundTopRight(40);
+        blurBackground8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         barra_superior.setOpaque(false);
         barra_superior.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -1591,7 +518,12 @@ public class Administrador extends javax.swing.JFrame {
                 bt_cerrarMouseClicked(evt);
             }
         });
-        barra_superior.add(bt_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(949, 0, 50, 22));
+        bt_cerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_cerrarActionPerformed(evt);
+            }
+        });
+        barra_superior.add(bt_cerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(955, 0, 50, 22));
 
         bt_minimizar.setText("-");
         bt_minimizar.setChangeCoefficient(15);
@@ -1609,316 +541,203 @@ public class Administrador extends javax.swing.JFrame {
                 bt_minimizarMouseClicked(evt);
             }
         });
-        barra_superior.add(bt_minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(899, 0, 50, 22));
+        barra_superior.add(bt_minimizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(905, 0, 50, 22));
 
-        blurBackground2.add(barra_superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 30));
+        blurBackground8.add(barra_superior, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 30));
 
-        javax.swing.GroupLayout DoctoresLayout = new javax.swing.GroupLayout(Doctores);
-        Doctores.setLayout(DoctoresLayout);
-        DoctoresLayout.setHorizontalGroup(
-            DoctoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DoctoresLayout.createSequentialGroup()
-                .addComponent(blurBackground2, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        DoctoresLayout.setVerticalGroup(
-            DoctoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DoctoresLayout.createSequentialGroup()
-                .addComponent(blurBackground2, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 28, Short.MAX_VALUE))
-        );
+        panelRound1.setBackground(new java.awt.Color(248, 247, 247));
+        panelRound1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panelRound1.setRadius(10);
+        panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        CardLayout.add(Doctores, "Doctores");
-        Doctores.getAccessibleContext().setAccessibleName("");
+        Tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        Datos.setBackground(new java.awt.Color(255, 255, 255));
+            },
+            new String [] {
+                "Usuario", "Servicio", "Doctor", "Fecha", "Hora", "Confirmada", "Estado", "Telefono"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
 
-        blurBackground5.setImage(new javax.swing.ImageIcon(getClass().getResource("/Jefe Datos.png"))); // NOI18N
-        blurBackground5.setRadius(40);
-        blurBackground5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        BT_Actualizar.setText("Actualizar");
-        BT_Actualizar.setChangeCoefficient(20);
-        BT_Actualizar.setColor1Background(new java.awt.Color(82, 132, 192));
-        BT_Actualizar.setColor1Foreground(new java.awt.Color(255, 255, 255));
-        BT_Actualizar.setColor2Over(new java.awt.Color(40, 76, 118));
-        BT_Actualizar.setColor2OverForeground(new java.awt.Color(255, 255, 255));
-        BT_Actualizar.setColor3Click(new java.awt.Color(102, 153, 255));
-        BT_Actualizar.setColor3ClickForeground(new java.awt.Color(255, 255, 255));
-        BT_Actualizar.setEnableColorGradient(true);
-        BT_Actualizar.setEnableShadow(true);
-        BT_Actualizar.setFont(new java.awt.Font("Century", 1, 15)); // NOI18N
-        BT_Actualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        BT_Actualizar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_ActualizarMouseClicked(evt);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        BT_Actualizar.addActionListener(new java.awt.event.ActionListener() {
+        Tabla.setGridColor(new java.awt.Color(242, 242, 242));
+        Tabla.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        jScrollPane1.setViewportView(Tabla);
+
+        panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 829, 210));
+
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(127, 127, 127));
+        jLabel1.setText("Lista de Citas:");
+        panelRound1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 6, -1, -1));
+
+        BT_CambiarEstado.setBorder(null);
+        BT_CambiarEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/intercambiar.png"))); // NOI18N
+        BT_CambiarEstado.setColor1Background(new java.awt.Color(255, 255, 254));
+        BT_CambiarEstado.setColor2Over(new java.awt.Color(176, 207, 240));
+        BT_CambiarEstado.setColor3Click(new java.awt.Color(163, 176, 212));
+        BT_CambiarEstado.setEnableColorGradient(true);
+        BT_CambiarEstado.setEnableShadow(true);
+        BT_CambiarEstado.setRadius(32);
+        BT_CambiarEstado.setRippleColor(new java.awt.Color(255, 255, 255));
+        BT_CambiarEstado.setRoundBottomLeft(10);
+        BT_CambiarEstado.setRoundBottomRight(10);
+        BT_CambiarEstado.setRoundTopLeft(10);
+        BT_CambiarEstado.setRoundTopRight(10);
+        BT_CambiarEstado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BT_CambiarEstadoMouseClicked(evt);
+            }
+        });
+        BT_CambiarEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_ActualizarActionPerformed(evt);
+                BT_CambiarEstadoActionPerformed(evt);
             }
         });
-        blurBackground5.add(BT_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 240, 38));
+        panelRound1.add(BT_CambiarEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 2, 45, 40));
 
-        barra_superior4.setOpaque(false);
-        barra_superior4.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                barra_superior4MouseDragged(evt);
-            }
-        });
-        barra_superior4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                barra_superior4MousePressed(evt);
-            }
-        });
-        barra_superior4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        lb_Estado.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        lb_Estado.setForeground(new java.awt.Color(127, 127, 127));
+        lb_Estado.setText("Cambiar Estado");
+        panelRound1.add(lb_Estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 9, -1, -1));
+        lb_Estado.getAccessibleContext().setAccessibleName("Cambiar Estado");
 
-        bt_cerrar4.setText("X");
-        bt_cerrar4.setChangeCoefficient(15);
-        bt_cerrar4.setColor1Background(new java.awt.Color(172, 206, 252));
-        bt_cerrar4.setColor2Over(new java.awt.Color(102, 153, 255));
-        bt_cerrar4.setColor3Click(new java.awt.Color(0, 102, 255));
-        bt_cerrar4.setEnableColorGradient(true);
-        bt_cerrar4.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
-        bt_cerrar4.setRoundBottomLeft(0);
-        bt_cerrar4.setRoundBottomRight(0);
-        bt_cerrar4.setRoundTopLeft(0);
-        bt_cerrar4.setRoundTopRight(15);
-        bt_cerrar4.addMouseListener(new java.awt.event.MouseAdapter() {
+        blurBackground8.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 870, 260));
+
+        panelRound2.setBackground(new java.awt.Color(163, 193, 225));
+        panelRound2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        icon_do.setImage(new javax.swing.ImageIcon(getClass().getResource("/todos.png"))); // NOI18N
+        panelRound2.add(icon_do, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 12, 45, 45));
+
+        lb_doctor.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
+        lb_doctor.setText("Total de Citas");
+        panelRound2.add(lb_doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 24, -1, -1));
+
+        nu_do.setFont(new java.awt.Font("SansSerif", 1, 17)); // NOI18N
+        nu_do.setForeground(new java.awt.Color(127, 127, 127));
+        nu_do.setText("Número: ");
+        panelRound2.add(nu_do, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+
+        label_total.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        label_total.setForeground(new java.awt.Color(127, 127, 127));
+        panelRound2.add(label_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(124, 72, 110, 20));
+
+        blurBackground8.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 290, 110));
+
+        panelRound3.setBackground(new java.awt.Color(176, 207, 240));
+        panelRound3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        blurBackground11.setImage(new javax.swing.ImageIcon(getClass().getResource("/cargando.png"))); // NOI18N
+        panelRound3.add(blurBackground11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 12, 42, 42));
+
+        icon_ad.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
+        icon_ad.setText("Citas Completadas");
+        panelRound3.add(icon_ad, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 24, -1, -1));
+
+        nu_ad.setFont(new java.awt.Font("SansSerif", 1, 17)); // NOI18N
+        nu_ad.setForeground(new java.awt.Color(127, 127, 127));
+        nu_ad.setText("Número: ");
+        panelRound3.add(nu_ad, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
+
+        label_completadas.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        label_completadas.setForeground(new java.awt.Color(127, 127, 127));
+        panelRound3.add(label_completadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 72, 110, 20));
+
+        blurBackground8.add(panelRound3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, 270, 110));
+
+        panelRound4.setBackground(new java.awt.Color(163, 193, 225));
+        panelRound4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        blurBackground12.setImage(new javax.swing.ImageIcon(getClass().getResource("/reloj.png"))); // NOI18N
+        panelRound4.add(blurBackground12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 12, 45, 45));
+
+        icon_em.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
+        icon_em.setText("Citas Pendientes");
+        panelRound4.add(icon_em, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 24, -1, -1));
+
+        label_pendiente.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        label_pendiente.setForeground(new java.awt.Color(127, 127, 127));
+        panelRound4.add(label_pendiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 72, 110, 20));
+
+        nu_em.setFont(new java.awt.Font("SansSerif", 1, 17)); // NOI18N
+        nu_em.setForeground(new java.awt.Color(127, 127, 127));
+        nu_em.setText("Número: ");
+        panelRound4.add(nu_em, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
+
+        blurBackground8.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 40, 270, 110));
+
+        CB_Doctor.setBackground(new java.awt.Color(248, 247, 247));
+        CB_Doctor.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        CB_Doctor.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CB_DoctorItemStateChanged(evt);
+            }
+        });
+        blurBackground8.add(CB_Doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 200, -1, -1));
+
+        CB_EstadoCita.setBackground(new java.awt.Color(248, 247, 247));
+        CB_EstadoCita.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todas", "En Espera", "Valida", "Cancelada" }));
+        CB_EstadoCita.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        blurBackground8.add(CB_EstadoCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
+
+        CB_Orden.setBackground(new java.awt.Color(248, 247, 247));
+        CB_Orden.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        blurBackground8.add(CB_Orden, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, -1, -1));
+
+        CB_Servicio.setBackground(new java.awt.Color(248, 247, 247));
+        CB_Servicio.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        CB_Servicio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CB_ServicioItemStateChanged(evt);
+            }
+        });
+        blurBackground8.add(CB_Servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, -1, -1));
+
+        BT_Filtrar.setBorder(null);
+        BT_Filtrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filtrar.png"))); // NOI18N
+        BT_Filtrar.setColor1Background(new java.awt.Color(255, 255, 254));
+        BT_Filtrar.setColor2Over(new java.awt.Color(176, 207, 240));
+        BT_Filtrar.setColor3Click(new java.awt.Color(163, 176, 212));
+        BT_Filtrar.setEnableColorGradient(true);
+        BT_Filtrar.setEnableShadow(true);
+        BT_Filtrar.setRadius(32);
+        BT_Filtrar.setRippleColor(new java.awt.Color(255, 255, 255));
+        BT_Filtrar.setRoundBottomLeft(10);
+        BT_Filtrar.setRoundBottomRight(10);
+        BT_Filtrar.setRoundTopLeft(10);
+        BT_Filtrar.setRoundTopRight(10);
+        BT_Filtrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_cerrar4MouseClicked(evt);
+                BT_FiltrarMouseClicked(evt);
             }
         });
-        barra_superior4.add(bt_cerrar4, new org.netbeans.lib.awtextra.AbsoluteConstraints(949, 0, 50, 22));
-
-        bt_minimizar4.setText("-");
-        bt_minimizar4.setChangeCoefficient(15);
-        bt_minimizar4.setColor1Background(new java.awt.Color(172, 206, 252));
-        bt_minimizar4.setColor2Over(new java.awt.Color(102, 153, 255));
-        bt_minimizar4.setColor3Click(new java.awt.Color(0, 102, 255));
-        bt_minimizar4.setEnableColorGradient(true);
-        bt_minimizar4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        bt_minimizar4.setRoundBottomLeft(15);
-        bt_minimizar4.setRoundBottomRight(0);
-        bt_minimizar4.setRoundTopLeft(0);
-        bt_minimizar4.setRoundTopRight(0);
-        bt_minimizar4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_minimizar4MouseClicked(evt);
-            }
-        });
-        barra_superior4.add(bt_minimizar4, new org.netbeans.lib.awtextra.AbsoluteConstraints(899, 0, 50, 22));
-
-        blurBackground5.add(barra_superior4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 30));
-
-        NombreApellido4.setRadius(20);
-        NombreApellido4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_NombreApellido4.setForeground(new java.awt.Color(153, 153, 153));
-        TX_NombreApellido4.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_NombreApellido4.setHint("Ej: Rodolfo Rivera");
-        TX_NombreApellido4.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_NombreApellido4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_NombreApellido4KeyTyped(evt);
-            }
-        });
-        NombreApellido4.add(TX_NombreApellido4, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground5.add(NombreApellido4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 135, 370, 40));
-
-        Telefono4.setRadius(20);
-        Telefono4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_Telefono4.setForeground(new java.awt.Color(153, 153, 153));
-        TX_Telefono4.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Telefono4.setHint("Ej: 3166705696");
-        TX_Telefono4.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Telefono4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Telefono4KeyTyped(evt);
-            }
-        });
-        Telefono4.add(TX_Telefono4, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground5.add(Telefono4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 370, 40));
-
-        Edad4.setRadius(20);
-        Edad4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_Edad4.setForeground(new java.awt.Color(153, 153, 153));
-        TX_Edad4.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Edad4.setHint("Ej: 16");
-        TX_Edad4.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Edad4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Edad4KeyTyped(evt);
-            }
-        });
-        Edad4.add(TX_Edad4, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 190, 40));
-
-        blurBackground5.add(Edad4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 360, 220, 40));
-
-        Usuario4.setRadius(20);
-        Usuario4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_Usuario4.setForeground(new java.awt.Color(153, 153, 153));
-        TX_Usuario4.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Usuario4.setHint("Ej: Rodor");
-        TX_Usuario4.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Usuario4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Usuario4KeyTyped(evt);
-            }
-        });
-        Usuario4.add(TX_Usuario4, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground5.add(Usuario4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 250, 370, 40));
-
-        NoDocumento4.setRadius(20);
-        NoDocumento4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TX_NoDocumento4.setForeground(new java.awt.Color(153, 153, 153));
-        TX_NoDocumento4.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_NoDocumento4.setHint("Ej: 32692328");
-        TX_NoDocumento4.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_NoDocumento4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_NoDocumento4KeyTyped(evt);
-            }
-        });
-        NoDocumento4.add(TX_NoDocumento4, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
-
-        blurBackground5.add(NoDocumento4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 135, 370, 40));
-
-        Contraseña4.setRadius(20);
-        Contraseña4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        ver8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver.png"))); // NOI18N
-        ver8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ver8MouseClicked(evt);
-            }
-        });
-        Contraseña4.add(ver8, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        esconder8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esconder.png"))); // NOI18N
-        esconder8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                esconder8MouseClicked(evt);
-            }
-        });
-        Contraseña4.add(esconder8, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        TX_Contraseña4.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Contraseña4.setDisabledTextColor(new java.awt.Color(153, 153, 153));
-        TX_Contraseña4.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Contraseña4.setHint("Escriba una contraseña");
-        TX_Contraseña4.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Contraseña4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_Contraseña4KeyTyped(evt);
-            }
-        });
-        Contraseña4.add(TX_Contraseña4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
-
-        blurBackground5.add(Contraseña4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 360, 370, 40));
-
-        ConfirmarContr4.setRadius(20);
-        ConfirmarContr4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        ver9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ver.png"))); // NOI18N
-        ver9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ver9MouseClicked(evt);
-            }
-        });
-        ConfirmarContr4.add(ver9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        esconder9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/esconder.png"))); // NOI18N
-        esconder9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                esconder9MouseClicked(evt);
-            }
-        });
-        ConfirmarContr4.add(esconder9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
-
-        TX_ConfirmarContra4.setForeground(new java.awt.Color(153, 153, 153));
-        TX_ConfirmarContra4.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_ConfirmarContra4.setHint("Repita la contraseña");
-        TX_ConfirmarContra4.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_ConfirmarContra4.addActionListener(new java.awt.event.ActionListener() {
+        BT_Filtrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TX_ConfirmarContra4ActionPerformed(evt);
+                BT_FiltrarActionPerformed(evt);
             }
         });
-        TX_ConfirmarContra4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_ConfirmarContra4KeyTyped(evt);
-            }
-        });
-        ConfirmarContr4.add(TX_ConfirmarContra4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
-
-        blurBackground5.add(ConfirmarContr4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 475, 370, 40));
-
-        label_f4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                label_f4MouseClicked(evt);
-            }
-        });
-        blurBackground5.add(label_f4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 350, 30, 40));
-
-        label_m4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                label_m4MouseClicked(evt);
-            }
-        });
-        blurBackground5.add(label_m4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, 40, 40));
-
-        bt_f4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/F.png"))); // NOI18N
-        blurBackground5.add(bt_f4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, 80, 50));
-
-        bt_m4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/M.png"))); // NOI18N
-        blurBackground5.add(bt_m4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, 80, 50));
-
-        javax.swing.GroupLayout DatosLayout = new javax.swing.GroupLayout(Datos);
-        Datos.setLayout(DatosLayout);
-        DatosLayout.setHorizontalGroup(
-            DatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DatosLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(blurBackground5, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        DatosLayout.setVerticalGroup(
-            DatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DatosLayout.createSequentialGroup()
-                .addComponent(blurBackground5, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 31, Short.MAX_VALUE))
-        );
-
-        CardLayout.add(Datos, "Datos");
-
-        Inicio.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
-        jLabel4.setText("Inicio");
+        blurBackground8.add(BT_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(854, 198, 48, 46));
 
         javax.swing.GroupLayout InicioLayout = new javax.swing.GroupLayout(Inicio);
         Inicio.setLayout(InicioLayout);
         InicioLayout.setHorizontalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(319, 319, 319)
-                .addComponent(jLabel4)
-                .addContainerGap(577, Short.MAX_VALUE))
+                .addComponent(blurBackground8, javax.swing.GroupLayout.PREFERRED_SIZE, 1004, Short.MAX_VALUE)
+                .addContainerGap())
         );
         InicioLayout.setVerticalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addGap(63, 63, 63)
-                .addComponent(jLabel4)
-                .addContainerGap(473, Short.MAX_VALUE))
+                .addComponent(blurBackground8, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 30, Short.MAX_VALUE))
         );
 
         CardLayout.add(Inicio, "Inicio");
@@ -1934,373 +753,41 @@ public class Administrador extends javax.swing.JFrame {
 
     int mouseX, mouseY;
 
-    // <editor-fold defaultstate="collapsed" desc="Cambio de Paneles">
+    private void BT_HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_HomeMouseClicked
+        cardLayout.show(CardLayout, "Inicio");
+        ActualizarTabla();
+        BT_Home.setColor1Background(new Color(82, 132, 192));
+        BT_Datos.setColor1Background(new Color(122, 173, 252));
+    }//GEN-LAST:event_BT_HomeMouseClicked
 
     private void BT_DatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_DatosMouseClicked
         cardLayout.show(CardLayout, "Datos");
+        BT_Home.setColor1Background(new Color(122, 173, 252));
+        BT_Datos.setColor1Background(new Color(82, 132, 192));
+        update_user.setText(extraer()[4]);
+        Update_name.setText(extraer()[0]);
+        Update_phone.setText(extraer()[1]);
+        update_age.setText(extraer()[2]);
+        Update_password.setText(extraer()[5]);
+        update_confirm.setText(extraer()[5]);
+        update_id.setText(extraer()[3]);
+                String generoact = extraer()[6];
+        if (generoact.equals("Masculino")) {
+            bt_m1.setVisible(true);
+            bt_f1.setVisible(false);
+            sx = "M";
+        } else {
+            if (generoact.equals("Femenino")) {
+                bt_m1.setVisible(false);
+                bt_f1.setVisible(true);
+                sx = "F";
+            }
+        }
     }//GEN-LAST:event_BT_DatosMouseClicked
-
-    private void BT_DoctorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_DoctorMouseClicked
-        cardLayout.show(CardLayout, "Doctores");
-        sx = "M";
-    }//GEN-LAST:event_BT_DoctorMouseClicked
-
-    private void BT_AdministradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_AdministradorMouseClicked
-        cardLayout.show(CardLayout, "Administradores");
-        sx = "M";
-    }//GEN-LAST:event_BT_AdministradorMouseClicked
-
-    private void BT_EmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_EmpleadoMouseClicked
-        cardLayout.show(CardLayout, "Empleados");
-        sx = "M";
-    }//GEN-LAST:event_BT_EmpleadoMouseClicked
 
     private void BT_MenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_MenuMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_BT_MenuMouseClicked
-
-    private void BT_InicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_InicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BT_InicioActionPerformed
-
-    private void BT_InicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_InicioMouseClicked
-        cardLayout.show(CardLayout, "Inicio");
-    }//GEN-LAST:event_BT_InicioMouseClicked
-
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Panel de Crear Doctor">
-    private void TX_NombreApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_NombreApellidoKeyTyped
-        //Para que el TX acepte solo letras
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Espacio = key == 32;
-        if (!(Minusculas || Mayusculas || Espacio)) {
-            evt.consume();
-        }
-
-        //Establecer limite de caracteres
-        if (TX_NombreApellido.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_NombreApellidoKeyTyped
-
-    private void TX_TelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_TelefonoKeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Telefono.getText().length() >= 10) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_TelefonoKeyTyped
-
-    private void TX_EdadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_EdadKeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Edad.getText().length() >= 3) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_EdadKeyTyped
-
-    private void BT_DesplegarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_DesplegarMouseClicked
-        BT_Replegar.setVisible(true);
-        BT_Desplegar.setVisible(false);
-        Especialidades.setVisible(true);
-    }//GEN-LAST:event_BT_DesplegarMouseClicked
-
-    private void BT_ReplegarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_ReplegarMouseClicked
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_BT_ReplegarMouseClicked
-
-    private void bt_op1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op1MouseClicked
-        op = 1;
-        TipoEspecialidad.setText(" 1.   Pediatria");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op1MouseClicked
-
-    private void bt_op2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op2MouseClicked
-        op = 2;
-        TipoEspecialidad.setText(" 2.   Medicina   General");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op2MouseClicked
-
-    private void bt_op3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op3MouseClicked
-        op = 3;
-        TipoEspecialidad.setText(" 3.   Ecografía");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op3MouseClicked
-
-    private void bt_op4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op4MouseClicked
-        op = 4;
-        TipoEspecialidad.setText(" 4.   Oftalmología");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op4MouseClicked
-
-    private void bt_op5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op5MouseClicked
-        op = 5;
-        TipoEspecialidad.setText(" 5.   Optometría");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op5MouseClicked
-
-    private void bt_op6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op6MouseClicked
-        op = 6;
-        TipoEspecialidad.setText(" 6.   Odontología   general");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op6MouseClicked
-
-    private void bt_op7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op7MouseClicked
-        op = 7;
-        TipoEspecialidad.setText(" 7.   Ginecología");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op7MouseClicked
-
-    private void bt_op8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op8MouseClicked
-        op = 8;
-        TipoEspecialidad.setText(" 8.   Radiología");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op8MouseClicked
-
-    private void bt_op9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op9MouseClicked
-        op = 9;
-        TipoEspecialidad.setText(" 9.   Cardiología ");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op9MouseClicked
-
-    private void bt_op10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op10MouseClicked
-        op = 10;
-        TipoEspecialidad.setText(" 10.   Medicina   General");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op10MouseClicked
-
-    private void bt_op11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op11MouseClicked
-        op = 11;
-        TipoEspecialidad.setText(" 11.   Medicina   Interna");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op11MouseClicked
-
-    private void bt_op12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op12MouseClicked
-        op = 12;
-        TipoEspecialidad.setText(" 12.   Ortopedia");
-        BT_Replegar.setVisible(false);
-        BT_Desplegar.setVisible(true);
-        Especialidades.setVisible(false);
-    }//GEN-LAST:event_bt_op12MouseClicked
-
-    private void TX_UsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_UsuarioKeyTyped
-        //Para que el TX acepte solo letras
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        if (!(Minusculas || Mayusculas)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Usuario.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_UsuarioKeyTyped
-
-    private void TX_NoConsultorioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_NoConsultorioKeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_NoConsultorio.getText().length() >= 3) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_NoConsultorioKeyTyped
-
-    private void TX_NoDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_NoDocumentoKeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_NoDocumento.getText().length() >= 10) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_NoDocumentoKeyTyped
-
-    private void verMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_verMouseClicked
-        esconder.setVisible(true);
-        ver.setVisible(false);
-        TX_Contraseña.setEchoChar((char) 0);
-    }//GEN-LAST:event_verMouseClicked
-
-    private void esconderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconderMouseClicked
-        esconder.setVisible(false);
-        ver.setVisible(true);
-        TX_Contraseña.setEchoChar('*');
-    }//GEN-LAST:event_esconderMouseClicked
-
-    private void TX_ContraseñaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_ContraseñaKeyTyped
-        //Para que el TX acepte solo letras
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Minusculas || Mayusculas || Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Contraseña.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_ContraseñaKeyTyped
-
-    private void BT_RegistrarseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_RegistrarseMouseClicked
-        // <editor-fold defaultstate="collapsed" desc="Valida si faltan campos por llenar">
-        if (TX_NombreApellido.getText().isEmpty()) {
-            new Warming("Falta ingresar el Nombre").setVisible(true);
-        } else if (!"F".equals(sx) && !"M".equals(sx)) {
-            new Warming("Falta seleccionar el Genero").setVisible(true);
-        } else if (op != 1 && op != 2 && op != 3 && op != 4 && op != 5 && op != 6 && op != 7 && op != 8 && op != 9 && op != 10 && op != 11 && op != 12) {
-            new Warming("Falta la Especialidad").setVisible(true);
-        } else if (TX_NoDocumento.getText().isEmpty()) {
-            new Warming("Falta ingresar el Documento").setVisible(true);
-        } else if (TX_Edad.getText().isEmpty()) {
-            new Warming("Falta ingresar la Edad").setVisible(true);
-        } else if (TX_Telefono.getText().isEmpty()) {
-            new Warming("Falta ingresar el Telefono").setVisible(true);
-        } else if (TX_NoConsultorio.getText().isEmpty()) {
-            new Warming("Falta ingresar el Consolturio").setVisible(true);
-        } else if (TX_Usuario.getText().isEmpty()) {
-            new Warming("Falta ingresar el Usuario").setVisible(true);
-        } else if (TX_Contraseña.getText().isEmpty()) {
-            new Warming("Falta ingresar el Contraseña").setVisible(true);
-        } else if (TX_ConfirmarContra.getText().isEmpty()) {
-            new Warming("Falta confirmar la Contraseña").setVisible(true);
-        } else if (!TX_ConfirmarContra.getText().equals(TX_Contraseña.getText())) {
-            new Warming("Las contraseñas no coinciden").setVisible(true);
-        } else {
-            // </editor-fold>
-            //Valida los tamaños minimo de cada TX
-            if (TamañoMinimo(TX_NombreApellido, "Nombre y Apellido", 5)
-                    && TamañoTelefono(TX_Telefono) == true
-                    && TamañoMinimo(TX_Edad, "Edad", 1)
-                    && TamañoMinimo(TX_NoDocumento, "No. Documento", 7)
-                    && TamañoMinimo(TX_Usuario, "Usuario", 4)
-                    && TamañoMinimo(TX_Contraseña, "Contraseña", 4)
-                    && TamañoMinimo(TX_NoConsultorio, "No. Consultorio", 1)) {
-                if (UsuarioExiste() == true) {
-                    new Warming("El Usuario ya existe").setVisible(true);
-                } else if (NoDocumentoExiste() == true) {
-                    new Warming("Número de Documento ya existente").setVisible(true);
-                } else {
-                    GuardarBD();
-                    LimpiarCampos();
-                }
-            }
-
-        }
-    }//GEN-LAST:event_BT_RegistrarseMouseClicked
-
-    private void BT_RegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_RegistrarseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BT_RegistrarseActionPerformed
-
-    private void ver1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver1MouseClicked
-        esconder1.setVisible(true);
-        ver1.setVisible(false);
-        TX_ConfirmarContra.setEchoChar((char) 0);
-    }//GEN-LAST:event_ver1MouseClicked
-
-    private void esconder1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder1MouseClicked
-        esconder1.setVisible(false);
-        ver1.setVisible(true);
-        TX_ConfirmarContra.setEchoChar('*');
-    }//GEN-LAST:event_esconder1MouseClicked
-
-    private void TX_ConfirmarContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TX_ConfirmarContraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TX_ConfirmarContraActionPerformed
-
-    private void TX_ConfirmarContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_ConfirmarContraKeyTyped
-        //Para que el TX acepte solo letras
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Minusculas || Mayusculas || Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_ConfirmarContra.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_ConfirmarContraKeyTyped
-
-    private void label_fMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_fMouseClicked
-        bt_f.setVisible(true);
-        bt_m.setVisible(false);
-        sx = "F";
-    }//GEN-LAST:event_label_fMouseClicked
-
-    private void label_mMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_mMouseClicked
-        bt_m.setVisible(true);
-        bt_f.setVisible(false);
-        sx = "M";
-    }//GEN-LAST:event_label_mMouseClicked
-
-
-    private void bt_cerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cerrarMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_bt_cerrarMouseClicked
-
-    private void bt_minimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_minimizarMouseClicked
-        this.setState(ICONIFIED);
-    }//GEN-LAST:event_bt_minimizarMouseClicked
-
-    private void barra_superiorMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barra_superiorMouseDragged
-        int x = evt.getXOnScreen();
-        int y = evt.getYOnScreen();
-        this.setLocation(x - mouseX, y - mouseY);
-    }//GEN-LAST:event_barra_superiorMouseDragged
-
-    private void barra_superiorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barra_superiorMousePressed
-        mouseX = evt.getX();
-        mouseY = evt.getY();
-    }//GEN-LAST:event_barra_superiorMousePressed
-
-    // </editor-fold>
 
     private void BT_CerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_CerrarSesionMouseClicked
         Login lg = new Login();
@@ -2308,9 +795,9 @@ public class Administrador extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_BT_CerrarSesionMouseClicked
 
-    // <editor-fold defaultstate="collapsed" desc="Panel de Crear Administrador">
+    // <editor-fold defaultstate="collapsed" desc="Panel Actualizar datos">
 
-    private void TX_NombreApellido1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_NombreApellido1KeyTyped
+    private void Update_nameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Update_nameKeyTyped
         //Para que el TX acepte solo letras
         int key = evt.getKeyChar();
         boolean Mayusculas = key >= 65 && key <= 90;
@@ -2321,12 +808,12 @@ public class Administrador extends javax.swing.JFrame {
         }
 
         //Establecer limite de caracteres
-        if (TX_NombreApellido1.getText().length() >= 20) {
+        if (Update_name.getText().length() >= 20) {
             evt.consume();
         }
-    }//GEN-LAST:event_TX_NombreApellido1KeyTyped
+    }//GEN-LAST:event_Update_nameKeyTyped
 
-    private void TX_Telefono1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Telefono1KeyTyped
+    private void Update_phoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Update_phoneKeyTyped
         //Para que el TX acepte solo numeros
         int key = evt.getKeyChar();
         boolean Numeros = key >= 48 && key <= 57;
@@ -2334,12 +821,12 @@ public class Administrador extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_Telefono1.getText().length() >= 10) {
+        if (Update_phone.getText().length() >= 10) {
             evt.consume();
         }
-    }//GEN-LAST:event_TX_Telefono1KeyTyped
+    }//GEN-LAST:event_Update_phoneKeyTyped
 
-    private void TX_Edad1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Edad1KeyTyped
+    private void update_ageKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_ageKeyTyped
         //Para que el TX acepte solo numeros
         int key = evt.getKeyChar();
         boolean Numeros = key >= 48 && key <= 57;
@@ -2347,12 +834,12 @@ public class Administrador extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_Edad1.getText().length() >= 3) {
+        if (update_age.getText().length() >= 3) {
             evt.consume();
         }
-    }//GEN-LAST:event_TX_Edad1KeyTyped
+    }//GEN-LAST:event_update_ageKeyTyped
 
-    private void TX_Usuario1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Usuario1KeyTyped
+    private void update_userKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_userKeyTyped
         //Para que el TX acepte solo letras
         int key = evt.getKeyChar();
         boolean Mayusculas = key >= 65 && key <= 90;
@@ -2361,12 +848,12 @@ public class Administrador extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_Usuario1.getText().length() >= 20) {
+        if (update_user.getText().length() >= 20) {
             evt.consume();
         }
-    }//GEN-LAST:event_TX_Usuario1KeyTyped
+    }//GEN-LAST:event_update_userKeyTyped
 
-    private void TX_NoDocumento1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_NoDocumento1KeyTyped
+    private void update_idKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_idKeyTyped
         //Para que el TX acepte solo numeros
         int key = evt.getKeyChar();
         boolean Numeros = key >= 48 && key <= 57;
@@ -2374,24 +861,24 @@ public class Administrador extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_NoDocumento1.getText().length() >= 10) {
+        if (update_id.getText().length() >= 10) {
             evt.consume();
         }
-    }//GEN-LAST:event_TX_NoDocumento1KeyTyped
+    }//GEN-LAST:event_update_idKeyTyped
 
-    private void ver2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver2MouseClicked
-        esconder2.setVisible(true);
-        ver2.setVisible(false);
-        TX_Contraseña1.setEchoChar((char) 0);
-    }//GEN-LAST:event_ver2MouseClicked
+    private void verMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_verMouseClicked
+        esconder.setVisible(true);
+        ver.setVisible(false);
+        Update_password.setEchoChar((char) 0);
+    }//GEN-LAST:event_verMouseClicked
 
-    private void esconder2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder2MouseClicked
-        esconder2.setVisible(false);
-        ver2.setVisible(true);
-        TX_Contraseña1.setEchoChar('*');
-    }//GEN-LAST:event_esconder2MouseClicked
+    private void esconderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconderMouseClicked
+        esconder.setVisible(false);
+        ver.setVisible(true);
+        Update_password.setEchoChar('*');
+    }//GEN-LAST:event_esconderMouseClicked
 
-    private void TX_Contraseña1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Contraseña1KeyTyped
+    private void Update_passwordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Update_passwordKeyTyped
         //Para que el TX acepte solo letras
         int key = evt.getKeyChar();
         boolean Mayusculas = key >= 65 && key <= 90;
@@ -2401,74 +888,28 @@ public class Administrador extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_Contraseña1.getText().length() >= 20) {
+        if (Update_password.getText().length() >= 20) {
             evt.consume();
         }
-    }//GEN-LAST:event_TX_Contraseña1KeyTyped
+    }//GEN-LAST:event_Update_passwordKeyTyped
 
-    private void BT_Registrarse1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_Registrarse1MouseClicked
-        // <editor-fold defaultstate="collapsed" desc="Valida si faltan campos por llenar">
-        if (TX_NombreApellido1.getText().isEmpty()) {
-            new Warming("Falta ingresar el Nombre").setVisible(true);
-        } else if (!"F".equals(sx) && !"M".equals(sx)) {
-            new Warming("Falta seleccionar el Genero").setVisible(true);
-        } else if (TX_NoDocumento1.getText().isEmpty()) {
-            new Warming("Falta ingresar el Documento").setVisible(true);
-        } else if (TX_Edad1.getText().isEmpty()) {
-            new Warming("Falta ingresar la Edad").setVisible(true);
-        } else if (TX_Telefono1.getText().isEmpty()) {
-            new Warming("Falta ingresar el Telefono").setVisible(true);
-        } else if (TX_Usuario1.getText().isEmpty()) {
-            new Warming("Falta ingresar el Usuario").setVisible(true);
-        } else if (TX_Contraseña1.getText().isEmpty()) {
-            new Warming("Falta ingresar el Contraseña").setVisible(true);
-        } else if (TX_ConfirmarContra1.getText().isEmpty()) {
-            new Warming("Falta confirmar la Contraseña").setVisible(true);
-        } else if (!TX_ConfirmarContra1.getText().equals(TX_Contraseña1.getText())) {
-            new Warming("Las contraseñas no coinciden").setVisible(true);
-        } else {
-            // </editor-fold>
-            //Valida los tamaños minimo de cada TX
-            if (TamañoMinimo(TX_NombreApellido1, "Nombre y Apellido", 5)
-                    && TamañoTelefono(TX_Telefono1) == true
-                    && TamañoMinimo(TX_Edad1, "Edad", 1)
-                    && TamañoMinimo(TX_NoDocumento1, "No. Documento", 7)
-                    && TamañoMinimo(TX_Usuario1, "Usuario", 4)
-                    && TamañoMinimo(TX_Contraseña1, "Contraseña", 4)) {
-                if (UsuarioExiste1() == true) {
-                    new Warming("El Usuario ya existe").setVisible(true);
-                } else if (NoDocumentoExiste1() == true) {
-                    new Warming("Número de Documento ya existente").setVisible(true);
-                } else {
-                    GuardarBD1();
-                    LimpiarCampos1();
-                }
-            }
+    private void ver1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver1MouseClicked
+        esconder1.setVisible(true);
+        ver1.setVisible(false);
+        update_confirm.setEchoChar((char) 0);
+    }//GEN-LAST:event_ver1MouseClicked
 
-        }
-    }//GEN-LAST:event_BT_Registrarse1MouseClicked
+    private void esconder1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder1MouseClicked
+        esconder1.setVisible(false);
+        ver1.setVisible(true);
+        update_confirm.setEchoChar('*');
+    }//GEN-LAST:event_esconder1MouseClicked
 
-    private void BT_Registrarse1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Registrarse1ActionPerformed
+    private void update_confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_confirmActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BT_Registrarse1ActionPerformed
+    }//GEN-LAST:event_update_confirmActionPerformed
 
-    private void ver3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver3MouseClicked
-        esconder3.setVisible(true);
-        ver3.setVisible(false);
-        TX_ConfirmarContra1.setEchoChar((char) 0);
-    }//GEN-LAST:event_ver3MouseClicked
-
-    private void esconder3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder3MouseClicked
-        esconder3.setVisible(false);
-        ver3.setVisible(true);
-        TX_ConfirmarContra1.setEchoChar('*');
-    }//GEN-LAST:event_esconder3MouseClicked
-
-    private void TX_ConfirmarContra1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TX_ConfirmarContra1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TX_ConfirmarContra1ActionPerformed
-
-    private void TX_ConfirmarContra1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_ConfirmarContra1KeyTyped
+    private void update_confirmKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_confirmKeyTyped
         //Para que el TX acepte solo letras
         int key = evt.getKeyChar();
         boolean Mayusculas = key >= 65 && key <= 90;
@@ -2478,22 +919,10 @@ public class Administrador extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_ConfirmarContra1.getText().length() >= 20) {
+        if (update_confirm.getText().length() >= 20) {
             evt.consume();
         }
-    }//GEN-LAST:event_TX_ConfirmarContra1KeyTyped
-
-    private void label_f1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_f1MouseClicked
-        bt_f1.setVisible(true);
-        bt_m1.setVisible(false);
-        sx = "F";
-    }//GEN-LAST:event_label_f1MouseClicked
-
-    private void label_m1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_m1MouseClicked
-        bt_m1.setVisible(true);
-        bt_f1.setVisible(false);
-        sx = "M";
-    }//GEN-LAST:event_label_m1MouseClicked
+    }//GEN-LAST:event_update_confirmKeyTyped
 
     private void bt_cerrar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cerrar1MouseClicked
         System.exit(0);
@@ -2514,605 +943,644 @@ public class Administrador extends javax.swing.JFrame {
         mouseY = evt.getY();
     }//GEN-LAST:event_barra_superior1MousePressed
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Panel de Crear Otro Empleado">
-    private void TX_NombreApellido2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_NombreApellido2KeyTyped
-        //Para que el TX acepte solo letras
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Espacio = key == 32;
-        if (!(Minusculas || Mayusculas || Espacio)) {
-            evt.consume();
-        }
-
-        //Establecer limite de caracteres
-        if (TX_NombreApellido2.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_NombreApellido2KeyTyped
-
-    private void TX_Telefono2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Telefono2KeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Telefono2.getText().length() >= 10) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_Telefono2KeyTyped
-
-    private void TX_Edad2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Edad2KeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Edad2.getText().length() >= 3) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_Edad2KeyTyped
-
-    private void TX_Usuario2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Usuario2KeyTyped
-        //Para que el TX acepte solo letras
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        if (!(Minusculas || Mayusculas)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Usuario2.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_Usuario2KeyTyped
-
-    private void TX_NoDocumento2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_NoDocumento2KeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_NoDocumento2.getText().length() >= 10) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_NoDocumento2KeyTyped
-
-    private void ver4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver4MouseClicked
-        esconder4.setVisible(true);
-        ver4.setVisible(false);
-        TX_Contraseña2.setEchoChar((char) 0);
-    }//GEN-LAST:event_ver4MouseClicked
-
-    private void esconder4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder4MouseClicked
-        esconder4.setVisible(false);
-        ver4.setVisible(true);
-        TX_Contraseña2.setEchoChar('*');
-    }//GEN-LAST:event_esconder4MouseClicked
-
-    private void TX_Contraseña2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Contraseña2KeyTyped
-        //Para que el TX acepte solo letras
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Minusculas || Mayusculas || Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Contraseña2.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_Contraseña2KeyTyped
-
-    private void BT_Registrarse2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_Registrarse2MouseClicked
-
-        // <editor-fold defaultstate="collapsed" desc="Valida si faltan campos por llenar">
-        if (TX_NombreApellido2.getText().isEmpty()) {
-            new Warming("Falta ingresar el Nombre").setVisible(true);
+    private void BT_ActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_ActualizarMouseClicked
+        // <editor-fold defaultstate="collapsed" desc="Validaciones de datos">
+        if (Update_name.getText().isEmpty()) {
+            new Warning("Falta ingresar el Nombre").setVisible(true);
         } else if (!"F".equals(sx) && !"M".equals(sx)) {
-            new Warming("Falta seleccionar el Genero").setVisible(true);
-        } else if (op != 13 && op != 14 && op != 15 && op != 16 && op != 17 && op != 18 && op != 19) {
-            new Warming("Falta el Puesto").setVisible(true);
-        } else if (TX_NoDocumento2.getText().isEmpty()) {
-            new Warming("Falta ingresar el Documento").setVisible(true);
-        } else if (TX_Edad2.getText().isEmpty()) {
-            new Warming("Falta ingresar la Edad").setVisible(true);
-        } else if (TX_Telefono2.getText().isEmpty()) {
-            new Warming("Falta ingresar el Telefono").setVisible(true);
-        } else if (TX_Usuario2.getText().isEmpty()) {
-            new Warming("Falta ingresar el Usuario").setVisible(true);
-        } else if (TX_Contraseña2.getText().isEmpty()) {
-            new Warming("Falta ingresar el Contraseña").setVisible(true);
-        } else if (TX_ConfirmarContra2.getText().isEmpty()) {
-            new Warming("Falta confirmar la Contraseña").setVisible(true);
-        } else if (!TX_ConfirmarContra2.getText().equals(TX_Contraseña2.getText())) {
-            new Warming("Las contraseñas no coinciden").setVisible(true);
+            new Warning("Falta seleccionar el Genero").setVisible(true);
+        } else if (update_id.getText().isEmpty()) {
+            new Warning("Falta ingresar el Documento").setVisible(true);
+        } else if (update_age.getText().isEmpty()) {
+            new Warning("Falta ingresar la Edad").setVisible(true);
+        } else if (Update_phone.getText().isEmpty()) {
+            new Warning("Falta ingresar el Telefono").setVisible(true);
+        } else if (update_user.getText().isEmpty()) {
+            new Warning("Falta ingresar el Usuario").setVisible(true);
+        } else if (Update_password.getText().isEmpty()) {
+            new Warning("Falta ingresar el Contraseña").setVisible(true);
+        } else if (update_confirm.getText().isEmpty()) {
+            new Warning("Falta confirmar la Contraseña").setVisible(true);
+        } else if (!update_confirm.getText().equals(Update_password.getText())) {
+            new Warning("Las contraseñas no coinciden").setVisible(true);
         } else {
             // </editor-fold>
             //Valida los tamaños minimo de cada TX
-            if (TamañoMinimo(TX_NombreApellido2, "Nombre y Apellido", 5)
-                    && TamañoTelefono(TX_Telefono2) == true
-                    && TamañoMinimo(TX_Edad2, "Edad", 1)
-                    && TamañoMinimo(TX_NoDocumento2, "No. Documento", 7)
-                    && TamañoMinimo(TX_Usuario2, "Usuario", 4)
-                    && TamañoMinimo(TX_Contraseña2, "Contraseña", 4)) {
-                if (UsuarioExiste2() == true) {
-                    new Warming("El Usuario ya existe").setVisible(true);
-                } else if (NoDocumentoExiste() == true) {
-                    new Warming("Número de Documento ya existente").setVisible(true);
+            if (TamañoMinimo(Update_name, "Nombre y Apellido", 5)
+                    && TamañoTelefono(Update_phone) == true
+                    && TamañoMinimo(update_age, "Edad", 1)
+                    && TamañoMinimo(update_id, "No. Documento", 7)
+                    && TamañoMinimo(update_user, "Usuario", 4)
+                    && TamañoMinimo(Update_password, "Contraseña", 4)) {
+                if (Existencia() == true) {
+                    new Warning("Las datos igresados ya existen").setVisible(true);
                 } else {
-                    GuardarBD2();
-                    LimpiarCampos2();
+                    eliminar_act();
+                    ActualizarBD();
+                    Login JF_Login = new Login();
+                    this.setVisible(false);
+                    JF_Login.setVisible(true);
+
                 }
             }
 
         }
-    }//GEN-LAST:event_BT_Registrarse2MouseClicked
-
-    private void BT_Registrarse2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Registrarse2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BT_Registrarse2ActionPerformed
-
-    private void ver5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver5MouseClicked
-        esconder5.setVisible(true);
-        ver5.setVisible(false);
-        TX_ConfirmarContra2.setEchoChar((char) 0);
-    }//GEN-LAST:event_ver5MouseClicked
-
-    private void esconder5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder5MouseClicked
-        esconder5.setVisible(false);
-        ver5.setVisible(true);
-        TX_ConfirmarContra2.setEchoChar('*');
-    }//GEN-LAST:event_esconder5MouseClicked
-
-    private void TX_ConfirmarContra2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TX_ConfirmarContra2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TX_ConfirmarContra2ActionPerformed
-
-    private void TX_ConfirmarContra2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_ConfirmarContra2KeyTyped
-        //Para que el TX acepte solo letras
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Minusculas || Mayusculas || Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_ConfirmarContra2.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_ConfirmarContra2KeyTyped
-
-    private void label_f2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_f2MouseClicked
-        bt_f2.setVisible(true);
-        bt_m2.setVisible(false);
-        sx = "F";
-    }//GEN-LAST:event_label_f2MouseClicked
-
-    private void label_m2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_m2MouseClicked
-        bt_m2.setVisible(true);
-        bt_f2.setVisible(false);
-        sx = "M";
-    }//GEN-LAST:event_label_m2MouseClicked
-
-    private void bt_cerrar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cerrar2MouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_bt_cerrar2MouseClicked
-
-    private void bt_minimizar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_minimizar2MouseClicked
-        this.setState(ICONIFIED);
-    }//GEN-LAST:event_bt_minimizar2MouseClicked
-
-    private void barra_superior2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barra_superior2MouseDragged
-        int x = evt.getXOnScreen();
-        int y = evt.getYOnScreen();
-        this.setLocation(x - mouseX, y - mouseY);
-    }//GEN-LAST:event_barra_superior2MouseDragged
-
-    private void barra_superior2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barra_superior2MousePressed
-        mouseX = evt.getX();
-        mouseY = evt.getY();
-    }//GEN-LAST:event_barra_superior2MousePressed
-
-    private void BT_Desplegar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_Desplegar1MouseClicked
-        BT_Replegar1.setVisible(true);
-        BT_Desplegar1.setVisible(false);
-        MenuPuesto.setVisible(true);
-    }//GEN-LAST:event_BT_Desplegar1MouseClicked
-
-    private void BT_Replegar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_Replegar1MouseClicked
-        BT_Replegar1.setVisible(false);
-        BT_Desplegar1.setVisible(true);
-        MenuPuesto.setVisible(false);
-    }//GEN-LAST:event_BT_Replegar1MouseClicked
-
-    private void bt_op13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op13MouseClicked
-        op = 13;
-        TipoPuesto.setText(" 1.    Enfermería");
-        BT_Replegar1.setVisible(false);
-        BT_Desplegar1.setVisible(true);
-        MenuPuesto.setVisible(false);
-    }//GEN-LAST:event_bt_op13MouseClicked
-
-    private void bt_op14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op14MouseClicked
-        op = 14;
-        TipoPuesto.setText(" 2.    Paramédico");
-        BT_Replegar1.setVisible(false);
-        BT_Desplegar1.setVisible(true);
-        MenuPuesto.setVisible(false);
-    }//GEN-LAST:event_bt_op14MouseClicked
-
-    private void bt_op15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op15MouseClicked
-        op = 15;
-        TipoPuesto.setText(" 3.    Limpieza");
-        BT_Replegar1.setVisible(false);
-        BT_Desplegar1.setVisible(true);
-        MenuPuesto.setVisible(false);
-    }//GEN-LAST:event_bt_op15MouseClicked
-
-    private void bt_op19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op19MouseClicked
-        op = 19;
-        TipoPuesto.setText(" 7.      Relacionista   industrial");
-        BT_Replegar1.setVisible(false);
-        BT_Desplegar1.setVisible(true);
-        MenuPuesto.setVisible(false);
-    }//GEN-LAST:event_bt_op19MouseClicked
-
-    private void bt_op16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op16MouseClicked
-        op = 16;
-        TipoPuesto.setText(" 4.     Cocina");
-        BT_Replegar1.setVisible(false);
-        BT_Desplegar1.setVisible(true);
-        MenuPuesto.setVisible(false);
-    }//GEN-LAST:event_bt_op16MouseClicked
-
-    private void bt_op17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op17MouseClicked
-        op = 17;
-        TipoPuesto.setText(" 5.     Camillero");
-        BT_Replegar1.setVisible(false);
-        BT_Desplegar1.setVisible(true);
-        MenuPuesto.setVisible(false);
-    }//GEN-LAST:event_bt_op17MouseClicked
-
-    private void bt_op18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_op18MouseClicked
-        op = 18;
-        TipoPuesto.setText(" 6.     Chofer");
-        BT_Replegar1.setVisible(false);
-        BT_Desplegar1.setVisible(true);
-        MenuPuesto.setVisible(false);
-    }//GEN-LAST:event_bt_op18MouseClicked
-
-    private void BT_ActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_ActualizarMouseClicked
-
     }//GEN-LAST:event_BT_ActualizarMouseClicked
+
+    // </editor-fold>
 
     private void BT_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_ActualizarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BT_ActualizarActionPerformed
 
-    private void bt_cerrar4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cerrar4MouseClicked
+    private void bt_cerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cerrarMouseClicked
         System.exit(0);
-    }//GEN-LAST:event_bt_cerrar4MouseClicked
+    }//GEN-LAST:event_bt_cerrarMouseClicked
 
-    private void bt_minimizar4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_minimizar4MouseClicked
+    private void bt_cerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cerrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bt_cerrarActionPerformed
+
+    private void bt_minimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_minimizarMouseClicked
         this.setState(ICONIFIED);
-    }//GEN-LAST:event_bt_minimizar4MouseClicked
+    }//GEN-LAST:event_bt_minimizarMouseClicked
 
-    private void barra_superior4MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barra_superior4MouseDragged
+    private void barra_superiorMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barra_superiorMouseDragged
         int x = evt.getXOnScreen();
         int y = evt.getYOnScreen();
         this.setLocation(x - mouseX, y - mouseY);
-    }//GEN-LAST:event_barra_superior4MouseDragged
+    }//GEN-LAST:event_barra_superiorMouseDragged
 
-    private void barra_superior4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barra_superior4MousePressed
+    private void barra_superiorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barra_superiorMousePressed
         mouseX = evt.getX();
         mouseY = evt.getY();
-    }//GEN-LAST:event_barra_superior4MousePressed
+    }//GEN-LAST:event_barra_superiorMousePressed
 
-    private void TX_NombreApellido4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_NombreApellido4KeyTyped
-        //Para que el TX acepte letras y espacios
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Espacio = key == 32;
-        if (!(Minusculas || Mayusculas || Espacio)) {
-            evt.consume();
+    private void BT_FiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_FiltrarActionPerformed
+
+    }//GEN-LAST:event_BT_FiltrarActionPerformed
+
+    // <editor-fold defaultstate="collapsed" desc="Panel de Inicio">
+    private void BT_FiltrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_FiltrarMouseClicked
+        ActualizarTabla();
+    }//GEN-LAST:event_BT_FiltrarMouseClicked
+
+    private void CB_ServicioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CB_ServicioItemStateChanged
+        if ((String) CB_Servicio.getSelectedItem() != "-") {
+            MostraDoctoresServcio();
+        } else if ((String) CB_Servicio.getSelectedItem() == "-") {
+            MostraDoctores();
         }
+    }//GEN-LAST:event_CB_ServicioItemStateChanged
 
-        //Establecer limite de caracteres
-        if (TX_NombreApellido.getText().length() >= 20) {
-            evt.consume();
+    private void CB_DoctorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CB_DoctorItemStateChanged
+    }//GEN-LAST:event_CB_DoctorItemStateChanged
+
+    private void BT_CambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_CambiarEstadoActionPerformed
+       
+    }//GEN-LAST:event_BT_CambiarEstadoActionPerformed
+
+    private void BT_CambiarEstadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_CambiarEstadoMouseClicked
+        int FilaSeleccionada = Tabla.getSelectedRow();
+        if (FilaSeleccionada == -1) {
+            new Warning("Debe seleccionar una fila").setVisible(true);
+        } else {
+
+            Object Telefono = Tabla.getValueAt(FilaSeleccionada, 7);
+
+            String[] Opciones = {"En Espera", "Valida", "Cancelada"};
+
+            // Mensaje para mostrar arriba del JComboBox
+            String Mensaje = "Llame a este numero " + Telefono + " para confirmar la solicitud";
+
+            // Crear el JOptionPane con el JComboBox y el mensaje
+            JComboBox<String> ComboBox = new JComboBox<>(Opciones);
+            JPanel Panel = new JPanel();
+            Panel.add(new JLabel(Mensaje));
+            Panel.add(ComboBox);
+
+            int seleccion = JOptionPane.showOptionDialog(
+                    null,
+                    Panel,
+                    "Cambiar Estado",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    null
+            );
+
+            Object UsuarioT;
+            Object Doctor;
+            Object Fecha;
+            Object Hora;
+
+            // Obtener la opción seleccionada del JComboBox
+            if (seleccion >= 0 && seleccion < Opciones.length) {
+                String OpcionSelecionada = (String) ComboBox.getSelectedItem();
+
+                UsuarioT = Tabla.getValueAt(FilaSeleccionada, 0);
+                Doctor = Tabla.getValueAt(FilaSeleccionada, 2);
+                Fecha = Tabla.getValueAt(FilaSeleccionada, 3);
+                Hora = Tabla.getValueAt(FilaSeleccionada, 4);
+
+                try {
+                    Connection conexion = null;
+                    ConexionBD bd = new ConexionBD();
+                    conexion = bd.getConexion();
+                    Statement st = conexion.createStatement();
+
+                    String SQL = "UPDATE Solicitudes SET Confirmada = ?, Estado_Cita = ? WHERE Usuario = ? AND Doctor = ? AND Fecha = ? AND Hora = ?";
+                    PreparedStatement pstmt = conexion.prepareStatement(SQL);
+                    pstmt.setString(1, "Si");
+                    pstmt.setString(2, OpcionSelecionada);
+                    pstmt.setString(3, String.valueOf(UsuarioT));
+                    pstmt.setString(4, String.valueOf(Doctor));
+                    pstmt.setString(5, String.valueOf(Fecha));
+                    pstmt.setString(6, String.valueOf(Hora));
+
+                    int filasActualizadas = pstmt.executeUpdate();
+
+                    if (filasActualizadas > 0) {
+                        new Success("Actualizacion exitosa").setVisible(true);
+                        ActualizarTabla();
+                    }
+
+                    pstmt.close();
+                    conexion.close();
+                } catch (SQLException ex) {
+                    
+                }
+
+            }
+
         }
-    }//GEN-LAST:event_TX_NombreApellido4KeyTyped
-
-    private void TX_Telefono4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Telefono4KeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Telefono.getText().length() >= 10) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_Telefono4KeyTyped
-
-    private void TX_Edad4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Edad4KeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Edad.getText().length() >= 3) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_Edad4KeyTyped
-
-    private void TX_Usuario4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Usuario4KeyTyped
-        //Para que el TX acepte solo letras
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        if (!(Minusculas || Mayusculas)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Usuario.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_Usuario4KeyTyped
-
-    private void TX_NoDocumento4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_NoDocumento4KeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_NoDocumento.getText().length() >= 10) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_NoDocumento4KeyTyped
-
-    private void ver8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver8MouseClicked
-        esconder.setVisible(true);
-        ver.setVisible(false);
-        TX_Contraseña.setEchoChar((char) 0);
-    }//GEN-LAST:event_ver8MouseClicked
-
-    private void esconder8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder8MouseClicked
-        esconder.setVisible(false);
-        ver.setVisible(true);
-        TX_Contraseña.setEchoChar('*');
-    }//GEN-LAST:event_esconder8MouseClicked
-
-    private void TX_Contraseña4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_Contraseña4KeyTyped
-        //Para que el TX acepte solo letras y espacios
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Numeros = key >= 48 && key <= 57;
-        boolean Espacio = key == 32;
-        if (!(Minusculas || Mayusculas || Numeros || Espacio)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Contraseña.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_Contraseña4KeyTyped
-
-    private void ver9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver9MouseClicked
-        esconder1.setVisible(true);
-        ver1.setVisible(false);
-        TX_ConfirmarContra.setEchoChar((char) 0);
-    }//GEN-LAST:event_ver9MouseClicked
-
-    private void esconder9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder9MouseClicked
-        esconder1.setVisible(false);
-        ver1.setVisible(true);
-        TX_ConfirmarContra.setEchoChar('*');
-    }//GEN-LAST:event_esconder9MouseClicked
-
-    private void TX_ConfirmarContra4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TX_ConfirmarContra4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TX_ConfirmarContra4ActionPerformed
-
-    private void TX_ConfirmarContra4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_ConfirmarContra4KeyTyped
-        //Para que el TX acepte solo letras y espacios
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Numeros = key >= 48 && key <= 57;
-        boolean Espacio = key == 32;
-        if (!(Minusculas || Mayusculas || Numeros || Espacio)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Contraseña.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_ConfirmarContra4KeyTyped
-
-    private void label_f4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_f4MouseClicked
-        bt_f.setVisible(true);
-        bt_m.setVisible(false);
-        sx = "F";
-    }//GEN-LAST:event_label_f4MouseClicked
-
-    private void label_m4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_m4MouseClicked
-        bt_m.setVisible(true);
-        bt_f.setVisible(false);
-        sx = "M";
-    }//GEN-LAST:event_label_m4MouseClicked
+    }//GEN-LAST:event_BT_CambiarEstadoMouseClicked
 
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Funciones para Panel de Crear Doctores">
-    public void GuardarBD() {
-
+    // <editor-fold defaultstate="collapsed" desc="Funciones del Panel de Inicio">
+    public void LlenarTodosDatos(String Filtro, String Orden, String especialidad, String doctor) {
         try {
+            Connection conexion = null;
+            ConexionBD bd = new ConexionBD();
+            conexion = bd.getConexion();
+
+            String sql = "SELECT Usuario, Servicio, Doctor, Fecha, Hora, Confirmada, Estado_Cita, Telefono FROM Solicitudes";
+
+            if (!Filtro.equals("Todas")) {
+                sql += " WHERE Estado_Cita = ?";
+            }
+
+            if (!especialidad.isEmpty() && doctor.isEmpty()) {
+                if (!Filtro.equals("Todas")) {
+                    sql += " AND Servicio = ?";
+                } else {
+                    sql += " WHERE Servicio = ?";
+                }
+            } else if (especialidad.isEmpty() && !doctor.isEmpty()) {
+                if (!Filtro.equals("Todas")) {
+                    sql += " AND Doctor = ?";
+                } else {
+                    sql += " WHERE Doctor = ?";
+                }
+            } else if (!especialidad.isEmpty() && !doctor.isEmpty()) {
+                if (!Filtro.equals("Todas")) {
+                    sql += " AND Servicio = ? AND Doctor = ?";
+                } else {
+                    sql += " WHERE Servicio = ? AND Doctor = ?";
+                }
+            }
+
+            if (!Orden.isEmpty()) {
+                sql += " ORDER BY CDate(Fecha) " + Orden + ", Hora " + Orden;
+            }
+
+            PreparedStatement statement = conexion.prepareStatement(sql);
+
+            int parametro = 1;
+            if (!Filtro.equals("Todas")) {
+                statement.setString(parametro, Filtro);
+                parametro++;
+            }
+
+            if (!especialidad.isEmpty() && doctor.isEmpty()) {
+                statement.setString(parametro, especialidad);
+                parametro++;
+            } else if (especialidad.isEmpty() && !doctor.isEmpty()) {
+                statement.setString(parametro, doctor);
+                parametro++;
+            } else if (!especialidad.isEmpty() && !doctor.isEmpty()) {
+                statement.setString(parametro, especialidad);
+                parametro++;
+                statement.setString(parametro, doctor);
+                parametro++;
+            }
+
+            ResultSet resultado = statement.executeQuery();
+
+            DefaultTableModel modeloTabla = (DefaultTableModel) Tabla.getModel();
+            modeloTabla.setRowCount(0);
+
+            while (resultado.next()) {
+                String usuario = resultado.getString("Usuario");
+                String servicio = resultado.getString("Servicio");
+                String nombreDoctor = FormatoNombre(resultado.getString("Doctor"));
+                String fecha = resultado.getString("Fecha");
+                String hora = resultado.getString("Hora");
+                String confirmada = resultado.getString("Confirmada");
+                String estado = resultado.getString("Estado_Cita");
+                String Telefono = String.valueOf((long) resultado.getDouble("Telefono"));
+                Object[] fila = {usuario, servicio, nombreDoctor, fecha, hora, confirmada, estado, Telefono};
+                modeloTabla.addRow(fila);
+            }
+        } catch (SQLException ex) {
+            new Error("Error al cargar datos").setVisible(true);
+        }
+    }
+    
+    public void ActualizarTabla() {
+
+        switch ((String) CB_EstadoCita.getSelectedItem()) {
+            case "Todas":
+                switch ((String) CB_Orden.getSelectedItem()) {
+                    case "-":
+                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+                            LlenarTodosDatos("Todas", "", "", "");
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Todas", "", (String) CB_Servicio.getSelectedItem(), "");
+
+                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Todas", "", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Todas", "", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                    case "Ascendente":
+
+                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+                            LlenarTodosDatos("Todas", "ASC", "", "");
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Todas", "ASC", (String) CB_Servicio.getSelectedItem(), "");
+
+                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Todas", "ASC", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Todas", "ASC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                    case "Descendente":
+
+                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+                            LlenarTodosDatos("Todas", "DESC", "", "");
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Todas", "DESC", (String) CB_Servicio.getSelectedItem(), "");
+
+                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Todas", "DESC", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Todas", "DESC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                }
+                break;
+            case "En Espera":
+                switch ((String) CB_Orden.getSelectedItem()) {
+                    case "-":
+                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+                            LlenarTodosDatos("En Espera", "", "", "");
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("En Espera", "", (String) CB_Servicio.getSelectedItem(), "");
+
+                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("En Espera", "", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("En Espera", "", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                    case "Ascendente":
+
+                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+                            LlenarTodosDatos("En Espera", "ASC", "", "");
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("En Espera", "ASC", (String) CB_Servicio.getSelectedItem(), "");
+
+                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("En Espera", "ASC", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("En Espera", "ASC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                    case "Descendente":
+
+                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+                            LlenarTodosDatos("En Espera", "DESC", "", "");
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("En Espera", "DESC", (String) CB_Servicio.getSelectedItem(), "");
+
+                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("En Espera", "DESC", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("En Espera", "DESC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                }
+                break;
+            case "Valida":
+                switch ((String) CB_Orden.getSelectedItem()) {
+                    case "-":
+                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+                            LlenarTodosDatos("Valida", "", "", "");
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Valida", "", (String) CB_Servicio.getSelectedItem(), "");
+
+                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Valida", "", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Valida", "", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                    case "Ascendente":
+
+                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+                            LlenarTodosDatos("Valida", "ASC", "", "");
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Valida", "ASC", (String) CB_Servicio.getSelectedItem(), "");
+
+                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Valida", "ASC", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Valida", "ASC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                    case "Descendente":
+
+                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+                            LlenarTodosDatos("Valida", "DESC", "", "");
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Valida", "DESC", (String) CB_Servicio.getSelectedItem(), "");
+
+                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Valida", "DESC", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
+
+                            LlenarTodosDatos("Valida", "DESC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                }
+                break;
+            case "Cancelada":
+                switch ((String) CB_Orden.getSelectedItem()) {
+                    case "-":
+                        if (CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "", "", "");
+                        } else if (!CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "", (String) CB_Servicio.getSelectedItem(), "");
+                        } else if (CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                    case "Ascendente":
+                        if (CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "ASC", "", "");
+                        } else if (!CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "ASC", (String) CB_Servicio.getSelectedItem(), "");
+                        } else if (CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "ASC", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "ASC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                    case "Descendente":
+                        if (CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "DESC", "", "");
+                        } else if (!CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "DESC", (String) CB_Servicio.getSelectedItem(), "");
+                        } else if (CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "DESC", "", (String) CB_Doctor.getSelectedItem());
+                        } else if (!CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
+                            LlenarTodosDatos("Cancelada", "DESC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
+                        }
+                        break;
+                }
+        }
+
+    }
+
+    public void MostraDoctores() {
+        try {
+
             Connection Conexion = null;
             ConexionBD BD = new ConexionBD();
             Conexion = BD.getConexion();
             Statement st = Conexion.createStatement();
 
-            //Para guardar en la tabla Jefe
-            String SQL = "insert into Doctores(Nombre_Apellido, Telefono, Genero,"
-                    + "Edad, Numero_Documento, Especialidad, No_Consultorio, Usuario, Contraseña) values (?,?,?,?,?,?,?,?,?)";
+            String SQL = "SELECT DISTINCT Doctor FROM Solicitudes";
 
-            //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
-            PreparedStatement pst = Conexion.prepareStatement(SQL);
-
-            String Genero = null;
-            if ("F".equals(sx)) {
-                Genero = "Femenino";
-            }
-            if ("M".equals(sx)) {
-                Genero = "Masculino";
-            }
-
-            String Especialidad = "";
-            switch (op) {
-                case (1):
-                    Especialidad = "Pediatria";
-                    break;
-                case (2):
-                    Especialidad = "Medicina General";
-                    break;
-                case (3):
-                    Especialidad = "Ecografía";
-                    break;
-                case (4):
-                    Especialidad = "Oftalmología";
-                    break;
-                case (5):
-                    Especialidad = "Optometría";
-                    break;
-                case (6):
-                    Especialidad = "Odontología general";
-                    break;
-                case (7):
-                    Especialidad = "Ginecología";
-                    break;
-                case (8):
-                    Especialidad = "Radiología";
-                    break;
-                case (9):
-                    Especialidad = "Cardiología";
-                    break;
-                case (10):
-                    Especialidad = "Medicina General";
-                    break;
-                case (11):
-                    Especialidad = "Medicina Interna";
-                    break;
-                case (12):
-                    Especialidad = "Ortopedia";
-                    break;
+            //Seleciona los nombre de los doctores segun la especialidad selecionada
+            //Guarda en rs los resultados de la busqueda SQL, osea las diferentes especialidades
+            ResultSet rs = st.executeQuery(SQL);
+            CB_Doctor.removeAllItems();
+            CB_Doctor.addItem("-");
+            //Mientras que en los resultados de rs exista mas resultados
+            while (rs.next()) {
+                //Obtengo el valor de la columna Nombre_Apellido y La agrego en el ComboBox de Doctores
+                CB_Doctor.addItem(rs.getString("Doctor"));
 
             }
 
-            //Utilizacion de POO
-            Clases.Doctor D = new Clases.Doctor(TX_NombreApellido.getText().toUpperCase(), Genero,
-                    Double.parseDouble(TX_NoDocumento.getText()), Double.parseDouble(TX_Edad.getText()),
-                    Double.parseDouble(TX_Telefono.getText()), Especialidad,
-                    Double.parseDouble(TX_NoConsultorio.getText()),
-                    TX_Usuario.getText().toUpperCase(), TX_Contraseña.getText());
-
-            //Guarda cada valor en su respectiva columna, la columna se define por el primer paramatro
-            //Guardo cada atributo del objeto J en su columna correspondiete, con los Getters
-            pst.setString(1, D.getNombre_Apellido());
-            pst.setDouble(2, D.getNo_Telefono());
-            pst.setString(3, D.getGenero());
-            pst.setDouble(4, D.getEdad());
-            pst.setDouble(5, D.getNo_Documento());
-            pst.setString(6, D.getEspecialidad());
-            pst.setDouble(7, Double.parseDouble(TX_NoConsultorio.getText()));
-            pst.setString(8, D.getUsuario());
-            pst.setString(9, D.getContraseña());
-
-            int n = pst.executeUpdate(); //Para guardar los datos
-
-            SQL = "insert into Usuarios(Usuario, Contraseña, Tipo) values(?,?,?)";
-
-            //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
-            pst = Conexion.prepareStatement(SQL);
-
-            pst.setString(1, D.getUsuario());
-            pst.setString(2, D.getContraseña());
-            pst.setString(3, "Doctor");
-            int n1 = pst.executeUpdate(); //Para guardar los datos
-
-            //Si es mayor que 0 quiere decir que se se inserto bien en la BD
-            if (n > 0 && n1 > 0) {
-                //Mensaje de confirmacion
-                new Success("Datos guardados correctamente").setVisible(true);
-            }
-
-        } catch (SQLException | HeadlessException e) {
-            //Error x si acaso
-            new Error("Error al guardar Datos").setVisible(true);
+        } catch (SQLException ex) {
 
         }
     }
 
-    public Boolean NoDocumentoExiste() {
-
+    public void MostraDoctoresServcio() {
         try {
+
             Connection Conexion = null;
             ConexionBD BD = new ConexionBD();
             Conexion = BD.getConexion();
             Statement st = Conexion.createStatement();
 
-            //Para buscar si el No Documento existe 
-            String SQL = "SELECT * FROM Doctores WHERE Numero_Documento = ?";
+            String SQL = "SELECT Doctor FROM Solicitudes WHERE Especialidad = '" + (String) CB_Servicio.getSelectedItem() + "'";
 
-            PreparedStatement pst = Conexion.prepareStatement(SQL);
+            //Seleciona los nombre de los doctores segun la especialidad selecionada
+            //Guarda en rs los resultados de la busqueda SQL, osea las diferentes especialidades
+            ResultSet rs = st.executeQuery(SQL);
+            CB_Doctor.removeAllItems();
+            CB_Doctor.addItem("-");
+            //Mientras que en los resultados de rs exista mas resultados
+            while (rs.next()) {
+                //Obtengo el valor de la columna Nombre_Apellido y La agrego en el ComboBox de Doctores
+                CB_Doctor.addItem(rs.getString("Doctor"));
 
-            pst.setString(1, TX_NoDocumento.getText());
-
-            //Extrae el conjunto de resultados 
-            ResultSet rs = pst.executeQuery();
-
-            //Si hay mas de un resultado: true
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
             }
-        } catch (SQLException | HeadlessException e) {
+
+        } catch (SQLException ex) {
+
+        }
+    }
+
+    public void MostrarServicios() {
+        try {
+
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            String SQL = "SELECT DISTINCT Servicio FROM Solicitudes";
+
+            ResultSet rs = st.executeQuery(SQL);
+
+            while (rs.next()) {
+
+                CB_Servicio.addItem(rs.getString("Servicio"));
+
+            }
+
+        } catch (SQLException ex) {
+
+        }
+    }
+
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Funciones Generales">
+    public Boolean TamañoMinimo(JTextField JTextField, String Campo, int min) {
+        //Si no tiene el tamaño minimo de caracteres, muestra error
+        if (JTextField.getText().length() < min) {
+            new Warning("Tamaño minimo de " + Campo + ":" + min).setVisible(true);
             return false;
+        } else {
+            return true;
+        }
+    }
+
+    public Boolean TamañoTelefono(JTextField JTextField) {
+        //Si no tiene el tamaño minimo de caracteres, muestra error
+        if (JTextField.getText().length() != 7 && JTextField.getText().length() != 10) {
+            new Warning("Tamaño minimo telefono: 7-10 números").setVisible(true);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Funciones del Panel de Datos">
+    //Función para eliminar al jefe actual del hospital y cambiar sus datos
+    public void eliminar_act() {
+        try {
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+            //Eliminación de la tabla de Pacientes
+            String sql = "DELETE FROM Admin";
+            PreparedStatement stmt = Conexion.prepareStatement("DELETE FROM Admin WHERE Usuario = ?");
+            stmt.setString(1, user[4]);
+            stmt.executeUpdate();
+            //Eliminación de la tabla de usuario
+            //Inicialmente se elimina el registro de la tabla de usuarios
+            String sq2 = "DELETE FROM Usuarios";
+            PreparedStatement stmt2 = Conexion.prepareStatement("DELETE FROM Usuarios WHERE Usuario = ?");
+            stmt2.setString(1, user[4]);
+            stmt2.executeUpdate();
+
+        } catch (SQLException e) {
+            new Error("Error al actualizar Datos").setVisible(true);
+        }
+    }
+
+    //Función que extrae los datos de la base de datos de pacientey los almacena en un vector para mostrarlo en la ventana de actualiación
+    String user[] = new String[7];
+
+    public String[] extraer() {
+        try {
+
+            String user_;
+
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            String SQL = "Select * from Admin";
+            Statement sentence = Conexion.createStatement();
+            ResultSet rst = sentence.executeQuery(SQL);
+            while (rst.next()) {
+
+                user_ = rst.getString("Usuario");
+
+                if (user_.equals((Login.Usuario))) {
+                    user[0] = FormatoNombre(rst.getString("Nombre_Apellido"));
+                    user[1] = String.valueOf((long) rst.getDouble("Telefono"));
+                    user[2] = String.valueOf((int) rst.getDouble("Edad"));
+                    user[3] = String.valueOf((long) rst.getDouble("Numero_Documento"));
+                    user[4] = rst.getString("Usuario");
+                    user[5] = rst.getString("Contraseña");
+                    user[6] = rst.getString("Genero");
+                }
+
+            }
+        } catch (SQLException | HeadlessException e) {
+            new Error("Error al buscar Datos").setVisible(true);
+
+        }
+        return user;
+    }
+
+    //Para poner una cadena en formato de un nombre 
+    public static String FormatoNombre(String Cadena) {
+        if (Cadena == null || Cadena.isEmpty()) {
+            return Cadena;
         }
 
+        StringBuilder sb = new StringBuilder(Cadena.length());
+        boolean capitalizeNext = true;
+        for (char c : Cadena.toCharArray()) {
+            if (Character.isWhitespace(c)) {
+                capitalizeNext = true;
+            } else if (capitalizeNext) {
+                sb.append(Character.toUpperCase(c));
+                capitalizeNext = false;
+            } else {
+                sb.append(Character.toLowerCase(c));
+            }
+        }
+
+        return sb.toString();
     }
 
-    public void LimpiarCampos() {
-        TipoEspecialidad.setText("");
-        TX_NombreApellido.setText("");
-        TX_NoDocumento.setText("");
-        TX_Edad.setText("");
-        TX_Telefono.setText("");
-        TX_Usuario.setText("");
-        TX_Contraseña.setText("");
-        TX_ConfirmarContra.setText("");
-        TX_NoConsultorio.setText("");
-
-    }
-
-    public Boolean UsuarioExiste() {
+    //Función para validar que ninguno de los datos a actualizar le pertenexcan a otro usuario en el hospital  
+    public Boolean Existencia() {
 
         try {
             Connection Conexion = null;
@@ -3121,16 +1589,48 @@ public class Administrador extends javax.swing.JFrame {
             Statement st = Conexion.createStatement();
 
             //Para buscar si existe el usuario a crear
-            String SQL = "SELECT * FROM Usuarios WHERE Usuario = ?";
+            String SQL1 = "SELECT * FROM Admin WHERE Usuario = ?";
+            String SQL2 = "SELECT * FROM Doctores WHERE Usuario = ?";
+            String SQL3 = "SELECT * FROM OtroEmpleado WHERE Usuario = ?";
+            String SQL4 = "SELECT * FROM Admin WHERE Numero_Documento = ?";
+            String SQL5 = "SELECT * FROM Doctores WHERE Numero_Documento = ?";
+            String SQL6 = "SELECT * FROM OtroEmpleado WHERE Numero_Documento = ?";
+            String SQL7 = "SELECT * FROM Admin WHERE Telefono = ?";
+            String SQL8 = "SELECT * FROM Doctores WHERE Telefono = ?";
+            String SQL9 = "SELECT * FROM OtroEmpleado WHERE Telefono = ?";
 
-            PreparedStatement pst = Conexion.prepareStatement(SQL);
+            PreparedStatement pst1 = Conexion.prepareStatement(SQL1);
+            PreparedStatement pst2 = Conexion.prepareStatement(SQL2);
+            PreparedStatement pst3 = Conexion.prepareStatement(SQL3);
+            PreparedStatement pst4 = Conexion.prepareStatement(SQL4);
+            PreparedStatement pst5 = Conexion.prepareStatement(SQL5);
+            PreparedStatement pst6 = Conexion.prepareStatement(SQL6);
+            PreparedStatement pst7 = Conexion.prepareStatement(SQL7);
+            PreparedStatement pst8 = Conexion.prepareStatement(SQL8);
+            PreparedStatement pst9 = Conexion.prepareStatement(SQL9);
 
-            pst.setString(1, TX_Usuario.getText());
+            pst1.setString(1, update_user.getText());
+            pst2.setString(1, update_user.getText());
+            pst3.setString(1, update_user.getText());
+            pst4.setString(1, update_id.getText());
+            pst5.setString(1, update_id.getText());
+            pst6.setString(1, update_id.getText());
+            pst7.setString(1, Update_phone.getText());
+            pst8.setString(1, Update_phone.getText());
+            pst9.setString(1, Update_phone.getText());
             //Extrae el conjunto de resultados 
-            ResultSet rs = pst.executeQuery();
+            ResultSet rs1 = pst1.executeQuery();
+            ResultSet rs2 = pst2.executeQuery();
+            ResultSet rs3 = pst3.executeQuery();
+            ResultSet rs4 = pst4.executeQuery();
+            ResultSet rs5 = pst5.executeQuery();
+            ResultSet rs6 = pst6.executeQuery();
+            ResultSet rs7 = pst7.executeQuery();
+            ResultSet rs8 = pst8.executeQuery();
+            ResultSet rs9 = pst9.executeQuery();
 
             //Si hay mas de un resultado: true
-            if (rs.next()) {
+            if (rs1.next() || rs2.next() || rs3.next() || rs4.next() || rs5.next() || rs6.next() || rs7.next() || rs8.next() || rs9.next()) {
                 return true;
             } else {
                 return false;
@@ -3141,31 +1641,16 @@ public class Administrador extends javax.swing.JFrame {
 
     }
 
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Funciones para Panel de Crear Administrador">
-    public void LimpiarCampos1() {
-        TX_NombreApellido1.setText("");
-        TX_NoDocumento1.setText("");
-        TX_Edad1.setText("");
-        TX_Telefono1.setText("");
-        TX_Usuario1.setText("");
-        TX_Contraseña1.setText("");
-        TX_ConfirmarContra1.setText("");
-    }
-
-    public void GuardarBD1() {
+    public void ActualizarBD() {
 
         try {
+            
             Connection Conexion = null;
             ConexionBD BD = new ConexionBD();
             Conexion = BD.getConexion();
             Statement st = Conexion.createStatement();
-
-            //Para guardar en la tabla Jefe
-            String SQL = "insert into Administradores(Nombre_Apellido, Telefono, Genero,"
-                    + "Edad, No_documento, Fecha_registro, Estado, Usuario, Contraseña) values (?,?,?,?,?,?,?,?,?)";
-
-            //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
+            String SQL = "insert into Admin(Nombre_Apellido, Telefono, Genero,"
+                    + "Edad, Numero_Documento, Usuario, Contraseña, Estado, Fecha_Registro) values (?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = Conexion.prepareStatement(SQL);
 
             String Genero = null;
@@ -3176,27 +1661,22 @@ public class Administrador extends javax.swing.JFrame {
                 Genero = "Masculino";
             }
 
-            //Utilizacion de POO para crear una instancia de tipo administrador 
             Date fecha = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             String fechaComoString = sdf.format(fecha);
-
             String state = "Activo";
-            Clases.Administrador A = new Clases.Administrador(TX_NombreApellido1.getText().toUpperCase(), Genero,
-                    Integer.parseInt(TX_NoDocumento1.getText()), Integer.parseInt(TX_Edad1.getText()),
-                    Integer.parseInt(TX_Telefono1.getText()), fechaComoString, state, TX_Usuario1.getText().toUpperCase(), TX_Contraseña1.getText());
 
-            //Guarda cada valor en su respectiva columna, la columna se define por el primer paramatro
-            //Guardo cada atributo del objeto J en su columna correspondiete, con los Getters
+            
+            Clases.Administrador A = new Clases.Administrador(Update_name.getText(), Genero, Double.parseDouble(update_id.getText()), Double.parseDouble(update_age.getText()), Double.parseDouble(Update_phone.getText()), fechaComoString, state, update_user.getText(), Update_password.getText());
             pst.setString(1, A.getNombre_Apellido());
             pst.setDouble(2, A.getNo_Telefono());
             pst.setString(3, A.getGenero());
             pst.setDouble(4, A.getEdad());
             pst.setDouble(5, A.getNo_Documento());
-            pst.setString(6, A.getfecharegistro());
-            pst.setString(7, A.getestado());
-            pst.setString(8, A.getusuario());
-            pst.setString(9, A.getcontraseña());
+            pst.setString(6, A.getusuario());
+            pst.setString(7, A.getcontraseña());
+            pst.setString(8, A.getestado());
+            pst.setString(9, A.getfecharegistro());
 
             int n = pst.executeUpdate(); //Para guardar los datos
 
@@ -3213,236 +1693,18 @@ public class Administrador extends javax.swing.JFrame {
             //Si es mayor que 0 quiere decir que se se inserto bien en la BD
             if (n > 0 && n1 > 0) {
                 //Mensaje de confirmacion
-                new Success("Datos guardados correctamente").setVisible(true);
+                new Success("Datos actualizados").setVisible(true);
 
             }
 
         } catch (SQLException | HeadlessException e) {
             //Error x si acaso
-            new Error("Error al guardar Datos").setVisible(true);
+            new Error("Error al actualizar datos").setVisible(true);
 
         }
-
     }
-
-    public Boolean NoDocumentoExiste1() {
-
-        try {
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            //Para buscar si el No Documento existe 
-            String SQL = "SELECT * FROM Administradores WHERE No_documento = ?";
-
-            PreparedStatement pst = Conexion.prepareStatement(SQL);
-
-            pst.setString(1, TX_NoDocumento1.getText());
-
-            //Extrae el conjunto de resultados 
-            ResultSet rs = pst.executeQuery();
-
-            //Si hay mas de un resultado: true
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (SQLException | HeadlessException e) {
-            return false;
-        }
-
-    }
-
-    public Boolean UsuarioExiste1() {
-
-        try {
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            //Para buscar si existe el usuario a crear
-            String SQL = "SELECT * FROM Usuarios WHERE Usuario = ?";
-
-            PreparedStatement pst = Conexion.prepareStatement(SQL);
-
-            pst.setString(1, TX_Usuario1.getText());
-            //Extrae el conjunto de resultados 
-            ResultSet rs = pst.executeQuery();
-
-            //Si hay mas de un resultado: true
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (SQLException | HeadlessException e) {
-            return false;
-        }
-
-    }
-
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Funciones para Panel Crear Otro Empleado">
-    public void LimpiarCampos2() {
-        TipoPuesto.setText("");
-        TX_NombreApellido2.setText("");
-        TX_NoDocumento2.setText("");
-        TX_Edad2.setText("");
-        TX_Telefono2.setText("");
-        TX_Usuario2.setText("");
-        TX_Contraseña2.setText("");
-        TX_ConfirmarContra2.setText("");
-    }
 
-    public void GuardarBD2() {
-
-        try {
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            //Para guardar en la tabla Jefe
-            String SQL = "insert into Otro(Nombre_apellido, Telefono, Genero,"
-                    + "Edad, No_documento, Puesto, Usuario, Contraseña) values (?,?,?,?,?,?,?,?)";
-
-            //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
-            PreparedStatement pst = Conexion.prepareStatement(SQL);
-
-            String Genero = null;
-            if ("F".equals(sx)) {
-                Genero = "Femenino";
-            }
-            if ("M".equals(sx)) {
-                Genero = "Masculino";
-            }
-
-            String Puesto = "";
-            switch (op) {
-                case (13):
-                    Puesto = "Enfermería";
-                    break;
-                case (14):
-                    Puesto = "Paramédico";
-                    break;
-                case (15):
-                    Puesto = "Limpieza";
-                    break;
-                case (16):
-                    Puesto = "Cocina";
-                    break;
-                case (17):
-                    Puesto = "Camillero";
-                    break;
-                case (18):
-                    Puesto = "Chofer";
-                    break;
-                case (19):
-                    Puesto = "Relacionista industrial";
-                    break;
-
-            }
-
-            //Utilizacion de POO para crear una instancia de tipo administrador 
-            Clases.Otro O = new Clases.Otro(TX_NombreApellido2.getText().toUpperCase(), Genero,
-                    Integer.parseInt(TX_Edad2.getText()), Double.parseDouble(TX_NoDocumento2.getText()),
-                    Double.parseDouble(TX_Telefono2.getText()), Puesto, TX_Usuario2.getText().toUpperCase(), TX_Contraseña2.getText());
-
-            //Guarda cada valor en su respectiva columna, la columna se define por el primer paramatro
-            //Guardo cada atributo del objeto J en su columna correspondiete, con los Getters
-            pst.setString(1, O.getNombre_Apellido());
-            pst.setDouble(2, O.getNo_Telefono());
-            pst.setString(3, O.getGenero());
-            pst.setDouble(4, O.getEdad());
-            pst.setDouble(5, O.getNo_Documento());
-            pst.setString(6, O.getPuesto());
-            pst.setString(7, O.getUsuario());
-            pst.setString(8, O.getContraseña());
-
-            int n = pst.executeUpdate(); //Para guardar los datos
-
-            SQL = "insert into Usuarios(Usuario, Contraseña, Tipo) values(?,?,?)";
-
-            //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
-            pst = Conexion.prepareStatement(SQL);
-
-            pst.setString(1, O.getUsuario());
-            pst.setString(2, O.getContraseña());
-            pst.setString(3, "Otro");
-            int n1 = pst.executeUpdate(); //Para guardar los datos
-
-            //Si es mayor que 0 quiere decir que se se inserto bien en la BD
-            if (n > 0 && n1 > 0) {
-                //Mensaje de confirmacion
-                new Success("Datos guardados correctamente").setVisible(true);
-
-            }
-
-        } catch (SQLException | HeadlessException e) {
-            //Error x si acaso
-            new Error("Error al guardar Datos").setVisible(true);
-
-        }
-    }
-
-    public Boolean UsuarioExiste2() {
-
-        try {
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            //Para buscar si existe el usuario a crear
-            String SQL = "SELECT * FROM Usuarios WHERE Usuario = ?";
-
-            PreparedStatement pst = Conexion.prepareStatement(SQL);
-
-            pst.setString(1, TX_Usuario.getText());
-            //Extrae el conjunto de resultados 
-            ResultSet rs = pst.executeQuery();
-
-            //Si hay mas de un resultado: true
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (SQLException | HeadlessException e) {
-            return false;
-        }
-
-    }
-
-    // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Funciones Generales">
-    public Boolean TamañoMinimo(JTextField JTextField, String Campo, int min) {
-        //Si no tiene el tamaño minimo de caracteres, muestra error
-        if (JTextField.getText().length() < min) {
-            new Warming("Tamaño minimo de " + Campo + ":" + min).setVisible(true);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public Boolean TamañoTelefono(JTextField JTextField) {
-        //Si no tiene el tamaño minimo de caracteres, muestra error
-        if (JTextField.getText().length() != 7 && JTextField.getText().length() != 10) {
-            new Warming("Tamaño minimo telefono: 7-10 números").setVisible(true);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    // </editor-fold>
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -3483,164 +1745,71 @@ public class Administrador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Administradores;
     private Componentes.AllButton BT_Actualizar;
-    private Componentes.AllButton BT_Administrador;
+    private Componentes.AllButton BT_CambiarEstado;
     private Componentes.AllButton BT_CerrarSesion;
     private Componentes.AllButton BT_Datos;
-    private javax.swing.JLabel BT_Desplegar;
-    private javax.swing.JLabel BT_Desplegar1;
-    private Componentes.AllButton BT_Doctor;
-    private Componentes.AllButton BT_Empleado;
-    private Componentes.AllButton BT_Inicio;
+    private Componentes.AllButton BT_Filtrar;
+    private Componentes.AllButton BT_Home;
     private Componentes.AllButton BT_Menu;
-    private Componentes.AllButton BT_Registrarse;
-    private Componentes.AllButton BT_Registrarse1;
-    private Componentes.AllButton BT_Registrarse2;
-    private javax.swing.JLabel BT_Replegar;
-    private javax.swing.JLabel BT_Replegar1;
     private Componentes.BlurBackground Background;
+    private Componentes.ComboBoxSuggestion CB_Doctor;
+    private Componentes.ComboBoxSuggestion CB_EstadoCita;
+    private Componentes.ComboBoxSuggestion CB_Orden;
+    private Componentes.ComboBoxSuggestion CB_Servicio;
     private javax.swing.JPanel CardLayout;
-    private org.example.Custom.PanelRound ConfirmarContr;
     private org.example.Custom.PanelRound ConfirmarContr1;
-    private org.example.Custom.PanelRound ConfirmarContr2;
-    private org.example.Custom.PanelRound ConfirmarContr4;
-    private org.example.Custom.PanelRound Contraseña;
     private org.example.Custom.PanelRound Contraseña1;
-    private org.example.Custom.PanelRound Contraseña2;
-    private org.example.Custom.PanelRound Contraseña4;
     private javax.swing.JPanel Datos;
-    private javax.swing.JPanel Doctores;
-    private org.example.Custom.PanelRound Edad;
     private org.example.Custom.PanelRound Edad1;
-    private org.example.Custom.PanelRound Edad2;
-    private org.example.Custom.PanelRound Edad4;
-    private javax.swing.JPanel Empleados;
-    private Componentes.BlurBackground Especialidades;
     private javax.swing.JPanel Inicio;
     private org.example.Custom.PanelRound JP_BarraLateral;
     private javax.swing.JPanel JP_CerraSesionBarraL;
-    private javax.swing.JPanel MenuEspecialidades;
-    private javax.swing.JPanel MenuPuesto;
-    private org.example.Custom.PanelRound NoConsultorio;
-    private org.example.Custom.PanelRound NoDocumento;
     private org.example.Custom.PanelRound NoDocumento1;
-    private org.example.Custom.PanelRound NoDocumento2;
-    private org.example.Custom.PanelRound NoDocumento4;
-    private org.example.Custom.PanelRound NombreApellido;
     private org.example.Custom.PanelRound NombreApellido1;
-    private org.example.Custom.PanelRound NombreApellido2;
-    private org.example.Custom.PanelRound NombreApellido4;
-    private org.example.Custom.PanelRound TEspecialidad;
-    private org.example.Custom.PanelRound TPuesto;
-    private org.example.Custom.AnimatedPasswordField TX_ConfirmarContra;
-    private org.example.Custom.AnimatedPasswordField TX_ConfirmarContra1;
-    private org.example.Custom.AnimatedPasswordField TX_ConfirmarContra2;
-    private org.example.Custom.AnimatedPasswordField TX_ConfirmarContra4;
-    private org.example.Custom.AnimatedPasswordField TX_Contraseña;
-    private org.example.Custom.AnimatedPasswordField TX_Contraseña1;
-    private org.example.Custom.AnimatedPasswordField TX_Contraseña2;
-    private org.example.Custom.AnimatedPasswordField TX_Contraseña4;
-    private org.example.Custom.AnimatedTextField TX_Edad;
-    private org.example.Custom.AnimatedTextField TX_Edad1;
-    private org.example.Custom.AnimatedTextField TX_Edad2;
-    private org.example.Custom.AnimatedTextField TX_Edad4;
-    private org.example.Custom.AnimatedTextField TX_NoConsultorio;
-    private org.example.Custom.AnimatedTextField TX_NoDocumento;
-    private org.example.Custom.AnimatedTextField TX_NoDocumento1;
-    private org.example.Custom.AnimatedTextField TX_NoDocumento2;
-    private org.example.Custom.AnimatedTextField TX_NoDocumento4;
-    private org.example.Custom.AnimatedTextField TX_NombreApellido;
-    private org.example.Custom.AnimatedTextField TX_NombreApellido1;
-    private org.example.Custom.AnimatedTextField TX_NombreApellido2;
-    private org.example.Custom.AnimatedTextField TX_NombreApellido4;
-    private org.example.Custom.AnimatedTextField TX_Telefono;
-    private org.example.Custom.AnimatedTextField TX_Telefono1;
-    private org.example.Custom.AnimatedTextField TX_Telefono2;
-    private org.example.Custom.AnimatedTextField TX_Telefono4;
-    private org.example.Custom.AnimatedTextField TX_Usuario;
-    private org.example.Custom.AnimatedTextField TX_Usuario1;
-    private org.example.Custom.AnimatedTextField TX_Usuario2;
-    private org.example.Custom.AnimatedTextField TX_Usuario4;
-    private org.example.Custom.PanelRound Telefono;
+    private Componentes.Table Tabla;
     private org.example.Custom.PanelRound Telefono1;
-    private org.example.Custom.PanelRound Telefono2;
-    private org.example.Custom.PanelRound Telefono4;
-    private org.example.Custom.AnimatedTextField TipoEspecialidad;
-    private org.example.Custom.AnimatedTextField TipoPuesto;
-    private org.example.Custom.PanelRound Usuario;
+    private org.example.Custom.AnimatedTextField Update_name;
+    private org.example.Custom.AnimatedPasswordField Update_password;
+    private org.example.Custom.AnimatedTextField Update_phone;
     private org.example.Custom.PanelRound Usuario1;
-    private org.example.Custom.PanelRound Usuario2;
-    private org.example.Custom.PanelRound Usuario4;
     private javax.swing.JPanel barra_superior;
     private javax.swing.JPanel barra_superior1;
-    private javax.swing.JPanel barra_superior2;
-    private javax.swing.JPanel barra_superior4;
-    private Componentes.BlurBackground blurBackground2;
+    private Componentes.BlurBackground blurBackground11;
+    private Componentes.BlurBackground blurBackground12;
     private Componentes.BlurBackground blurBackground3;
-    private Componentes.BlurBackground blurBackground4;
-    private Componentes.BlurBackground blurBackground5;
+    private Componentes.BlurBackground blurBackground8;
     private javax.swing.ButtonGroup botones;
     private Componentes.AllButton bt_cerrar;
     private Componentes.AllButton bt_cerrar1;
-    private Componentes.AllButton bt_cerrar2;
-    private Componentes.AllButton bt_cerrar4;
-    private javax.swing.JLabel bt_f;
     private javax.swing.JLabel bt_f1;
-    private javax.swing.JLabel bt_f2;
-    private javax.swing.JLabel bt_f4;
-    private javax.swing.JLabel bt_m;
     private javax.swing.JLabel bt_m1;
-    private javax.swing.JLabel bt_m2;
-    private javax.swing.JLabel bt_m4;
     private Componentes.AllButton bt_minimizar;
     private Componentes.AllButton bt_minimizar1;
-    private Componentes.AllButton bt_minimizar2;
-    private Componentes.AllButton bt_minimizar4;
-    private Componentes.AllButton bt_op1;
-    private Componentes.AllButton bt_op10;
-    private Componentes.AllButton bt_op11;
-    private Componentes.AllButton bt_op12;
-    private Componentes.AllButton bt_op13;
-    private Componentes.AllButton bt_op14;
-    private Componentes.AllButton bt_op15;
-    private Componentes.AllButton bt_op16;
-    private Componentes.AllButton bt_op17;
-    private Componentes.AllButton bt_op18;
-    private Componentes.AllButton bt_op19;
-    private Componentes.AllButton bt_op2;
-    private Componentes.AllButton bt_op3;
-    private Componentes.AllButton bt_op4;
-    private Componentes.AllButton bt_op5;
-    private Componentes.AllButton bt_op6;
-    private Componentes.AllButton bt_op7;
-    private Componentes.AllButton bt_op8;
-    private Componentes.AllButton bt_op9;
     private javax.swing.JLabel esconder;
     private javax.swing.JLabel esconder1;
-    private javax.swing.JLabel esconder2;
-    private javax.swing.JLabel esconder3;
-    private javax.swing.JLabel esconder4;
-    private javax.swing.JLabel esconder5;
-    private javax.swing.JLabel esconder8;
-    private javax.swing.JLabel esconder9;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel label_f;
-    private javax.swing.JLabel label_f1;
-    private javax.swing.JLabel label_f2;
-    private javax.swing.JLabel label_f4;
-    private javax.swing.JLabel label_m;
-    private javax.swing.JLabel label_m1;
-    private javax.swing.JLabel label_m2;
-    private javax.swing.JLabel label_m4;
+    private javax.swing.JLabel icon_ad;
+    private Componentes.BlurBackground icon_do;
+    private javax.swing.JLabel icon_em;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel label_completadas;
+    private javax.swing.JLabel label_pendiente;
+    private javax.swing.JLabel label_total;
+    private javax.swing.JLabel lb_Estado;
+    private javax.swing.JLabel lb_doctor;
+    private javax.swing.JLabel nu_ad;
+    private javax.swing.JLabel nu_do;
+    private javax.swing.JLabel nu_em;
+    private org.example.Custom.PanelRound panelRound1;
+    private org.example.Custom.PanelRound panelRound2;
+    private org.example.Custom.PanelRound panelRound3;
+    private org.example.Custom.PanelRound panelRound4;
+    private org.example.Custom.AnimatedTextField update_age;
+    private org.example.Custom.AnimatedPasswordField update_confirm;
+    private org.example.Custom.AnimatedTextField update_id;
+    private org.example.Custom.AnimatedTextField update_user;
     private javax.swing.JLabel ver;
     private javax.swing.JLabel ver1;
-    private javax.swing.JLabel ver2;
-    private javax.swing.JLabel ver3;
-    private javax.swing.JLabel ver4;
-    private javax.swing.JLabel ver5;
-    private javax.swing.JLabel ver8;
-    private javax.swing.JLabel ver9;
     // End of variables declaration//GEN-END:variables
 }

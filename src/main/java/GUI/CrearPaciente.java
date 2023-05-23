@@ -482,25 +482,25 @@ public class CrearPaciente extends javax.swing.JFrame {
 
         // <editor-fold defaultstate="collapsed" desc="Valida si faltan campos por llenar">
         if (TX_NombreApellido.getText().isEmpty()) {
-            new Warming("Falta ingresar el Nombre").setVisible(true);
+            new Warning("Falta ingresar el Nombre").setVisible(true);
         } else if (!"F".equals(sx) && !"M".equals(sx)) {
-            new Warming("Falta seleccionar el Genero").setVisible(true);
+            new Warning("Falta seleccionar el Genero").setVisible(true);
         } else if (TX_NoDocumento.getText().isEmpty()) {
-            new Warming("Falta ingresar el Documento").setVisible(true);
+            new Warning("Falta ingresar el Documento").setVisible(true);
         } else if (op != 1 && op != 2 && op != 3 && op != 4) {
-            new Warming("Falta el Tipo de Documento").setVisible(true);
+            new Warning("Falta el Tipo de Documento").setVisible(true);
         } else if (TX_NoDocumento.getText().isEmpty()) {
-            new Warming("Falta ingresar la Edad").setVisible(true);
+            new Warning("Falta ingresar la Edad").setVisible(true);
         } else if (TX_Telefono.getText().isEmpty()) {
-            new Warming("Falta ingresar el Telefono").setVisible(true);
+            new Warning("Falta ingresar el Telefono").setVisible(true);
         } else if (TX_Usuario.getText().isEmpty()) {
-            new Warming("Falta ingresar el Usuario").setVisible(true);
+            new Warning("Falta ingresar el Usuario").setVisible(true);
         } else if (TX_Contraseña.getText().isEmpty()) {
-            new Warming("Falta ingresar el Contraseña").setVisible(true);
+            new Warning("Falta ingresar el Contraseña").setVisible(true);
         } else if (TX_ConfirmarContra.getText().isEmpty()) {
-            new Warming("Falta confirmar la Contraseña").setVisible(true);
+            new Warning("Falta confirmar la Contraseña").setVisible(true);
         } else if (!TX_ConfirmarContra.getText().equals(TX_Contraseña.getText())) {
-            new Warming("Las contraseñas no coinciden").setVisible(true);
+            new Warning("Las contraseñas no coinciden").setVisible(true);
         } else {
             // </editor-fold>
             //Valida los tamaños minimo de cada TX
@@ -511,9 +511,9 @@ public class CrearPaciente extends javax.swing.JFrame {
                     && TamañoMinimo(TX_Usuario, "Usuario", 4)
                     && TamañoMinimo(TX_Contraseña, "Contraseña", 4)) {
                 if (UsuarioExiste() == true) {
-                    new Warming("El Usuario ya existe").setVisible(true);
+                    new Warning("El Usuario ya existe").setVisible(true);
                 } else if (NoDocumentoExiste() == true) {
-                    new Warming("Cédula ya existente").setVisible(true);
+                    new Warning("Cédula ya existente").setVisible(true);
                 }else {
                     GuardarBD();
                     LimpiarCampos();
@@ -907,7 +907,7 @@ public class CrearPaciente extends javax.swing.JFrame {
     public Boolean TamañoMinimo(JTextField JTextField, String Campo, int min) {
         //Si no tiene el tamaño minimo de caracteres, muestra error
         if (JTextField.getText().length() < min) {
-            new Warming("Tamaño minimo" + min).setVisible(true);
+            new Warning("Tamaño minimo" + min).setVisible(true);
             return false;
         } else {
             return true;
@@ -917,7 +917,7 @@ public class CrearPaciente extends javax.swing.JFrame {
     public Boolean TamañoTelefono(JTextField JTextField) {
         //Si no tiene el tamaño minimo de caracteres, muestra error
         if (JTextField.getText().length() != 7 && JTextField.getText().length() != 10) {
-            new Warming("Tamaño minimo: 7-10 números").setVisible(true);
+            new Warning("Tamaño minimo: 7-10 números").setVisible(true);
             return false;
         } else {
             return true;

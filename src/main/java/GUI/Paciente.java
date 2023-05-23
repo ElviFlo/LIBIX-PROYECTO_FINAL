@@ -5,7 +5,6 @@
 package GUI;
 
 import ConexionBD.ConexionBD;
-import com.raven.datechooser.SelectedDate;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.HeadlessException;
@@ -26,7 +25,6 @@ import javax.swing.table.DefaultTableModel;
 public class Paciente extends javax.swing.JFrame {
 
     static CardLayout cardLayout;
-    String Usuario = "";
     String Fecha;
     String Servicio;
     String Horario;
@@ -36,7 +34,6 @@ public class Paciente extends javax.swing.JFrame {
     DefaultTableModel ModeloTabla = new DefaultTableModel();
 
     String sx;
-    int op;
 
     public Paciente() {
         initComponents();
@@ -45,9 +42,7 @@ public class Paciente extends javax.swing.JFrame {
         bt_cerrar.setColor1Background(new Color(0, 0, 0, 0));
         cardLayout = (CardLayout) (CardLayout.getLayout());
         cardLayout.show(CardLayout, "Inicio");
-        sx = "M";
-        op = 0;
-
+        
         CB_Servicio.addItem("-");
         CB_Doctor.addItem("-");
         CB_Hora.addItem("-");
@@ -59,70 +54,16 @@ public class Paciente extends javax.swing.JFrame {
         CB_Hora.setEnabled(false);
         BT_EnviarSolicitud.setEnabled(false);
         TX_Observaciones.setEnabled(false);
+        
+        BT_Home.setColor1Background(new Color(82,132,192));
     }
 
-    public void verDatos() {
-        try {
-            //Variable tipo Connection para que funcione
-            Connection Conexion = null;
-            //Crear un objeto de la clase Conexion para poder conectar con la BD
-            ConexionBD BD = new ConexionBD();
-            //Se conceta con la BD
-            Conexion = BD.getConexion();
-            //No se pa q sirve, pero ahi esta x si acaso
-            Statement st = Conexion.createStatement();
-
-            String SQL = "SELECT * FROM Pacientes WHERE Usuario = ?";
-
-            ResultSet rs = st.executeQuery(SQL);
-            while (rs.next()) {
-                TX_NombreApellido.setText(rs.getString("Nombre_Apellido"));
-
-            }
-        } catch (SQLException e) {
-            new Error("Error al visualizar Datos").setVisible(true);
-        }
-    }
-
-    public void MostrarDatos() {
-
-        try {
-            //Variable tipo Connection para que funcione
-            Connection Conexion = null;
-            //Crear un objeto de la clase Conexion para poder conectar con la BD
-            ConexionBD BD = new ConexionBD();
-            //Se conceta con la BD
-            Conexion = BD.getConexion();
-            //No se pa q sirve, pero ahi esta x si acaso
-            Statement st = Conexion.createStatement();
-
-            //Variable para almacenar la instruccion SQL
-            //Para guardar en la tabla Pacientes
-            String SQL = "SELECT * FROM Pacientes WHERE Usuario = ?";
-
-            PreparedStatement pst = Conexion.prepareStatement(SQL);
-
-            pst.setString(1, Usuario);
-            //Extrae el conjunto de resultados 
-            ResultSet rs = pst.executeQuery();
-
-            while (rs.next()) {
-                TX_NombreApellido.setText((String) rs.getString("Usuario"));
-            }
-
-        } catch (SQLException | HeadlessException ex) {
-            //Error x si acaso
-            new Error("Error al guardar Datos").setVisible(true);
-        }
-
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         botones = new javax.swing.ButtonGroup();
-        Calendario = new com.raven.datechooser.DateChooser();
         Background = new Componentes.BlurBackground();
         JP_BarraLateral = new org.example.Custom.PanelRound();
         JP_CerraSesionBarraL = new javax.swing.JPanel();
@@ -130,34 +71,34 @@ public class Paciente extends javax.swing.JFrame {
         BT_Menu = new Componentes.AllButton();
         BT_Home = new Componentes.AllButton();
         BT_Solicitud = new Componentes.AllButton();
-        BT_Empleado = new Componentes.AllButton();
+        BT_Datos = new Componentes.AllButton();
         CardLayout = new javax.swing.JPanel();
         Datos = new javax.swing.JPanel();
         blurBackground1 = new Componentes.BlurBackground();
-        BT_Registrarse = new Componentes.AllButton();
+        BT_Actualizar = new Componentes.AllButton();
         barra_superior2 = new javax.swing.JPanel();
         bt_cerrar2 = new Componentes.AllButton();
         bt_minimizar2 = new Componentes.AllButton();
         NombreApellido = new org.example.Custom.PanelRound();
-        TX_NombreApellido = new org.example.Custom.AnimatedTextField();
+        Update_name = new org.example.Custom.AnimatedTextField();
         Telefono = new org.example.Custom.PanelRound();
-        TX_Telefono = new org.example.Custom.AnimatedTextField();
+        Update_phone = new org.example.Custom.AnimatedTextField();
         Edad = new org.example.Custom.PanelRound();
-        TX_Edad = new org.example.Custom.AnimatedTextField();
+        update_age = new org.example.Custom.AnimatedTextField();
         TXTUsuario = new org.example.Custom.PanelRound();
-        TX_Usuario = new org.example.Custom.AnimatedTextField();
+        update_user = new org.example.Custom.AnimatedTextField();
         TDocumento = new org.example.Custom.PanelRound();
-        TipoDocumento1 = new org.example.Custom.AnimatedTextField();
+        update_tdoc = new org.example.Custom.AnimatedTextField();
         NoDocumento = new org.example.Custom.PanelRound();
-        TX_NoDocumento = new org.example.Custom.AnimatedTextField();
+        update_id = new org.example.Custom.AnimatedTextField();
         Contraseña = new org.example.Custom.PanelRound();
         ver = new javax.swing.JLabel();
         esconder = new javax.swing.JLabel();
-        TX_Contraseña = new org.example.Custom.AnimatedPasswordField();
+        Update_password = new org.example.Custom.AnimatedPasswordField();
         ConfirmarContr = new org.example.Custom.PanelRound();
         ver1 = new javax.swing.JLabel();
         esconder1 = new javax.swing.JLabel();
-        TX_ConfirmarContra = new org.example.Custom.AnimatedPasswordField();
+        update_confirm = new org.example.Custom.AnimatedPasswordField();
         bt_f = new javax.swing.JLabel();
         bt_m = new javax.swing.JLabel();
         Solicitud = new javax.swing.JPanel();
@@ -167,11 +108,8 @@ public class Paciente extends javax.swing.JFrame {
         bt_minimizar = new Componentes.AllButton();
         CB_Doctor = new Componentes.ComboBoxSuggestion();
         lb_doc = new javax.swing.JLabel();
-        TXT_Fecha = new org.example.Custom.PanelRound();
-        txtDate = new org.example.Custom.AnimatedTextField();
         lb_fecha1 = new javax.swing.JLabel();
         lb_fecha = new javax.swing.JLabel();
-        bt_calendario = new Componentes.AllButton();
         lb_fecha2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TX_Observaciones = new javax.swing.JTextPane();
@@ -179,6 +117,7 @@ public class Paciente extends javax.swing.JFrame {
         CB_Servicio = new Componentes.ComboBoxSuggestion();
         CB_Hora = new Componentes.ComboBoxSuggestion();
         BT_EnviarSolicitud = new Componentes.AllButton();
+        Calendario = new com.toedter.calendar.JDateChooser();
         home = new javax.swing.JPanel();
         blurBackground10 = new Componentes.BlurBackground();
         barra_superior8 = new javax.swing.JPanel();
@@ -205,15 +144,6 @@ public class Paciente extends javax.swing.JFrame {
         icon_em = new javax.swing.JLabel();
         label_empleado = new javax.swing.JLabel();
         nu_em = new javax.swing.JLabel();
-
-        Calendario.setForeground(new java.awt.Color(160, 197, 234));
-        Calendario.setDateFormat("dd-MMMM-yyyy");
-        Calendario.setTextRefernce(txtDate);
-        Calendario.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                CalendarioPropertyChange(evt);
-            }
-        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -291,18 +221,18 @@ public class Paciente extends javax.swing.JFrame {
         });
         JP_BarraLateral.add(BT_Solicitud, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 50, 40));
 
-        BT_Empleado.setBackground(new java.awt.Color(122, 173, 252));
-        BT_Empleado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/registro.png"))); // NOI18N
-        BT_Empleado.setColor1Background(new java.awt.Color(122, 173, 252));
-        BT_Empleado.setColor2Over(new java.awt.Color(82, 132, 192));
-        BT_Empleado.setColor3Click(new java.awt.Color(74, 93, 242));
-        BT_Empleado.setEnableColorGradient(true);
-        BT_Empleado.addMouseListener(new java.awt.event.MouseAdapter() {
+        BT_Datos.setBackground(new java.awt.Color(122, 173, 252));
+        BT_Datos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/registro.png"))); // NOI18N
+        BT_Datos.setColor1Background(new java.awt.Color(122, 173, 252));
+        BT_Datos.setColor2Over(new java.awt.Color(82, 132, 192));
+        BT_Datos.setColor3Click(new java.awt.Color(74, 93, 242));
+        BT_Datos.setEnableColorGradient(true);
+        BT_Datos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_EmpleadoMouseClicked(evt);
+                BT_DatosMouseClicked(evt);
             }
         });
-        JP_BarraLateral.add(BT_Empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 50, 40));
+        JP_BarraLateral.add(BT_Datos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 320, 50, 40));
 
         Background.add(JP_BarraLateral, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 570));
 
@@ -316,29 +246,29 @@ public class Paciente extends javax.swing.JFrame {
         blurBackground1.setRadius(40);
         blurBackground1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        BT_Registrarse.setText("Actualizar Datos");
-        BT_Registrarse.setChangeCoefficient(20);
-        BT_Registrarse.setColor1Background(new java.awt.Color(82, 132, 192));
-        BT_Registrarse.setColor1Foreground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse.setColor2Over(new java.awt.Color(40, 76, 118));
-        BT_Registrarse.setColor2OverForeground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse.setColor3Click(new java.awt.Color(102, 153, 255));
-        BT_Registrarse.setColor3ClickForeground(new java.awt.Color(255, 255, 255));
-        BT_Registrarse.setEnableColorGradient(true);
-        BT_Registrarse.setEnableShadow(true);
-        BT_Registrarse.setFont(new java.awt.Font("Century", 1, 15)); // NOI18N
-        BT_Registrarse.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        BT_Registrarse.addMouseListener(new java.awt.event.MouseAdapter() {
+        BT_Actualizar.setText("Actualizar Datos");
+        BT_Actualizar.setChangeCoefficient(20);
+        BT_Actualizar.setColor1Background(new java.awt.Color(82, 132, 192));
+        BT_Actualizar.setColor1Foreground(new java.awt.Color(255, 255, 255));
+        BT_Actualizar.setColor2Over(new java.awt.Color(40, 76, 118));
+        BT_Actualizar.setColor2OverForeground(new java.awt.Color(255, 255, 255));
+        BT_Actualizar.setColor3Click(new java.awt.Color(102, 153, 255));
+        BT_Actualizar.setColor3ClickForeground(new java.awt.Color(255, 255, 255));
+        BT_Actualizar.setEnableColorGradient(true);
+        BT_Actualizar.setEnableShadow(true);
+        BT_Actualizar.setFont(new java.awt.Font("Century", 1, 15)); // NOI18N
+        BT_Actualizar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BT_Actualizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_RegistrarseMouseClicked(evt);
+                BT_ActualizarMouseClicked(evt);
             }
         });
-        BT_Registrarse.addActionListener(new java.awt.event.ActionListener() {
+        BT_Actualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_RegistrarseActionPerformed(evt);
+                BT_ActualizarActionPerformed(evt);
             }
         });
-        blurBackground1.add(BT_Registrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 510, 210, 40));
+        blurBackground1.add(BT_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 500, 240, 42));
 
         barra_superior2.setOpaque(false);
         barra_superior2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -394,94 +324,94 @@ public class Paciente extends javax.swing.JFrame {
         NombreApellido.setRadius(20);
         NombreApellido.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TX_NombreApellido.setForeground(new java.awt.Color(0, 0, 0));
-        TX_NombreApellido.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_NombreApellido.setHint("Ej: Rodolfo Rivera");
-        TX_NombreApellido.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_NombreApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+        Update_name.setForeground(new java.awt.Color(0, 0, 0));
+        Update_name.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        Update_name.setHint("Ej: Rodolfo Rivera");
+        Update_name.setHintColor(new java.awt.Color(153, 153, 153));
+        Update_name.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_NombreApellidoKeyTyped(evt);
+                Update_nameKeyTyped(evt);
             }
         });
-        NombreApellido.add(TX_NombreApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        NombreApellido.add(Update_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
 
-        blurBackground1.add(NombreApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 95, 370, 40));
+        blurBackground1.add(NombreApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 90, 370, 40));
 
         Telefono.setRadius(20);
         Telefono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TX_Telefono.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Telefono.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Telefono.setHint("Ej: 3166705696");
-        TX_Telefono.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+        Update_phone.setForeground(new java.awt.Color(0, 0, 0));
+        Update_phone.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        Update_phone.setHint("Ej: 3166705696");
+        Update_phone.setHintColor(new java.awt.Color(153, 153, 153));
+        Update_phone.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_TelefonoKeyTyped(evt);
+                Update_phoneKeyTyped(evt);
             }
         });
-        Telefono.add(TX_Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        Telefono.add(Update_phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
 
-        blurBackground1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 205, 370, 40));
+        blurBackground1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 195, 370, 40));
 
         Edad.setRadius(20);
         Edad.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TX_Edad.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Edad.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Edad.setHint("Ej: 16");
-        TX_Edad.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Edad.addKeyListener(new java.awt.event.KeyAdapter() {
+        update_age.setForeground(new java.awt.Color(0, 0, 0));
+        update_age.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        update_age.setHint("Ej: 16");
+        update_age.setHintColor(new java.awt.Color(153, 153, 153));
+        update_age.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_EdadKeyTyped(evt);
+                update_ageKeyTyped(evt);
             }
         });
-        Edad.add(TX_Edad, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 190, 40));
+        Edad.add(update_age, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 190, 40));
 
-        blurBackground1.add(Edad, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 320, 220, 40));
+        blurBackground1.add(Edad, new org.netbeans.lib.awtextra.AbsoluteConstraints(275, 305, 220, 40));
 
         TXTUsuario.setRadius(20);
         TXTUsuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TX_Usuario.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Usuario.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Usuario.setHint("Ej: Rodor");
-        TX_Usuario.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Usuario.addKeyListener(new java.awt.event.KeyAdapter() {
+        update_user.setForeground(new java.awt.Color(0, 0, 0));
+        update_user.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        update_user.setHint("Ej: Rodor");
+        update_user.setHintColor(new java.awt.Color(153, 153, 153));
+        update_user.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_UsuarioKeyTyped(evt);
+                update_userKeyTyped(evt);
             }
         });
-        TXTUsuario.add(TX_Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        TXTUsuario.add(update_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
 
-        blurBackground1.add(TXTUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 430, 370, 40));
+        blurBackground1.add(TXTUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 410, 370, 40));
 
         TDocumento.setRadius(20);
         TDocumento.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TipoDocumento1.setEditable(false);
-        TipoDocumento1.setForeground(new java.awt.Color(0, 0, 0));
-        TipoDocumento1.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TipoDocumento1.setHint("Seleccione una opción");
-        TipoDocumento1.setHintColor(new java.awt.Color(153, 153, 153));
-        TDocumento.add(TipoDocumento1, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 320, 40));
+        update_tdoc.setEditable(false);
+        update_tdoc.setForeground(new java.awt.Color(0, 0, 0));
+        update_tdoc.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        update_tdoc.setHint("Seleccione una opción");
+        update_tdoc.setHintColor(new java.awt.Color(153, 153, 153));
+        TDocumento.add(update_tdoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 320, 40));
 
-        blurBackground1.add(TDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 95, 370, 40));
+        blurBackground1.add(TDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 90, 370, 40));
 
         NoDocumento.setRadius(20);
         NoDocumento.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        TX_NoDocumento.setForeground(new java.awt.Color(0, 0, 0));
-        TX_NoDocumento.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_NoDocumento.setHint("Ej: 32692328");
-        TX_NoDocumento.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_NoDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+        update_id.setForeground(new java.awt.Color(0, 0, 0));
+        update_id.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        update_id.setHint("Ej: 32692328");
+        update_id.setHintColor(new java.awt.Color(153, 153, 153));
+        update_id.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_NoDocumentoKeyTyped(evt);
+                update_idKeyTyped(evt);
             }
         });
-        NoDocumento.add(TX_NoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        NoDocumento.add(update_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
 
-        blurBackground1.add(NoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 205, 370, 40));
+        blurBackground1.add(NoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 195, 370, 40));
 
         Contraseña.setRadius(20);
         Contraseña.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -502,19 +432,19 @@ public class Paciente extends javax.swing.JFrame {
         });
         Contraseña.add(esconder, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
 
-        TX_Contraseña.setForeground(new java.awt.Color(0, 0, 0));
-        TX_Contraseña.setDisabledTextColor(new java.awt.Color(153, 153, 153));
-        TX_Contraseña.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_Contraseña.setHint("Escriba una contraseña");
-        TX_Contraseña.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_Contraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+        Update_password.setForeground(new java.awt.Color(0, 0, 0));
+        Update_password.setDisabledTextColor(new java.awt.Color(153, 153, 153));
+        Update_password.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        Update_password.setHint("Escriba una contraseña");
+        Update_password.setHintColor(new java.awt.Color(153, 153, 153));
+        Update_password.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_ContraseñaKeyTyped(evt);
+                Update_passwordKeyTyped(evt);
             }
         });
-        Contraseña.add(TX_Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
+        Contraseña.add(Update_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
 
-        blurBackground1.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 320, 370, 40));
+        blurBackground1.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 305, 370, 40));
 
         ConfirmarContr.setRadius(20);
         ConfirmarContr.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -535,29 +465,29 @@ public class Paciente extends javax.swing.JFrame {
         });
         ConfirmarContr.add(esconder1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
 
-        TX_ConfirmarContra.setForeground(new java.awt.Color(0, 0, 0));
-        TX_ConfirmarContra.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        TX_ConfirmarContra.setHint("Repita la contraseña");
-        TX_ConfirmarContra.setHintColor(new java.awt.Color(153, 153, 153));
-        TX_ConfirmarContra.addActionListener(new java.awt.event.ActionListener() {
+        update_confirm.setForeground(new java.awt.Color(0, 0, 0));
+        update_confirm.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
+        update_confirm.setHint("Repita la contraseña");
+        update_confirm.setHintColor(new java.awt.Color(153, 153, 153));
+        update_confirm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TX_ConfirmarContraActionPerformed(evt);
+                update_confirmActionPerformed(evt);
             }
         });
-        TX_ConfirmarContra.addKeyListener(new java.awt.event.KeyAdapter() {
+        update_confirm.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                TX_ConfirmarContraKeyTyped(evt);
+                update_confirmKeyTyped(evt);
             }
         });
-        ConfirmarContr.add(TX_ConfirmarContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
+        ConfirmarContr.add(update_confirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
 
-        blurBackground1.add(ConfirmarContr, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 430, 370, 40));
+        blurBackground1.add(ConfirmarContr, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 410, 370, 40));
 
         bt_f.setIcon(new javax.swing.ImageIcon(getClass().getResource("/F.png"))); // NOI18N
-        blurBackground1.add(bt_f, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 310, 80, 50));
+        blurBackground1.add(bt_f, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 80, 50));
 
         bt_m.setIcon(new javax.swing.ImageIcon(getClass().getResource("/M.png"))); // NOI18N
-        blurBackground1.add(bt_m, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 310, 80, 50));
+        blurBackground1.add(bt_m, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 300, 80, 50));
 
         javax.swing.GroupLayout DatosLayout = new javax.swing.GroupLayout(Datos);
         Datos.setLayout(DatosLayout);
@@ -641,65 +571,23 @@ public class Paciente extends javax.swing.JFrame {
                 CB_DoctorItemStateChanged(evt);
             }
         });
-        blurBackground2.add(CB_Doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 130, 235, 40));
+        blurBackground2.add(CB_Doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, 235, 40));
 
         lb_doc.setFont(new java.awt.Font("Century", 1, 20)); // NOI18N
         lb_doc.setText("Doctor/a disponible:");
-        blurBackground2.add(lb_doc, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 90, -1, -1));
-
-        TXT_Fecha.setBackground(new java.awt.Color(227, 226, 226));
-        TXT_Fecha.setRadius(20);
-        TXT_Fecha.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtDate.setForeground(new java.awt.Color(0, 0, 0));
-        txtDate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtDate.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
-        txtDate.setHintColor(new java.awt.Color(153, 153, 153));
-        txtDate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDateActionPerformed(evt);
-            }
-        });
-        txtDate.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtDateKeyTyped(evt);
-            }
-        });
-        TXT_Fecha.add(txtDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 200, 40));
-
-        blurBackground2.add(TXT_Fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 138, 235, 40));
+        blurBackground2.add(lb_doc, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 250, -1, -1));
 
         lb_fecha1.setFont(new java.awt.Font("Century", 1, 20)); // NOI18N
         lb_fecha1.setText("Servicio a solicitar:");
-        blurBackground2.add(lb_fecha1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 440, -1, -1));
+        blurBackground2.add(lb_fecha1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, -1, -1));
 
         lb_fecha.setFont(new java.awt.Font("Century", 1, 20)); // NOI18N
         lb_fecha.setText("Fecha de preferencia: ");
-        blurBackground2.add(lb_fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, -1, -1));
-
-        bt_calendario.setBorder(null);
-        bt_calendario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/calendario.png"))); // NOI18N
-        bt_calendario.setColor1Background(new java.awt.Color(255, 255, 254));
-        bt_calendario.setColor2Over(new java.awt.Color(176, 207, 240));
-        bt_calendario.setColor3Click(new java.awt.Color(163, 176, 212));
-        bt_calendario.setEnableColorGradient(true);
-        bt_calendario.setEnableShadow(true);
-        bt_calendario.setRadius(20);
-        bt_calendario.setRippleColor(new java.awt.Color(255, 255, 255));
-        bt_calendario.setRoundBottomLeft(10);
-        bt_calendario.setRoundBottomRight(10);
-        bt_calendario.setRoundTopLeft(10);
-        bt_calendario.setRoundTopRight(10);
-        bt_calendario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_calendarioActionPerformed(evt);
-            }
-        });
-        blurBackground2.add(bt_calendario, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 135, 50, 50));
+        blurBackground2.add(lb_fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 410, -1, -1));
 
         lb_fecha2.setFont(new java.awt.Font("Century", 1, 20)); // NOI18N
         lb_fecha2.setText("Observaciones Adicionales");
-        blurBackground2.add(lb_fecha2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 240, -1, -1));
+        blurBackground2.add(lb_fecha2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 250, -1, -1));
 
         TX_Observaciones.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -708,11 +596,11 @@ public class Paciente extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(TX_Observaciones);
 
-        blurBackground2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 290, 410, 150));
+        blurBackground2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 300, 410, 150));
 
         lb_fecha3.setFont(new java.awt.Font("Century", 1, 20)); // NOI18N
         lb_fecha3.setText("Horario de preferencia: ");
-        blurBackground2.add(lb_fecha3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, -1, -1));
+        blurBackground2.add(lb_fecha3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 90, -1, -1));
 
         CB_Servicio.setBackground(new java.awt.Color(227, 226, 226));
         CB_Servicio.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
@@ -721,7 +609,7 @@ public class Paciente extends javax.swing.JFrame {
                 CB_ServicioItemStateChanged(evt);
             }
         });
-        blurBackground2.add(CB_Servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 480, 235, 40));
+        blurBackground2.add(CB_Servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 235, 40));
 
         CB_Hora.setBackground(new java.awt.Color(227, 226, 226));
         CB_Hora.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
@@ -730,7 +618,7 @@ public class Paciente extends javax.swing.JFrame {
                 CB_HoraItemStateChanged(evt);
             }
         });
-        blurBackground2.add(CB_Hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 300, 235, 40));
+        blurBackground2.add(CB_Hora, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 140, 235, 40));
 
         BT_EnviarSolicitud.setText("Enviar Solicitud");
         BT_EnviarSolicitud.setChangeCoefficient(20);
@@ -754,7 +642,16 @@ public class Paciente extends javax.swing.JFrame {
                 BT_EnviarSolicitudActionPerformed(evt);
             }
         });
-        blurBackground2.add(BT_EnviarSolicitud, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 480, 210, 40));
+        blurBackground2.add(BT_EnviarSolicitud, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 480, 210, 40));
+
+        Calendario.setBackground(new java.awt.Color(227, 226, 226));
+        Calendario.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
+        Calendario.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                CalendarioPropertyChange(evt);
+            }
+        });
+        blurBackground2.add(Calendario, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 235, 40));
 
         javax.swing.GroupLayout SolicitudLayout = new javax.swing.GroupLayout(Solicitud);
         Solicitud.setLayout(SolicitudLayout);
@@ -978,16 +875,44 @@ public class Paciente extends javax.swing.JFrame {
 
     private void BT_HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_HomeMouseClicked
         cardLayout.show(CardLayout, "Inicio");
+        BT_Home.setColor1Background(new Color(82,132,192));
+        BT_Solicitud.setColor1Background(new Color(122,173,252));
+        BT_Datos.setColor1Background(new Color(122,173,252));
     }//GEN-LAST:event_BT_HomeMouseClicked
 
     private void BT_SolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_SolicitudMouseClicked
         cardLayout.show(CardLayout, "Solicitud");
+        BT_Home.setColor1Background(new Color(122,173,252));
+        BT_Solicitud.setColor1Background(new Color(82,132,192));
+        BT_Datos.setColor1Background(new Color(122,173,252));
     }//GEN-LAST:event_BT_SolicitudMouseClicked
 
-    private void BT_EmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_EmpleadoMouseClicked
+    private void BT_DatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_DatosMouseClicked
         cardLayout.show(CardLayout, "Datos");
-        sx = "M";
-    }//GEN-LAST:event_BT_EmpleadoMouseClicked
+        BT_Home.setColor1Background(new Color(122,173,252));
+        BT_Solicitud.setColor1Background(new Color(122,173,252));
+        BT_Datos.setColor1Background(new Color(82,132,192));
+        update_user.setText(extraer()[4]);
+        update_tdoc.setText(extraer()[7]);
+        Update_name.setText(extraer()[0]);
+        Update_phone.setText(extraer()[1]);
+        update_age.setText(extraer()[2]);
+        Update_password.setText(extraer()[5]);
+        update_confirm.setText(extraer()[5]);
+        update_id.setText(extraer()[3]);
+        String generoact = extraer()[6];
+        if (generoact.equals("Masculino")) {
+            bt_m.setVisible(true);
+            bt_f.setVisible(false);
+            sx = "M";
+        } else {
+            if (generoact.equals("Femenino")) {
+                bt_m.setVisible(false);
+                bt_f.setVisible(true);
+                sx = "F";
+            }
+        }
+    }//GEN-LAST:event_BT_DatosMouseClicked
 
     private void BT_MenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_MenuMouseClicked
         // TODO add your handling code here:
@@ -1047,7 +972,7 @@ public class Paciente extends javax.swing.JFrame {
     private void bt_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_eliminarActionPerformed
         int filaseleccionada = table.getSelectedRow();
         if (filaseleccionada == -1) {
-            new Warming("Debe seleccionar una fila").setVisible(true);
+            new Warning("Debe seleccionar una fila").setVisible(true);
         } else {
             DefaultTableModel modelo = (DefaultTableModel) table.getModel();
             String tipo = (String) modelo.getValueAt(filaseleccionada, 5);
@@ -1097,54 +1022,53 @@ public class Paciente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bt_eliminarActionPerformed
 
-    private void BT_RegistrarseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_RegistrarseMouseClicked
-
-        // <editor-fold defaultstate="collapsed" desc="Valida si faltan campos por llenar">
-        if (TX_NombreApellido.getText().isEmpty()) {
-            new Warming("Falta ingresar el Nombre").setVisible(true);
+    private void BT_ActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_ActualizarMouseClicked
+        // <editor-fold defaultstate="collapsed" desc="Validaciones de datos">
+        if (Update_name.getText().isEmpty()) {
+            new Warning("Falta ingresar el Nombre").setVisible(true);
         } else if (!"F".equals(sx) && !"M".equals(sx)) {
-            new Warming("Falta seleccionar el Genero").setVisible(true);
-        } else if (TX_NoDocumento.getText().isEmpty()) {
-            new Warming("Falta ingresar el Documento").setVisible(true);
-        } else if (op != 1 && op != 2 && op != 3 && op != 4) {
-            new Warming("Falta el Tipo de Documento").setVisible(true);
-        } else if (TX_NoDocumento.getText().isEmpty()) {
-            new Warming("Falta ingresar la Edad").setVisible(true);
-        } else if (TX_Telefono.getText().isEmpty()) {
-            new Warming("Falta ingresar el Telefono").setVisible(true);
-        } else if (TX_Usuario.getText().isEmpty()) {
-            new Warming("Falta ingresar el Usuario").setVisible(true);
-        } else if (TX_Contraseña.getText().isEmpty()) {
-            new Warming("Falta ingresar el Contraseña").setVisible(true);
-        } else if (TX_ConfirmarContra.getText().isEmpty()) {
-            new Warming("Falta confirmar la Contraseña").setVisible(true);
-        } else if (!TX_ConfirmarContra.getText().equals(TX_Contraseña.getText())) {
-            new Warming("Las contraseñas no coinciden").setVisible(true);
+            new Warning("Falta seleccionar el Genero").setVisible(true);
+        } else if (update_id.getText().isEmpty()) {
+            new Warning("Falta ingresar el Documento").setVisible(true);
+        } else if (update_age.getText().isEmpty()) {
+            new Warning("Falta ingresar la Edad").setVisible(true);
+        } else if (Update_phone.getText().isEmpty()) {
+            new Warning("Falta ingresar el Telefono").setVisible(true);
+        } else if (update_user.getText().isEmpty()) {
+            new Warning("Falta ingresar el Usuario").setVisible(true);
+        } else if (Update_password.getText().isEmpty()) {
+            new Warning("Falta ingresar el Contraseña").setVisible(true);
+        } else if (update_confirm.getText().isEmpty()) {
+            new Warning("Falta confirmar la Contraseña").setVisible(true);
+        } else if (!update_confirm.getText().equals(Update_password.getText())) {
+            new Warning("Las contraseñas no coinciden").setVisible(true);
         } else {
             // </editor-fold>
             //Valida los tamaños minimo de cada TX
-            if (TamañoMinimo(TX_NombreApellido, "Nombre y Apellido", 5)
-                    && TamañoTelefono(TX_Telefono) == true
-                    && TamañoMinimo(TX_Edad, "Edad", 1)
-                    && TamañoMinimo(TX_NoDocumento, "No. Documento", 7)
-                    && TamañoMinimo(TX_Usuario, "Usuario", 4)
-                    && TamañoMinimo(TX_Contraseña, "Contraseña", 4)) {
-                if (UsuarioExiste() == true) {
-                    new Warming("El Usuario ya existe").setVisible(true);
-                } else if (NoDocumentoExiste() == true) {
-                    new Warming("Cédula ya existente").setVisible(true);
+            if (TamañoMinimo(Update_name, "Nombre y Apellido", 5)
+                    && TamañoTelefono(Update_phone) == true
+                    && TamañoMinimo(update_age, "Edad", 1)
+                    && TamañoMinimo(update_id, "No. Documento", 7)
+                    && TamañoMinimo(update_user, "Usuario", 4)
+                    && TamañoMinimo(Update_password, "Contraseña", 4)) {
+                if (Existencia() == true) {
+                    new Warning("Las datos igresados ya existen").setVisible(true);
                 } else {
-                    //GuardarBD();
-                    LimpiarCampos();
+                    eliminar_act();
+                    ActualizarBD();
+                    Login JF_Login = new Login();
+                    this.setVisible(false);
+                    JF_Login.setVisible(true);
+
                 }
             }
 
         }
-    }//GEN-LAST:event_BT_RegistrarseMouseClicked
+    }//GEN-LAST:event_BT_ActualizarMouseClicked
 
-    private void BT_RegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_RegistrarseActionPerformed
+    private void BT_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_ActualizarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_BT_RegistrarseActionPerformed
+    }//GEN-LAST:event_BT_ActualizarActionPerformed
 
     private void bt_cerrar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cerrar2MouseClicked
         System.exit(0);
@@ -1165,143 +1089,6 @@ public class Paciente extends javax.swing.JFrame {
         mouseY = evt.getY();
     }//GEN-LAST:event_barra_superior2MousePressed
 
-    private void TX_NombreApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_NombreApellidoKeyTyped
-        //Para que el TX acepte letras y espacios
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Espacio = key == 32;
-        if (!(Minusculas || Mayusculas || Espacio)) {
-            evt.consume();
-        }
-
-        //Establecer limite de caracteres
-        if (TX_NombreApellido.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_NombreApellidoKeyTyped
-
-    private void TX_TelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_TelefonoKeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Telefono.getText().length() >= 10) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_TelefonoKeyTyped
-
-    private void TX_EdadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_EdadKeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Edad.getText().length() >= 3) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_EdadKeyTyped
-
-    private void TX_UsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_UsuarioKeyTyped
-        //Para que el TX acepte solo letras
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        if (!(Minusculas || Mayusculas)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Usuario.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_UsuarioKeyTyped
-
-    private void TX_NoDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_NoDocumentoKeyTyped
-        //Para que el TX acepte solo numeros
-        int key = evt.getKeyChar();
-        boolean Numeros = key >= 48 && key <= 57;
-        if (!(Numeros)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_NoDocumento.getText().length() >= 10) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_NoDocumentoKeyTyped
-
-    private void verMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_verMouseClicked
-        esconder.setVisible(true);
-        ver.setVisible(false);
-        TX_Contraseña.setEchoChar((char) 0);
-    }//GEN-LAST:event_verMouseClicked
-
-    private void esconderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconderMouseClicked
-        esconder.setVisible(false);
-        ver.setVisible(true);
-        TX_Contraseña.setEchoChar('*');
-    }//GEN-LAST:event_esconderMouseClicked
-
-    private void TX_ContraseñaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_ContraseñaKeyTyped
-        //Para que el TX acepte solo letras y espacios
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Numeros = key >= 48 && key <= 57;
-        boolean Espacio = key == 32;
-        if (!(Minusculas || Mayusculas || Numeros || Espacio)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Contraseña.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_ContraseñaKeyTyped
-
-    private void ver1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver1MouseClicked
-        esconder1.setVisible(true);
-        ver1.setVisible(false);
-        TX_ConfirmarContra.setEchoChar((char) 0);
-    }//GEN-LAST:event_ver1MouseClicked
-
-    private void esconder1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder1MouseClicked
-        esconder1.setVisible(false);
-        ver1.setVisible(true);
-        TX_ConfirmarContra.setEchoChar('*');
-    }//GEN-LAST:event_esconder1MouseClicked
-
-    private void TX_ConfirmarContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TX_ConfirmarContraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TX_ConfirmarContraActionPerformed
-
-    private void TX_ConfirmarContraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_ConfirmarContraKeyTyped
-        //Para que el TX acepte solo letras y espacios
-        int key = evt.getKeyChar();
-        boolean Mayusculas = key >= 65 && key <= 90;
-        boolean Minusculas = key >= 97 && key <= 122;
-        boolean Numeros = key >= 48 && key <= 57;
-        boolean Espacio = key == 32;
-        if (!(Minusculas || Mayusculas || Numeros || Espacio)) {
-            evt.consume();
-        }
-        //Establecer limite de caracteres
-        if (TX_Contraseña.getText().length() >= 20) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_TX_ConfirmarContraKeyTyped
-
-    private void txtDateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDateKeyTyped
-
-    }//GEN-LAST:event_txtDateKeyTyped
-
-    private void bt_calendarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_calendarioActionPerformed
-        Calendario.showPopup();
-    }//GEN-LAST:event_bt_calendarioActionPerformed
-
     private void TX_ObservacionesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TX_ObservacionesKeyTyped
         //Establecer limite de caracteres
         if (TX_Observaciones.getText().length() >= 220) {
@@ -1309,13 +1096,13 @@ public class Paciente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TX_ObservacionesKeyTyped
 
-    private void txtDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDateActionPerformed
-
     private void BT_EnviarSolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_EnviarSolicitudMouseClicked
         GuardarBD();
         LimpiarCampos_Solicitud();
+        cardLayout.show(CardLayout, "Inicio");
+        BT_Home.setColor1Background(new Color(82,132,192));
+        BT_Solicitud.setColor1Background(new Color(122,173,252));
+        BT_Datos.setColor1Background(new Color(122,173,252));
     }//GEN-LAST:event_BT_EnviarSolicitudMouseClicked
 
     private void BT_EnviarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_EnviarSolicitudActionPerformed
@@ -1340,9 +1127,13 @@ public class Paciente extends javax.swing.JFrame {
     private void CB_DoctorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CB_DoctorItemStateChanged
         if (CB_Doctor.getSelectedItem() != "-") { //Si ya seleciono algun Doctor
             Calendario.setEnabled(true); //El calendario lo habilito
+            Calendario.setDate(null); //Reinicio la hora
 
         } else {
+
+            Calendario.setDate(null); //Reinicio la hora
             Calendario.setEnabled(false);
+
         }
     }//GEN-LAST:event_CB_DoctorItemStateChanged
 
@@ -1357,19 +1148,155 @@ public class Paciente extends javax.swing.JFrame {
     }//GEN-LAST:event_CB_HoraItemStateChanged
 
     private void CalendarioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_CalendarioPropertyChange
-        SelectedDate FechaSelecionada = Calendario.getSelectedDate();
+
+        Date FechaSelecionada = Calendario.getDate();
         //Si la hora es diferente a nada 
         if (FechaSelecionada != null) {
             CB_Hora.setEnabled(true); //ComboBox de Hora lo habilito
             CB_Hora.removeAllItems(); //Borro todos los items
             CB_Hora.addItem("-");
             MostraHoras();
+
+        } else {
+            CB_Hora.setEnabled(false); //ComboBox de Hora lo bloqueo
+            CB_Hora.removeAllItems(); //Borro todos los items
+            CB_Hora.addItem("-");
         }
+        
     }//GEN-LAST:event_CalendarioPropertyChange
+
+    private void update_userKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_userKeyTyped
+        //Para que el TX acepte solo letras
+        int key = evt.getKeyChar();
+        boolean Mayusculas = key >= 65 && key <= 90;
+        boolean Minusculas = key >= 97 && key <= 122;
+        if (!(Minusculas || Mayusculas)) {
+            evt.consume();
+        }
+        //Establecer limite de caracteres
+        if (update_user.getText().length() >= 20) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_update_userKeyTyped
+
+    private void update_confirmKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_confirmKeyTyped
+        //Para que el TX acepte solo letras y espacios
+        int key = evt.getKeyChar();
+        boolean Mayusculas = key >= 65 && key <= 90;
+        boolean Minusculas = key >= 97 && key <= 122;
+        boolean Numeros = key >= 48 && key <= 57;
+        boolean Espacio = key == 32;
+        if (!(Minusculas || Mayusculas || Numeros || Espacio)) {
+            evt.consume();
+        }
+        //Establecer limite de caracteres
+        if (Update_password.getText().length() >= 20) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_update_confirmKeyTyped
+
+    private void update_confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_confirmActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_update_confirmActionPerformed
+
+    private void esconder1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder1MouseClicked
+        esconder1.setVisible(false);
+        ver1.setVisible(true);
+        update_confirm.setEchoChar('*');
+    }//GEN-LAST:event_esconder1MouseClicked
+
+    private void ver1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver1MouseClicked
+        esconder1.setVisible(true);
+        ver1.setVisible(false);
+        update_confirm.setEchoChar((char) 0);
+    }//GEN-LAST:event_ver1MouseClicked
+
+    private void Update_passwordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Update_passwordKeyTyped
+        //Para que el TX acepte solo letras y espacios
+        int key = evt.getKeyChar();
+        boolean Mayusculas = key >= 65 && key <= 90;
+        boolean Minusculas = key >= 97 && key <= 122;
+        boolean Numeros = key >= 48 && key <= 57;
+        boolean Espacio = key == 32;
+        if (!(Minusculas || Mayusculas || Numeros || Espacio)) {
+            evt.consume();
+        }
+        //Establecer limite de caracteres
+        if (Update_password.getText().length() >= 20) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_Update_passwordKeyTyped
+
+    private void esconderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconderMouseClicked
+        esconder.setVisible(false);
+        ver.setVisible(true);
+        Update_password.setEchoChar('*');
+    }//GEN-LAST:event_esconderMouseClicked
+
+    private void verMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_verMouseClicked
+        esconder.setVisible(true);
+        ver.setVisible(false);
+        Update_password.setEchoChar((char) 0);
+    }//GEN-LAST:event_verMouseClicked
+
+    private void update_idKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_idKeyTyped
+        //Para que el TX acepte solo numeros
+        int key = evt.getKeyChar();
+        boolean Numeros = key >= 48 && key <= 57;
+        if (!(Numeros)) {
+            evt.consume();
+        }
+        //Establecer limite de caracteres
+        if (update_id.getText().length() >= 10) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_update_idKeyTyped
+
+    private void update_ageKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_ageKeyTyped
+        //Para que el TX acepte solo numeros
+        int key = evt.getKeyChar();
+        boolean Numeros = key >= 48 && key <= 57;
+        if (!(Numeros)) {
+            evt.consume();
+        }
+        //Establecer limite de caracteres
+        if (update_age.getText().length() >= 3) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_update_ageKeyTyped
+
+    private void Update_phoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Update_phoneKeyTyped
+        //Para que el TX acepte solo numeros
+        int key = evt.getKeyChar();
+        boolean Numeros = key >= 48 && key <= 57;
+        if (!(Numeros)) {
+            evt.consume();
+        }
+        //Establecer limite de caracteres
+        if (Update_phone.getText().length() >= 10) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_Update_phoneKeyTyped
+
+    private void Update_nameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Update_nameKeyTyped
+        //Para que el TX acepte letras y espacios
+        int key = evt.getKeyChar();
+        boolean Mayusculas = key >= 65 && key <= 90;
+        boolean Minusculas = key >= 97 && key <= 122;
+        boolean Espacio = key == 32;
+        if (!(Minusculas || Mayusculas || Espacio)) {
+            evt.consume();
+        }
+
+        //Establecer limite de caracteres
+        if (Update_name.getText().length() >= 20) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_Update_nameKeyTyped
 
     public String ObtenerDia() {
 
-        int Dia_Semana = Calendario.getDay();
+        int Dia_Semana = Calendario.getCalendar().get(java.util.Calendar.DAY_OF_WEEK);
         // DAY_OF_WEEK devuelve un número entero que representa el día de la semana,
         // donde 1 es domingo, 2 es lunes, 3 es martes, etc.
 
@@ -1393,7 +1320,7 @@ public class Paciente extends javax.swing.JFrame {
         }
 
     }
-
+    
     //Funcion que lee en la BD todas las diferentes Horas segun el doctor selecionado
     public void MostraHoras() {
         try {
@@ -1414,22 +1341,21 @@ public class Paciente extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
             ResultSet rst = pst.executeQuery();
             if (!rs.next()) {
-                //new Warming("No hay horarios diponibles").setVisible(true);
+                new Warning("No hay horarios diponibles").setVisible(true);
                 CB_Hora.setEnabled(false); //ComboBox de Hora lo bloqueo
                 CB_Hora.removeAllItems(); //Borro todos los items
                 CB_Hora.addItem("-");
-                System.out.println("ENTRO AQUI");
+                Calendario.setDate(null); //Reinicio la hora
 
             } else {
                 while (rst.next()) {
                     CB_Hora.addItem(rst.getString("Hora"));
-                    System.out.println("ENTRO ACA");
                 }
 
-                String fechaSeleccionada = Calendario.getDate();
-                //SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-                // String fechaComoCadena = formatoFecha.format(fechaSeleccionada);
-                Fecha = fechaSeleccionada;
+                Date fechaSeleccionada = Calendario.getDate();
+                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+                String fechaComoCadena = formatoFecha.format(fechaSeleccionada);
+                Fecha = fechaComoCadena;
 
                 //Seleciona los nombre de los doctores segun la especialidad selecionada
                 String SQL1 = "SELECT Hora FROM Solicitudes WHERE Servicio = ? AND Doctor = ? AND Fecha = ?";
@@ -1458,20 +1384,21 @@ public class Paciente extends javax.swing.JFrame {
                 if (CB_Hora.getItemCount() > 1) {
                     // El JComboBox tiene más de un elemento
                 } else {
-                    new Warming("No hay horarios diponibles").setVisible(true);
+                    new Warning("No hay horarios diponibles").setVisible(true);
                     CB_Hora.setEnabled(false); //ComboBox de Hora lo bloqueo
                     CB_Hora.removeAllItems(); //Borro todos los items
                     CB_Hora.addItem("-");
-                    Calendario.toDay(); //Reinicio la hora
+                    Calendario.setDate(null); //Reinicio la hora
                 }
 
             }
 
         } catch (SQLException ex) {
-
+            
         }
     }
 
+    
     //Funcion que lee en la BD todas los diferentes doctores segun la especialidad selecionada
     public void MostraDoctores() {
         try {
@@ -1495,10 +1422,11 @@ public class Paciente extends javax.swing.JFrame {
             }
 
         } catch (SQLException ex) {
-
+            
         }
     }
-
+    
+    
     //Funcion que lee en la BD todas los diferentes servicios (especialidad) de cada doctor
     public void MostraServicios() {
         try {
@@ -1521,9 +1449,10 @@ public class Paciente extends javax.swing.JFrame {
             }
 
         } catch (SQLException ex) {
-
+            
         }
     }
+    
 
     public void GuardarBD() {
         try {
@@ -1538,10 +1467,10 @@ public class Paciente extends javax.swing.JFrame {
             PreparedStatement pst = Conexion.prepareStatement(SQL);
             //Objeto de tipo Solicitud
 
-            String fechaSeleccionada = Calendario.getDate();
+            Date fechaSeleccionada = Calendario.getDate();
             SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
             String fechaComoCadena = formatoFecha.format(fechaSeleccionada);
-            Fecha = fechaSeleccionada;
+            Fecha = fechaComoCadena;
 
             Servicio = (String) CB_Servicio.getSelectedItem();
 
@@ -1549,7 +1478,7 @@ public class Paciente extends javax.swing.JFrame {
 
             Horario = (String) CB_Hora.getSelectedItem();
 
-            Clases.Cita S = new Clases.Cita(Usuario, (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem(),
+            Clases.Cita S = new Clases.Cita(Login.Usuario, (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem(),
                     Fecha, Horario, Observaciones, "No", "En Espera", "");
             pst.setString(1, S.getUsuario());
             pst.setString(2, S.getServicio());
@@ -1575,7 +1504,7 @@ public class Paciente extends javax.swing.JFrame {
 
     public void LimpiarCampos_Solicitud() {
         TX_Observaciones.setText("");
-        Calendario.toDay();
+        Calendario.setDate(null);
         CB_Hora.setSelectedIndex(0);
         CB_Servicio.setSelectedIndex(0);
     }
@@ -1593,7 +1522,7 @@ public class Paciente extends javax.swing.JFrame {
 
             PreparedStatement pst = Conexion.prepareStatement(SQL);
 
-            pst.setString(1, TX_Usuario.getText());
+            pst.setString(1, update_user.getText());
             //Extrae el conjunto de resultados 
             ResultSet rs = pst.executeQuery();
 
@@ -1618,7 +1547,7 @@ public class Paciente extends javax.swing.JFrame {
 
             PreparedStatement pst = Conexion.prepareStatement(SQL);
 
-            pst.setString(1, TX_NoDocumento.getText());
+            pst.setString(1, update_id.getText());
 
             //Extrae el conjunto de resultados 
             ResultSet rs = pst.executeQuery();
@@ -1634,7 +1563,7 @@ public class Paciente extends javax.swing.JFrame {
     public Boolean TamañoMinimo(JTextField JTextField, String Campo, int min) {
         //Si no tiene el tamaño minimo de caracteres, muestra error
         if (JTextField.getText().length() < min) {
-            new Warming("Tamaño minimo" + min).setVisible(true);
+            new Warning("Tamaño minimo" + min).setVisible(true);
             return false;
         } else {
             return true;
@@ -1644,7 +1573,7 @@ public class Paciente extends javax.swing.JFrame {
     public Boolean TamañoTelefono(JTextField JTextField) {
         //Si no tiene el tamaño minimo de caracteres, muestra error
         if (JTextField.getText().length() != 7 && JTextField.getText().length() != 10) {
-            new Warming("Tamaño minimo: 7-10 números").setVisible(true);
+            new Warning("Tamaño minimo: 7-10 números").setVisible(true);
             return false;
         } else {
             return true;
@@ -1652,16 +1581,244 @@ public class Paciente extends javax.swing.JFrame {
     }
 
     public void LimpiarCampos() {
-        TipoDocumento1.setText("");
-        TX_NombreApellido.setText("");
-        TX_NoDocumento.setText("");
-        TX_Edad.setText("");
-        TX_Telefono.setText("");
-        TX_Usuario.setText("");
-        TX_Contraseña.setText("");
-        TX_ConfirmarContra.setText("");
+        update_tdoc.setText("");
+        Update_name.setText("");
+        update_id.setText("");
+        update_age.setText("");
+        Update_phone.setText("");
+        update_user.setText("");
+        Update_password.setText("");
+        update_confirm.setText("");
 
     }
+    // <editor-fold defaultstate="collapsed" desc="Funciones para Panel Actualizar Datos">
+    
+    //Función que extrae los datos de la base de datos de pacientey los almacena en un vector para mostrarlo en la ventana de actualiación
+    String user[] = new String[8];
+    
+    public String[] extraer() {
+        try {
+            
+            String user_;
+            
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+            
+            
+            String SQL = "Select * from Pacientes";
+
+            Statement sentence = Conexion.createStatement();
+            ResultSet rst = sentence.executeQuery(SQL);
+            while (rst.next()) {
+                
+                user_ = rst.getString("Usuario");
+                
+                if (user_.equals((Login.Usuario).toUpperCase())){
+                   user[0] = FormatoNombre(rst.getString("Nombre_Apellido"));
+                   user[1] = String.valueOf((long) rst.getDouble("Telefono"));
+                   user[2] = String.valueOf((int) rst.getDouble("Edad"));
+                   user[3] = String.valueOf((long) rst.getDouble("Numero_Documento"));
+                   user[4] = rst.getString("Usuario");
+                   user[5] = rst.getString("Contraseña");
+                   user[6] = rst.getString("Genero");
+                   user[7] = rst.getString("Tipo_Documento"); 
+                }
+                
+            }
+        } catch (SQLException | HeadlessException e) {
+            new Error("Error al buscar Datos").setVisible(true);
+
+        }
+        return user;
+    }
+    
+    //Función para eliminar al paciente actual del hospital y cambiar sus datos
+    public void eliminar_act() {
+        try {
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+            //Eliminación de la tabla de Pacientes
+            String sql = "DELETE FROM Pacientes";
+            PreparedStatement stmt = Conexion.prepareStatement("DELETE FROM Pacientes WHERE Usuario = ?");
+            stmt.setString(1, user[4]);
+            stmt.executeUpdate();
+            //Eliminación de la tabla de usuario
+            //Inicialmente se elimina el registro de la tabla de usuarios
+            String sq2 = "DELETE FROM Usuarios";
+            PreparedStatement stmt2 = Conexion.prepareStatement("DELETE FROM Usuarios WHERE Usuario = ?");
+            stmt2.setString(1, user[4]);
+            stmt2.executeUpdate();
+                    
+
+        } catch (SQLException e) {
+            new Error("Error al actualizar Datos").setVisible(true);
+        }
+    }
+    
+    //Para poner una cadena en formato de un nombre 
+    public static String FormatoNombre(String Cadena) {
+        if (Cadena == null || Cadena.isEmpty()) {
+            return Cadena;
+        }
+
+        StringBuilder sb = new StringBuilder(Cadena.length());
+        boolean capitalizeNext = true;
+        for (char c : Cadena.toCharArray()) {
+            if (Character.isWhitespace(c)) {
+                capitalizeNext = true;
+            } else if (capitalizeNext) {
+                sb.append(Character.toUpperCase(c));
+                capitalizeNext = false;
+            } else {
+                sb.append(Character.toLowerCase(c));
+            }
+        }
+
+        return sb.toString();
+    }
+    
+    
+    //Función para validar que ninguno de los datos a actualizar le pertenexcan a otro usuario en el hospital  
+
+    public Boolean Existencia() {
+
+        try {
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            //Para buscar si existe el usuario a crear
+            String SQL1 = "SELECT * FROM Admin WHERE Usuario = ?";
+            String SQL2 = "SELECT * FROM Doctores WHERE Usuario = ?";
+            String SQL3 = "SELECT * FROM OtroEmpleado WHERE Usuario = ?";
+            String SQL4 = "SELECT * FROM Admin WHERE Numero_Documento = ?";
+            String SQL5 = "SELECT * FROM Doctores WHERE Numero_Documento = ?";
+            String SQL6 = "SELECT * FROM OtroEmpleado WHERE Numero_Documento = ?";
+            String SQL7 = "SELECT * FROM Admin WHERE Telefono = ?";
+            String SQL8 = "SELECT * FROM Doctores WHERE Telefono = ?";
+            String SQL9 = "SELECT * FROM OtroEmpleado WHERE Telefono = ?";
+
+            PreparedStatement pst1 = Conexion.prepareStatement(SQL1);
+            PreparedStatement pst2 = Conexion.prepareStatement(SQL2);
+            PreparedStatement pst3 = Conexion.prepareStatement(SQL3);
+            PreparedStatement pst4 = Conexion.prepareStatement(SQL4);
+            PreparedStatement pst5 = Conexion.prepareStatement(SQL5);
+            PreparedStatement pst6 = Conexion.prepareStatement(SQL6);
+            PreparedStatement pst7 = Conexion.prepareStatement(SQL7);
+            PreparedStatement pst8 = Conexion.prepareStatement(SQL8);
+            PreparedStatement pst9 = Conexion.prepareStatement(SQL9);
+
+            pst1.setString(1, update_user.getText());
+            pst2.setString(1, update_user.getText());
+            pst3.setString(1, update_user.getText());
+            pst4.setString(1, update_id.getText());
+            pst5.setString(1, update_id.getText());
+            pst6.setString(1, update_id.getText());
+            pst7.setString(1, Update_phone.getText());
+            pst8.setString(1, Update_phone.getText());
+            pst9.setString(1, Update_phone.getText());
+            //Extrae el conjunto de resultados 
+            ResultSet rs1 = pst1.executeQuery();
+            ResultSet rs2 = pst2.executeQuery();
+            ResultSet rs3 = pst3.executeQuery();
+            ResultSet rs4 = pst4.executeQuery();
+            ResultSet rs5 = pst5.executeQuery();
+            ResultSet rs6 = pst6.executeQuery();
+            ResultSet rs7 = pst7.executeQuery();
+            ResultSet rs8 = pst8.executeQuery();
+            ResultSet rs9 = pst9.executeQuery();
+
+            //Si hay mas de un resultado: true
+            if (rs1.next() || rs2.next() || rs3.next() || rs4.next() || rs5.next() || rs6.next() || rs7.next() || rs8.next() || rs9.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException | HeadlessException e) {
+            return false;
+        }
+
+    }
+    
+    public void ActualizarBD() {
+
+        try {
+            //Variable tipo Connection para que funcione
+            Connection Conexion = null;
+            //Crear un objeto de la clase Conexion para poder conectar con la BD
+            ConexionBD BD = new ConexionBD();
+            //Se conceta con la BD
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            //Variable para almacenar la instruccion SQL
+            //Para guardar en la tabla Pacientes
+            String SQL = "insert into Pacientes(Nombre_Apellido, Telefono, Genero,"
+                    + "Edad, Tipo_Documento, Numero_Documento, Usuario, Contraseña) values (?,?,?,?,?,?,?,?)";
+
+            //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
+            PreparedStatement pst = Conexion.prepareStatement(SQL);
+
+            String Genero = null;
+            if ("F".equals(sx)) {
+                Genero = "Femenino";
+            }
+            if ("M".equals(sx)) {
+                Genero = "Masculino";
+            }
+
+            //Utilizacion de POO
+            
+            Clases.Paciente P = new Clases.Paciente(Update_name.getText().toUpperCase(), Genero,
+                    Double.parseDouble(update_id.getText()), Double.parseDouble(update_age.getText()),
+                    update_tdoc.getText(), Double.parseDouble(Update_phone.getText()),
+                    update_user.getText().toUpperCase(), Update_password.getText());
+            
+            //Guarda cada valor en su respectiva columna, la columna se define por el primer paramatro
+            //Guardo cada atributo del objeto J en su columna correspondiete, con los Getters
+            
+            pst.setString(1, P.getNombre_Apellido());
+            pst.setDouble(2, P.getNo_Telefono());
+            pst.setString(3, P.getGenero());
+            pst.setDouble(4, P.getEdad());
+            pst.setString(5, P.getTipo_Documento());
+            pst.setDouble(6, P.getNo_Documento());
+            pst.setString(7, P.getUsuario());
+            pst.setString(8, P.getContraseña());
+            
+
+            int n = pst.executeUpdate(); //Para guardar los datos
+
+            SQL = "insert into Usuarios(Usuario, Contraseña, Tipo) values(?,?,?)";
+
+            //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
+            pst = Conexion.prepareStatement(SQL);
+
+            pst.setString(1, P.getUsuario());
+            pst.setString(2, P.getContraseña());
+            pst.setString(3, "Paciente");
+            int n1 = pst.executeUpdate(); //Para guardar los datos
+
+            //Si es mayor que 0 quiere decir que se se inserto bien en la BD
+            if (n > 0 && n1 > 0) {
+                //Mensaje de confirmacion
+                new Success("Datos actualizados").setVisible(true);
+
+            }
+
+        } catch (SQLException | HeadlessException e) {
+            //Error x si acaso
+            new Error("Error al actualizar datos").setVisible(true);
+
+        }
+    }
+    
+    // </editor-fold>
 
     /**
      * @param args the command line arguments
@@ -1700,18 +1857,18 @@ public class Paciente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Componentes.AllButton BT_Actualizar;
     private Componentes.AllButton BT_CerrarSesion;
-    private Componentes.AllButton BT_Empleado;
+    private Componentes.AllButton BT_Datos;
     private Componentes.AllButton BT_EnviarSolicitud;
     private Componentes.AllButton BT_Home;
     private Componentes.AllButton BT_Menu;
-    private Componentes.AllButton BT_Registrarse;
     private Componentes.AllButton BT_Solicitud;
     private Componentes.BlurBackground Background;
     private Componentes.ComboBoxSuggestion CB_Doctor;
     private Componentes.ComboBoxSuggestion CB_Hora;
     private Componentes.ComboBoxSuggestion CB_Servicio;
-    private com.raven.datechooser.DateChooser Calendario;
+    private com.toedter.calendar.JDateChooser Calendario;
     private javax.swing.JPanel CardLayout;
     private org.example.Custom.PanelRound ConfirmarContr;
     private org.example.Custom.PanelRound Contraseña;
@@ -1724,17 +1881,11 @@ public class Paciente extends javax.swing.JFrame {
     private javax.swing.JPanel Solicitud;
     private org.example.Custom.PanelRound TDocumento;
     private org.example.Custom.PanelRound TXTUsuario;
-    private org.example.Custom.PanelRound TXT_Fecha;
-    private org.example.Custom.AnimatedPasswordField TX_ConfirmarContra;
-    private org.example.Custom.AnimatedPasswordField TX_Contraseña;
-    private org.example.Custom.AnimatedTextField TX_Edad;
-    private org.example.Custom.AnimatedTextField TX_NoDocumento;
-    private org.example.Custom.AnimatedTextField TX_NombreApellido;
     private javax.swing.JTextPane TX_Observaciones;
-    private org.example.Custom.AnimatedTextField TX_Telefono;
-    private org.example.Custom.AnimatedTextField TX_Usuario;
     private org.example.Custom.PanelRound Telefono;
-    private org.example.Custom.AnimatedTextField TipoDocumento1;
+    private org.example.Custom.AnimatedTextField Update_name;
+    private org.example.Custom.AnimatedPasswordField Update_password;
+    private org.example.Custom.AnimatedTextField Update_phone;
     private javax.swing.JPanel barra_superior;
     private javax.swing.JPanel barra_superior2;
     private javax.swing.JPanel barra_superior8;
@@ -1744,7 +1895,6 @@ public class Paciente extends javax.swing.JFrame {
     private Componentes.BlurBackground blurBackground12;
     private Componentes.BlurBackground blurBackground2;
     private javax.swing.ButtonGroup botones;
-    private Componentes.AllButton bt_calendario;
     private Componentes.AllButton bt_cerrar;
     private Componentes.AllButton bt_cerrar2;
     private Componentes.AllButton bt_cerrar8;
@@ -1781,7 +1931,11 @@ public class Paciente extends javax.swing.JFrame {
     private org.example.Custom.PanelRound panelRound3;
     private org.example.Custom.PanelRound panelRound4;
     private Componentes.Table table;
-    private org.example.Custom.AnimatedTextField txtDate;
+    private org.example.Custom.AnimatedTextField update_age;
+    private org.example.Custom.AnimatedPasswordField update_confirm;
+    private org.example.Custom.AnimatedTextField update_id;
+    private org.example.Custom.AnimatedTextField update_tdoc;
+    private org.example.Custom.AnimatedTextField update_user;
     private javax.swing.JLabel ver;
     private javax.swing.JLabel ver1;
     // End of variables declaration//GEN-END:variables

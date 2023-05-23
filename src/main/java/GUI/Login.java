@@ -33,6 +33,7 @@ public class Login extends javax.swing.JFrame {
     //Para Aceder a los diferentes JFrame
     public static String Usuario;
     Paciente JF_Paciente = new Paciente();
+    Administrador JF_Admin = new Administrador();
     CrearPaciente JF_CrearPaciente = new CrearPaciente();
     Jefe JF_Jefe = new Jefe();
 
@@ -243,19 +244,19 @@ public class Login extends javax.swing.JFrame {
 
     private void BT_IngresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_IngresarMouseClicked
         if (TX_Usuario.getText().isEmpty()) {
-            new Warming("Falta ingresar el Usuario").setVisible(true);
+            new Warning("Falta ingresar el Usuario").setVisible(true);
         } else if (TX_Contraseña.getText().isEmpty()) {
-            new Warming("Falta ingresar la contraseña").setVisible(true);
+            new Warning("Falta ingresar la contraseña").setVisible(true);
             //Si no selecciono el tipo de usuario
         } else if (RBT_Empleado.isSelected() == false && RBT_Paciente.isSelected() == false) {
-            new Warming("Falta el tipo de usuario").setVisible(true);
+            new Warning("Falta el tipo de usuario").setVisible(true);
         } else {
             //Si el Usuario Existe
             if (UsuarioExiste() == false) {
-                new Warming("El Usuario ingresado no existe").setVisible(true);
+                new Warning("El Usuario ingresado no existe").setVisible(true);
                 //Si la contra no concide con el usuario
             } else if (ContraConcide() == false) {
-                new Warming("Contraseña incorrecta").setVisible(true);
+                new Warning("Contraseña incorrecta").setVisible(true);
 
             } else {
                 Usuario = TX_Usuario.getText();
@@ -266,24 +267,28 @@ public class Login extends javax.swing.JFrame {
                         case "Doctor":
 
                             break;
-                        case "Admin":
-
+                            
+                        case "Administrador":
+                            JF_Admin.setVisible(true);
+                            this.setVisible(false);
                             break;
+                            
                         case "Jefe":
                             JF_Jefe.setVisible(true);
                             this.setVisible(false);
                             break;
                         //Si no concide con ningun tipo, error
                         default:
-                            new Warming("El usuario no es tipo Empleado").setVisible(true);
+                            new Warning("El usuario no es tipo Empleado").setVisible(true);
                             break;
                     }
                     //Si selecciona Paciente
                 } else {
                     if ("Paciente".equals(ObtenerTipo())) {
                         JF_Paciente.setVisible(true);
+                        this.setVisible(false);
                     } else {
-                        new Warming("El usuario no es tipo Pacient").setVisible(true);
+                        new Warning("El usuario no es tipo Pacient").setVisible(true);
                     }
                 }
             }

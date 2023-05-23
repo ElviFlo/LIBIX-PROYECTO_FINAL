@@ -29,7 +29,7 @@ public class Jefe extends javax.swing.JFrame {
 
     static CardLayout cardLayout;
 
-    String sx;
+    String sx, s;
 
     int op;
 
@@ -86,8 +86,8 @@ public class Jefe extends javax.swing.JFrame {
         Horas.add(Arrays.asList("5:30 PM", "5:50 PM", "6:10 PM"));
 
         init();
-        
-        update_user.setText(Login.Usuario);
+
+        update_user.setText(extraer()[4]);
         Update_name.setText(extraer()[0]);
         Update_phone.setText(extraer()[1]);
         update_age.setText(extraer()[2]);
@@ -98,20 +98,36 @@ public class Jefe extends javax.swing.JFrame {
         if (generoact.equals("Masculino")) {
             bt_m4.setVisible(true);
             bt_f4.setVisible(false);
+            s = "M";
         } else {
             if (generoact.equals("Femenino")) {
                 bt_m4.setVisible(false);
                 bt_f4.setVisible(true);
+                s = "F";
             }
         }
+        
+        Showdata();
+        MostrarDatosTabla("Todos", "-");
+
+        CB_Genero.addItem("-");
+        CB_Genero.addItem("Masculino");
+        CB_Genero.addItem("Femenino");
+
+        MostrarPuestos();
+        
+        label_doctor.setText(String.valueOf(num_doc));
+        label_administrador.setText(String.valueOf(num_admin));
+        label_empleado.setText(String.valueOf(num_emp));
+        
+        BT_Inicio.setColor1Background(new Color(82, 132, 192));
 
     }
-    
-    String jefeact =extraer()[4];
+
+    String jefeact = extraer()[4];
 
     private void init() {
         table.fixTable(jScrollPane1);
-        showrecords();
     }
 
     /**
@@ -286,6 +302,8 @@ public class Jefe extends javax.swing.JFrame {
         ver9 = new javax.swing.JLabel();
         esconder9 = new javax.swing.JLabel();
         update_confirm = new org.example.Custom.AnimatedPasswordField();
+        label_f4 = new javax.swing.JLabel();
+        label_m4 = new javax.swing.JLabel();
         bt_f4 = new javax.swing.JLabel();
         bt_m4 = new javax.swing.JLabel();
         Inicio = new javax.swing.JPanel();
@@ -314,6 +332,9 @@ public class Jefe extends javax.swing.JFrame {
         icon_em = new javax.swing.JLabel();
         label_empleado = new javax.swing.JLabel();
         nu_em = new javax.swing.JLabel();
+        CB_Cargos = new Componentes.ComboBoxSuggestion();
+        CB_Genero = new Componentes.ComboBoxSuggestion();
+        BT_Filtrar = new Componentes.AllButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1029,7 +1050,7 @@ public class Jefe extends javax.swing.JFrame {
                 BT_Registrarse1ActionPerformed(evt);
             }
         });
-        blurBackground3.add(BT_Registrarse1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 450, 280, 38));
+        blurBackground3.add(BT_Registrarse1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 450, 280, 42));
 
         ConfirmarContr1.setRadius(20);
         ConfirmarContr1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1274,16 +1295,16 @@ public class Jefe extends javax.swing.JFrame {
                 {"  8:30 - 9:30   am", null, null, null, null, null, null},
                 {"  9:30 - 10:30  am", null, null, null, null, null, null},
                 {" 10:30 - 11:30 am", null, null, null, null, null, null},
-                {" 11:30 - 12:30 am", null, null, null, null, null, null},
-                {" 12:30 - 1:30  am", null, null, null, null, null, null},
-                {"  1:30 - 2:30   am", null, null, null, null, null, null},
-                {"  2:30 - 3:30   am", null, null, null, null, null, null},
-                {"  3:30 - 4:30   am", null, null, null, null, null, null},
-                {"  4:30 - 5:30   am", null, null, null, null, null, null},
-                {"  5:30 - 6:30   am", null, null, null, null, null, null}
+                {" 11:30 - 12:30 pm", null, null, null, null, null, null},
+                {" 12:30 - 1:30  pm", null, null, null, null, null, null},
+                {"  1:30 - 2:30   pm", null, null, null, null, null, null},
+                {"  2:30 - 3:30   pm", null, null, null, null, null, null},
+                {"  3:30 - 4:30   pm", null, null, null, null, null, null},
+                {"  4:30 - 5:30   pm", null, null, null, null, null, null},
+                {"  5:30 - 6:30   pm", null, null, null, null, null, null}
             },
             new String [] {
-                "HORA", "  LUNES", " MARTES", " MIERCOLES", "  JUEVES", "  VIERNES", "  SABADO"
+                "             HORA", "             LUNES", "           MARTES", "         MIERCOLES", "           JUEVES", "           VIERNES", "           SABADO"
             }
         ) {
             Class[] types = new Class [] {
@@ -1888,7 +1909,7 @@ public class Jefe extends javax.swing.JFrame {
 
         Datos.setBackground(new java.awt.Color(255, 255, 255));
 
-        blurBackground5.setImage(new javax.swing.ImageIcon(getClass().getResource("/Jefe Datos.png"))); // NOI18N
+        blurBackground5.setImage(new javax.swing.ImageIcon(getClass().getResource("/Crear Jefe.png"))); // NOI18N
         blurBackground5.setRadius(40);
         blurBackground5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -1914,7 +1935,7 @@ public class Jefe extends javax.swing.JFrame {
                 BT_ActualizarActionPerformed(evt);
             }
         });
-        blurBackground5.add(BT_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 240, 38));
+        blurBackground5.add(BT_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 450, 240, 42));
 
         barra_superior4.setOpaque(false);
         barra_superior4.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -1970,7 +1991,7 @@ public class Jefe extends javax.swing.JFrame {
         NombreApellido4.setRadius(20);
         NombreApellido4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Update_name.setForeground(new java.awt.Color(153, 153, 153));
+        Update_name.setForeground(new java.awt.Color(0, 0, 0));
         Update_name.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         Update_name.setHint("Ej: Rodolfo Rivera");
         Update_name.setHintColor(new java.awt.Color(153, 153, 153));
@@ -1979,14 +2000,14 @@ public class Jefe extends javax.swing.JFrame {
                 Update_nameKeyTyped(evt);
             }
         });
-        NombreApellido4.add(Update_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        NombreApellido4.add(Update_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground5.add(NombreApellido4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 135, 370, 40));
+        blurBackground5.add(NombreApellido4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 135, 370, 45));
 
         Telefono4.setRadius(20);
         Telefono4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Update_phone.setForeground(new java.awt.Color(153, 153, 153));
+        Update_phone.setForeground(new java.awt.Color(0, 0, 0));
         Update_phone.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         Update_phone.setHint("Ej: 3166705696");
         Update_phone.setHintColor(new java.awt.Color(153, 153, 153));
@@ -1995,14 +2016,14 @@ public class Jefe extends javax.swing.JFrame {
                 Update_phoneKeyTyped(evt);
             }
         });
-        Telefono4.add(Update_phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        Telefono4.add(Update_phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground5.add(Telefono4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 370, 40));
+        blurBackground5.add(Telefono4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 370, 45));
 
         Edad4.setRadius(20);
         Edad4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        update_age.setForeground(new java.awt.Color(153, 153, 153));
+        update_age.setForeground(new java.awt.Color(0, 0, 0));
         update_age.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         update_age.setHint("Ej: 16");
         update_age.setHintColor(new java.awt.Color(153, 153, 153));
@@ -2011,14 +2032,14 @@ public class Jefe extends javax.swing.JFrame {
                 update_ageKeyTyped(evt);
             }
         });
-        Edad4.add(update_age, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 190, 40));
+        Edad4.add(update_age, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 190, 45));
 
-        blurBackground5.add(Edad4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 360, 220, 40));
+        blurBackground5.add(Edad4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 360, 220, 45));
 
         Usuario4.setRadius(20);
         Usuario4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        update_user.setForeground(new java.awt.Color(153, 153, 153));
+        update_user.setForeground(new java.awt.Color(0, 0, 0));
         update_user.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         update_user.setHint("Ej: Rodor");
         update_user.setHintColor(new java.awt.Color(153, 153, 153));
@@ -2027,14 +2048,14 @@ public class Jefe extends javax.swing.JFrame {
                 update_userKeyTyped(evt);
             }
         });
-        Usuario4.add(update_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        Usuario4.add(update_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground5.add(Usuario4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 250, 370, 40));
+        blurBackground5.add(Usuario4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 250, 370, 45));
 
         NoDocumento4.setRadius(20);
         NoDocumento4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        update_id.setForeground(new java.awt.Color(153, 153, 153));
+        update_id.setForeground(new java.awt.Color(0, 0, 0));
         update_id.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         update_id.setHint("Ej: 32692328");
         update_id.setHintColor(new java.awt.Color(153, 153, 153));
@@ -2043,9 +2064,9 @@ public class Jefe extends javax.swing.JFrame {
                 update_idKeyTyped(evt);
             }
         });
-        NoDocumento4.add(update_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        NoDocumento4.add(update_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground5.add(NoDocumento4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 135, 370, 40));
+        blurBackground5.add(NoDocumento4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 135, 370, 45));
 
         Contraseña4.setRadius(20);
         Contraseña4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2076,9 +2097,9 @@ public class Jefe extends javax.swing.JFrame {
                 Update_passwordKeyTyped(evt);
             }
         });
-        Contraseña4.add(Update_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
+        Contraseña4.add(Update_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 45));
 
-        blurBackground5.add(Contraseña4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 360, 370, 40));
+        blurBackground5.add(Contraseña4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 360, 370, 45));
 
         ConfirmarContr4.setRadius(20);
         ConfirmarContr4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2099,7 +2120,7 @@ public class Jefe extends javax.swing.JFrame {
         });
         ConfirmarContr4.add(esconder9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 40, 40));
 
-        update_confirm.setForeground(new java.awt.Color(153, 153, 153));
+        update_confirm.setForeground(new java.awt.Color(0, 0, 0));
         update_confirm.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         update_confirm.setHint("Repita la contraseña");
         update_confirm.setHintColor(new java.awt.Color(153, 153, 153));
@@ -2113,9 +2134,23 @@ public class Jefe extends javax.swing.JFrame {
                 update_confirmKeyTyped(evt);
             }
         });
-        ConfirmarContr4.add(update_confirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
+        ConfirmarContr4.add(update_confirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 45));
 
-        blurBackground5.add(ConfirmarContr4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 475, 370, 40));
+        blurBackground5.add(ConfirmarContr4, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 475, 370, 45));
+
+        label_f4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                label_f4MouseClicked(evt);
+            }
+        });
+        blurBackground5.add(label_f4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 353, 30, 40));
+
+        label_m4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                label_m4MouseClicked(evt);
+            }
+        });
+        blurBackground5.add(label_m4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 353, 40, 40));
 
         bt_f4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/F.png"))); // NOI18N
         blurBackground5.add(bt_f4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, 80, 50));
@@ -2186,7 +2221,7 @@ public class Jefe extends javax.swing.JFrame {
                 bt_cerrar6ActionPerformed(evt);
             }
         });
-        barra_superior6.add(bt_cerrar6, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 0, 50, 22));
+        barra_superior6.add(bt_cerrar6, new org.netbeans.lib.awtextra.AbsoluteConstraints(954, 0, 50, 22));
 
         bt_minimizar6.setText("-");
         bt_minimizar6.setChangeCoefficient(15);
@@ -2204,7 +2239,7 @@ public class Jefe extends javax.swing.JFrame {
                 bt_minimizar6MouseClicked(evt);
             }
         });
-        barra_superior6.add(bt_minimizar6, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 0, 50, 22));
+        barra_superior6.add(bt_minimizar6, new org.netbeans.lib.awtextra.AbsoluteConstraints(904, 0, 50, 22));
 
         blurBackground8.add(barra_superior6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 30));
 
@@ -2233,12 +2268,12 @@ public class Jefe extends javax.swing.JFrame {
         table.setSelectionBackground(new java.awt.Color(204, 204, 204));
         jScrollPane1.setViewportView(table);
 
-        panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 47, 829, 210));
+        panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 829, 210));
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(127, 127, 127));
         jLabel1.setText("Lista de Empleados:");
-        panelRound1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 11, -1, -1));
+        panelRound1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 8, -1, -1));
 
         bt_eliminar.setBorder(null);
         bt_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basura.png"))); // NOI18N
@@ -2258,14 +2293,14 @@ public class Jefe extends javax.swing.JFrame {
                 bt_eliminarActionPerformed(evt);
             }
         });
-        panelRound1.add(bt_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 5, 45, 40));
+        panelRound1.add(bt_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 2, 45, 40));
 
         lb_eliminar.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         lb_eliminar.setForeground(new java.awt.Color(127, 127, 127));
         lb_eliminar.setText("Eliminar Registro");
-        panelRound1.add(lb_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 13, -1, -1));
+        panelRound1.add(lb_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 9, -1, -1));
 
-        blurBackground8.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 870, 275));
+        blurBackground8.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, 870, 260));
 
         panelRound2.setBackground(new java.awt.Color(163, 193, 225));
         panelRound2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2330,7 +2365,45 @@ public class Jefe extends javax.swing.JFrame {
 
         blurBackground8.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 40, 270, 130));
 
-        Inicio.add(blurBackground8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 580));
+        CB_Cargos.setBackground(new java.awt.Color(248, 247, 247));
+        CB_Cargos.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        blurBackground8.add(CB_Cargos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 200, -1));
+
+        CB_Genero.setBackground(new java.awt.Color(248, 247, 247));
+        CB_Genero.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        CB_Genero.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CB_GeneroItemStateChanged(evt);
+            }
+        });
+        blurBackground8.add(CB_Genero, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 200, -1));
+
+        BT_Filtrar.setBorder(null);
+        BT_Filtrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filtrar.png"))); // NOI18N
+        BT_Filtrar.setColor1Background(new java.awt.Color(255, 255, 254));
+        BT_Filtrar.setColor2Over(new java.awt.Color(176, 207, 240));
+        BT_Filtrar.setColor3Click(new java.awt.Color(163, 176, 212));
+        BT_Filtrar.setEnableColorGradient(true);
+        BT_Filtrar.setEnableShadow(true);
+        BT_Filtrar.setRadius(32);
+        BT_Filtrar.setRippleColor(new java.awt.Color(255, 255, 255));
+        BT_Filtrar.setRoundBottomLeft(10);
+        BT_Filtrar.setRoundBottomRight(10);
+        BT_Filtrar.setRoundTopLeft(10);
+        BT_Filtrar.setRoundTopRight(10);
+        BT_Filtrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BT_FiltrarMouseClicked(evt);
+            }
+        });
+        BT_Filtrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_FiltrarActionPerformed(evt);
+            }
+        });
+        blurBackground8.add(BT_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 216, 48, 46));
+
+        Inicio.add(blurBackground8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 570));
 
         CardLayout.add(Inicio, "Inicio");
         Inicio.getAccessibleContext().setAccessibleName("");
@@ -2349,20 +2422,40 @@ public class Jefe extends javax.swing.JFrame {
 
     private void BT_DatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_DatosMouseClicked
         cardLayout.show(CardLayout, "Datos");
+        BT_Inicio.setColor1Background(new Color(122, 173, 252));
+        BT_Datos.setColor1Background(new Color(82, 132, 192));
+        BT_Doctor.setColor1Background(new Color(122, 173, 252));
+        BT_Empleado.setColor1Background(new Color(122, 173, 252));
+        BT_Administrador.setColor1Background(new Color(122, 173, 252));
     }//GEN-LAST:event_BT_DatosMouseClicked
 
     private void BT_DoctorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_DoctorMouseClicked
         cardLayout.show(CardLayout, "Doctores");
+        BT_Inicio.setColor1Background(new Color(122, 173, 252));
+        BT_Datos.setColor1Background(new Color(122, 173, 252));
+        BT_Doctor.setColor1Background(new Color(82, 132, 192));
+        BT_Empleado.setColor1Background(new Color(122, 173, 252));
+        BT_Administrador.setColor1Background(new Color(122, 173, 252));
         sx = "M";
     }//GEN-LAST:event_BT_DoctorMouseClicked
 
     private void BT_AdministradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_AdministradorMouseClicked
         cardLayout.show(CardLayout, "Administradores");
+        BT_Inicio.setColor1Background(new Color(122, 173, 252));
+        BT_Datos.setColor1Background(new Color(122, 173, 252));
+        BT_Doctor.setColor1Background(new Color(122, 173, 252));
+        BT_Empleado.setColor1Background(new Color(122, 173, 252));
+        BT_Administrador.setColor1Background(new Color(82, 132, 192));
         sx = "M";
     }//GEN-LAST:event_BT_AdministradorMouseClicked
 
     private void BT_EmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_EmpleadoMouseClicked
         cardLayout.show(CardLayout, "Empleados");
+        BT_Inicio.setColor1Background(new Color(122, 173, 252));
+        BT_Datos.setColor1Background(new Color(122, 173, 252));
+        BT_Doctor.setColor1Background(new Color(122, 173, 252));
+        BT_Empleado.setColor1Background(new Color(82, 132, 192));
+        BT_Administrador.setColor1Background(new Color(122, 173, 252));
         sx = "M";
     }//GEN-LAST:event_BT_EmpleadoMouseClicked
 
@@ -2376,6 +2469,12 @@ public class Jefe extends javax.swing.JFrame {
 
     private void BT_InicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_InicioMouseClicked
         cardLayout.show(CardLayout, "Inicio");
+        MostrarDatosTabla((String) CB_Cargos.getSelectedItem(), (String) CB_Genero.getSelectedItem());
+        BT_Inicio.setColor1Background(new Color(82, 132, 192));
+        BT_Datos.setColor1Background(new Color(122, 173, 252));
+        BT_Doctor.setColor1Background(new Color(122, 173, 252));
+        BT_Empleado.setColor1Background(new Color(122, 173, 252));
+        BT_Administrador.setColor1Background(new Color(122, 173, 252));
     }//GEN-LAST:event_BT_InicioMouseClicked
 
     // </editor-fold>
@@ -2600,27 +2699,27 @@ public class Jefe extends javax.swing.JFrame {
     private void BT_SiguienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_SiguienteMouseClicked
         // <editor-fold defaultstate="collapsed" desc="Valida si faltan campos por llenar">
         if (TX_NombreApellido.getText().isEmpty()) {
-            new Warming("Falta ingresar el Nombre").setVisible(true);
+            new Warning("Falta ingresar el Nombre").setVisible(true);
         } else if (!"F".equals(sx) && !"M".equals(sx)) {
-            new Warming("Falta seleccionar el Genero").setVisible(true);
+            new Warning("Falta seleccionar el Genero").setVisible(true);
         } else if (op != 1 && op != 2 && op != 3 && op != 4 && op != 5 && op != 6 && op != 7 && op != 8 && op != 9 && op != 10 && op != 11 && op != 12) {
-            new Warming("Falta la Especialidad").setVisible(true);
+            new Warning("Falta la Especialidad").setVisible(true);
         } else if (TX_NoDocumento.getText().isEmpty()) {
-            new Warming("Falta ingresar el Documento").setVisible(true);
+            new Warning("Falta ingresar el Documento").setVisible(true);
         } else if (TX_Edad.getText().isEmpty()) {
-            new Warming("Falta ingresar la Edad").setVisible(true);
+            new Warning("Falta ingresar la Edad").setVisible(true);
         } else if (TX_Telefono.getText().isEmpty()) {
-            new Warming("Falta ingresar el Telefono").setVisible(true);
+            new Warning("Falta ingresar el Telefono").setVisible(true);
         } else if (TX_NoConsultorio.getText().isEmpty()) {
-            new Warming("Falta ingresar el Consolturio").setVisible(true);
+            new Warning("Falta ingresar el Consolturio").setVisible(true);
         } else if (TX_Usuario.getText().isEmpty()) {
-            new Warming("Falta ingresar el Usuario").setVisible(true);
+            new Warning("Falta ingresar el Usuario").setVisible(true);
         } else if (TX_Contraseña.getText().isEmpty()) {
-            new Warming("Falta ingresar el Contraseña").setVisible(true);
+            new Warning("Falta ingresar el Contraseña").setVisible(true);
         } else if (TX_ConfirmarContra.getText().isEmpty()) {
-            new Warming("Falta confirmar la Contraseña").setVisible(true);
+            new Warning("Falta confirmar la Contraseña").setVisible(true);
         } else if (!TX_ConfirmarContra.getText().equals(TX_Contraseña.getText())) {
-            new Warming("Las contraseñas no coinciden").setVisible(true);
+            new Warning("Las contraseñas no coinciden").setVisible(true);
         } else {
             // </editor-fold>
             //Valida los tamaños minimo de cada TX
@@ -2632,9 +2731,9 @@ public class Jefe extends javax.swing.JFrame {
                     && TamañoMinimo(TX_Contraseña, "Contraseña", 4)
                     && TamañoMinimo(TX_NoConsultorio, "No. Consultorio", 1)) {
                 if (UsuarioExiste() == true) {
-                    new Warming("El Usuario ya existe").setVisible(true);
+                    new Warning("El Usuario ya existe").setVisible(true);
                 } else if (NoDocumentoExiste() == true) {
-                    new Warming("Número de Documento ya existente").setVisible(true);
+                    new Warning("Número de Documento ya existente").setVisible(true);
                 } else {
                     cardLayout.show(CardLayout, "Doctores1");
                 }
@@ -2644,7 +2743,6 @@ public class Jefe extends javax.swing.JFrame {
     }//GEN-LAST:event_BT_SiguienteMouseClicked
 
     private void BT_SiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_SiguienteActionPerformed
-        cardLayout.show(CardLayout, "Doctores1");
     }//GEN-LAST:event_BT_SiguienteActionPerformed
 
     private void ver1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver1MouseClicked
@@ -2819,23 +2917,23 @@ public class Jefe extends javax.swing.JFrame {
     private void BT_Registrarse1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_Registrarse1MouseClicked
         // <editor-fold defaultstate="collapsed" desc="Valida si faltan campos por llenar">
         if (TX_NombreApellido1.getText().isEmpty()) {
-            new Warming("Falta ingresar el Nombre").setVisible(true);
+            new Warning("Falta ingresar el Nombre").setVisible(true);
         } else if (!"F".equals(sx) && !"M".equals(sx)) {
-            new Warming("Falta seleccionar el Genero").setVisible(true);
+            new Warning("Falta seleccionar el Genero").setVisible(true);
         } else if (TX_NoDocumento1.getText().isEmpty()) {
-            new Warming("Falta ingresar el Documento").setVisible(true);
+            new Warning("Falta ingresar el Documento").setVisible(true);
         } else if (TX_Edad1.getText().isEmpty()) {
-            new Warming("Falta ingresar la Edad").setVisible(true);
+            new Warning("Falta ingresar la Edad").setVisible(true);
         } else if (TX_Telefono1.getText().isEmpty()) {
-            new Warming("Falta ingresar el Telefono").setVisible(true);
+            new Warning("Falta ingresar el Telefono").setVisible(true);
         } else if (TX_Usuario1.getText().isEmpty()) {
-            new Warming("Falta ingresar el Usuario").setVisible(true);
+            new Warning("Falta ingresar el Usuario").setVisible(true);
         } else if (TX_Contraseña1.getText().isEmpty()) {
-            new Warming("Falta ingresar el Contraseña").setVisible(true);
+            new Warning("Falta ingresar el Contraseña").setVisible(true);
         } else if (TX_ConfirmarContra1.getText().isEmpty()) {
-            new Warming("Falta confirmar la Contraseña").setVisible(true);
+            new Warning("Falta confirmar la Contraseña").setVisible(true);
         } else if (!TX_ConfirmarContra1.getText().equals(TX_Contraseña1.getText())) {
-            new Warming("Las contraseñas no coinciden").setVisible(true);
+            new Warning("Las contraseñas no coinciden").setVisible(true);
         } else {
             // </editor-fold>
             //Valida los tamaños minimo de cada TX
@@ -2846,9 +2944,9 @@ public class Jefe extends javax.swing.JFrame {
                     && TamañoMinimo(TX_Usuario1, "Usuario", 4)
                     && TamañoMinimo(TX_Contraseña1, "Contraseña", 4)) {
                 if (UsuarioExiste1() == true) {
-                    new Warming("El Usuario ya existe").setVisible(true);
+                    new Warning("El Usuario ya existe").setVisible(true);
                 } else if (NoDocumentoExiste1() == true) {
-                    new Warming("Número de Documento ya existente").setVisible(true);
+                    new Warning("Número de Documento ya existente").setVisible(true);
                 } else {
                     GuardarBD1();
                     LimpiarCampos1();
@@ -3026,25 +3124,25 @@ public class Jefe extends javax.swing.JFrame {
 
         // <editor-fold defaultstate="collapsed" desc="Valida si faltan campos por llenar">
         if (TX_NombreApellido2.getText().isEmpty()) {
-            new Warming("Falta ingresar el Nombre").setVisible(true);
+            new Warning("Falta ingresar el Nombre").setVisible(true);
         } else if (!"F".equals(sx) && !"M".equals(sx)) {
-            new Warming("Falta seleccionar el Genero").setVisible(true);
+            new Warning("Falta seleccionar el Genero").setVisible(true);
         } else if (op != 13 && op != 14 && op != 15 && op != 16 && op != 17 && op != 18 && op != 19) {
-            new Warming("Falta el Puesto").setVisible(true);
+            new Warning("Falta el Puesto").setVisible(true);
         } else if (TX_NoDocumento2.getText().isEmpty()) {
-            new Warming("Falta ingresar el Documento").setVisible(true);
+            new Warning("Falta ingresar el Documento").setVisible(true);
         } else if (TX_Edad2.getText().isEmpty()) {
-            new Warming("Falta ingresar la Edad").setVisible(true);
+            new Warning("Falta ingresar la Edad").setVisible(true);
         } else if (TX_Telefono2.getText().isEmpty()) {
-            new Warming("Falta ingresar el Telefono").setVisible(true);
+            new Warning("Falta ingresar el Telefono").setVisible(true);
         } else if (TX_Usuario2.getText().isEmpty()) {
-            new Warming("Falta ingresar el Usuario").setVisible(true);
+            new Warning("Falta ingresar el Usuario").setVisible(true);
         } else if (TX_Contraseña2.getText().isEmpty()) {
-            new Warming("Falta ingresar el Contraseña").setVisible(true);
+            new Warning("Falta ingresar el Contraseña").setVisible(true);
         } else if (TX_ConfirmarContra2.getText().isEmpty()) {
-            new Warming("Falta confirmar la Contraseña").setVisible(true);
+            new Warning("Falta confirmar la Contraseña").setVisible(true);
         } else if (!TX_ConfirmarContra2.getText().equals(TX_Contraseña2.getText())) {
-            new Warming("Las contraseñas no coinciden").setVisible(true);
+            new Warning("Las contraseñas no coinciden").setVisible(true);
         } else {
             // </editor-fold>
             //Valida los tamaños minimo de cada TX
@@ -3055,9 +3153,9 @@ public class Jefe extends javax.swing.JFrame {
                     && TamañoMinimo(TX_Usuario2, "Usuario", 4)
                     && TamañoMinimo(TX_Contraseña2, "Contraseña", 4)) {
                 if (UsuarioExiste2() == true) {
-                    new Warming("El Usuario ya existe").setVisible(true);
+                    new Warning("El Usuario ya existe").setVisible(true);
                 } else if (NoDocumentoExiste() == true) {
-                    new Warming("Número de Documento ya existente").setVisible(true);
+                    new Warning("Número de Documento ya existente").setVisible(true);
                 } else {
                     GuardarBD2();
                     LimpiarCampos2();
@@ -3201,8 +3299,51 @@ public class Jefe extends javax.swing.JFrame {
         MenuPuesto.setVisible(false);
     }//GEN-LAST:event_bt_op18MouseClicked
 
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Panel de Actualizar Datos">
     private void BT_ActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_ActualizarMouseClicked
 
+        // <editor-fold defaultstate="collapsed" desc="Validaciones de datos">
+        if (Update_name.getText().isEmpty()) {
+            new Warning("Falta ingresar el Nombre").setVisible(true);
+        } else if (!"F".equals(s) && !"M".equals(s)) {
+            new Warning("Falta seleccionar el Genero").setVisible(true);
+        } else if (update_id.getText().isEmpty()) {
+            new Warning("Falta ingresar el Documento").setVisible(true);
+        } else if (update_age.getText().isEmpty()) {
+            new Warning("Falta ingresar la Edad").setVisible(true);
+        } else if (Update_phone.getText().isEmpty()) {
+            new Warning("Falta ingresar el Telefono").setVisible(true);
+        } else if (update_user.getText().isEmpty()) {
+            new Warning("Falta ingresar el Usuario").setVisible(true);
+        } else if (Update_password.getText().isEmpty()) {
+            new Warning("Falta ingresar el Contraseña").setVisible(true);
+        } else if (update_confirm.getText().isEmpty()) {
+            new Warning("Falta confirmar la Contraseña").setVisible(true);
+        } else if (!update_confirm.getText().equals(Update_password.getText())) {
+            new Warning("Las contraseñas no coinciden").setVisible(true);
+        } else {
+            // </editor-fold>
+            //Valida los tamaños minimo de cada TX
+            if (TamañoMinimo(Update_name, "Nombre y Apellido", 5)
+                    && TamañoTelefono(Update_phone) == true
+                    && TamañoMinimo(update_age, "Edad", 1)
+                    && TamañoMinimo(update_id, "No. Documento", 7)
+                    && TamañoMinimo(update_user, "Usuario", 4)
+                    && TamañoMinimo(Update_password, "Contraseña", 4)) {
+                if (Existencia() == true) {
+                    new Warning("Las datos igresados ya existen").setVisible(true);
+                } else {
+                    eliminarjefeact();
+                    ActualizarBD();
+                    Login JF_Login = new Login();
+                    this.setVisible(false);
+                    JF_Login.setVisible(true);
+
+                }
+            }
+
+        }
     }//GEN-LAST:event_BT_ActualizarMouseClicked
 
     private void BT_ActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_ActualizarActionPerformed
@@ -3239,7 +3380,7 @@ public class Jefe extends javax.swing.JFrame {
         }
 
         //Establecer limite de caracteres
-        if (TX_NombreApellido.getText().length() >= 20) {
+        if (Update_name.getText().length() >= 20) {
             evt.consume();
         }
     }//GEN-LAST:event_Update_nameKeyTyped
@@ -3252,7 +3393,7 @@ public class Jefe extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_Telefono.getText().length() >= 10) {
+        if (Update_phone.getText().length() >= 10) {
             evt.consume();
         }
     }//GEN-LAST:event_Update_phoneKeyTyped
@@ -3265,7 +3406,7 @@ public class Jefe extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_Edad.getText().length() >= 3) {
+        if (update_age.getText().length() >= 3) {
             evt.consume();
         }
     }//GEN-LAST:event_update_ageKeyTyped
@@ -3279,7 +3420,7 @@ public class Jefe extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_Usuario.getText().length() >= 20) {
+        if (update_user.getText().length() >= 20) {
             evt.consume();
         }
     }//GEN-LAST:event_update_userKeyTyped
@@ -3292,21 +3433,21 @@ public class Jefe extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_NoDocumento.getText().length() >= 10) {
+        if (update_id.getText().length() >= 10) {
             evt.consume();
         }
     }//GEN-LAST:event_update_idKeyTyped
 
     private void ver8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver8MouseClicked
-        esconder.setVisible(true);
-        ver.setVisible(false);
-        TX_Contraseña.setEchoChar((char) 0);
+        esconder8.setVisible(true);
+        ver8.setVisible(false);
+        Update_password.setEchoChar((char) 0);
     }//GEN-LAST:event_ver8MouseClicked
 
     private void esconder8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder8MouseClicked
-        esconder.setVisible(false);
-        ver.setVisible(true);
-        TX_Contraseña.setEchoChar('*');
+        esconder8.setVisible(false);
+        ver8.setVisible(true);
+        Update_password.setEchoChar('*');
     }//GEN-LAST:event_esconder8MouseClicked
 
     private void Update_passwordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Update_passwordKeyTyped
@@ -3320,21 +3461,21 @@ public class Jefe extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_Contraseña.getText().length() >= 20) {
+        if (Update_password.getText().length() >= 20) {
             evt.consume();
         }
     }//GEN-LAST:event_Update_passwordKeyTyped
 
     private void ver9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ver9MouseClicked
-        esconder1.setVisible(true);
-        ver1.setVisible(false);
-        TX_ConfirmarContra.setEchoChar((char) 0);
+        esconder9.setVisible(true);
+        ver9.setVisible(false);
+        update_confirm.setEchoChar((char) 0);
     }//GEN-LAST:event_ver9MouseClicked
 
     private void esconder9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_esconder9MouseClicked
-        esconder1.setVisible(false);
-        ver1.setVisible(true);
-        TX_ConfirmarContra.setEchoChar('*');
+        esconder9.setVisible(false);
+        ver9.setVisible(true);
+        update_confirm.setEchoChar('*');
     }//GEN-LAST:event_esconder9MouseClicked
 
     private void update_confirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_confirmActionPerformed
@@ -3352,10 +3493,11 @@ public class Jefe extends javax.swing.JFrame {
             evt.consume();
         }
         //Establecer limite de caracteres
-        if (TX_Contraseña.getText().length() >= 20) {
+        if (update_confirm.getText().length() >= 20) {
             evt.consume();
         }
     }//GEN-LAST:event_update_confirmKeyTyped
+
 
     private void BT_RegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_RegresarMouseClicked
         cardLayout.show(CardLayout, "Doctores");
@@ -3383,11 +3525,12 @@ public class Jefe extends javax.swing.JFrame {
         mouseX = evt.getX();
         mouseY = evt.getY();
     }//GEN-LAST:event_barra_superior3MousePressed
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Registrar Doctor">
     private void BT_Registrarse4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_Registrarse4MouseClicked
         if (HayCasillaSeleccionada() == false) {
-            new Warming("Falta ingresar horario").setVisible(true);
+            new Warning("Falta ingresar horario").setVisible(true);
         } else {
             String Dato;
             //Dos bucle que recorren la tabla excepto la columna de las horas porque en esas hay texto y quiero recorrer solo las que hay chulitos
@@ -3415,9 +3558,8 @@ public class Jefe extends javax.swing.JFrame {
     }//GEN-LAST:event_BT_Registrarse4MouseClicked
 
     // </editor-fold>
-
     // <editor-fold defaultstate="collapsed" desc="Panel de Inicio">
-    
+
     private void BT_Registrarse4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_Registrarse4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BT_Registrarse4ActionPerformed
@@ -3448,11 +3590,11 @@ public class Jefe extends javax.swing.JFrame {
     private void bt_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_eliminarActionPerformed
         int filaseleccionada = table.getSelectedRow();
         if (filaseleccionada == -1) {
-            new Warming("Debe seleccionar una fila").setVisible(true);
+            new Warning("Debe seleccionar una fila").setVisible(true);
         } else {
             DefaultTableModel modelo = (DefaultTableModel) table.getModel();
             String tipo = (String) modelo.getValueAt(filaseleccionada, 5);
-            String user=(String)modelo.getValueAt(filaseleccionada,6);
+            String user = (String) modelo.getValueAt(filaseleccionada, 6);
             try {
                 //Se establece la conexión con la base de datos 
                 Connection Conexion = null;
@@ -3460,31 +3602,31 @@ public class Jefe extends javax.swing.JFrame {
                 Conexion = BD.getConexion();
                 Statement st = Conexion.createStatement();
                 //Inicialmente se elimina el registro de la tabla de usuarios
-                PreparedStatement stmt=Conexion.prepareStatement("DELETE FROM Usuarios WHERE Usuario = ?");
+                PreparedStatement stmt = Conexion.prepareStatement("DELETE FROM Usuarios WHERE Usuario = ?");
                 stmt.setString(1, user);
                 stmt.executeUpdate();
                 //Ahora se hace la comparación del tipo de empleado que es para eliminarlo de su tabla correspondiente en nuestra base de datos de
                 //Microsoft Access
                 //Elimación en la tabla de doctores
-                if(tipo.equals("Pediatria")|| tipo.equals("Ginecología")||tipo.equals("Radiología")||tipo.equals("Oftalmología")|| tipo.equals("Optometría")
+                if (tipo.equals("Pediatria") || tipo.equals("Ginecología") || tipo.equals("Radiología") || tipo.equals("Oftalmología") || tipo.equals("Optometría")
                         //Cambiar MEDICO GENERAL POR MEDICINA GENERAL CUANDO SE VAYA A PASAAAARR IMPORTAAAANTEEEE        
-                        || tipo.equals("Odontología general")|| tipo.equals("Cardiología")||tipo.equals("Medico General")|| tipo.equals("Ecografía")||tipo.equals("Medicina interna")||
-                        tipo.equals("Ortopedía")||!tipo.equals("Psiquiatría")){
-                    PreparedStatement stmt2=Conexion.prepareStatement("DELETE FROM Doctores WHERE Usuario = ?");
+                        || tipo.equals("Odontología general") || tipo.equals("Cardiología") || tipo.equals("Medico General") || tipo.equals("Ecografía") || tipo.equals("Medicina interna")
+                        || tipo.equals("Ortopedía") || !tipo.equals("Psiquiatría")) {
+                    PreparedStatement stmt2 = Conexion.prepareStatement("DELETE FROM Doctores WHERE Usuario = ?");
                     stmt2.setString(1, user);
                     stmt2.executeUpdate();
-                }else{
+                } else {
                     //Eliminación en la tabla de administradores
-                    if(tipo.equals("Administrador")){
-                        PreparedStatement stmt3=Conexion.prepareStatement("DELETE FROM Admin WHERE Usuario = ?");
+                    if (tipo.equals("Administrador")) {
+                        PreparedStatement stmt3 = Conexion.prepareStatement("DELETE FROM Admin WHERE Usuario = ?");
                         stmt3.setString(1, user);
                         stmt3.executeUpdate();
-                    }else{
+                    } else {
                         //Eliminación en la tabla de los demás empleados del hospital
-                        if(!tipo.equals("Pediatria")&& !tipo.equals("Administrador")&&!tipo.equals("Ginecología")&&!tipo.equals("Radiología")&&!tipo.equals("Oftalmología")&&!tipo.equals("Optometría")
-                                &&!tipo.equals("Odontología general")&&!tipo.equals("Cardiología")&&!tipo.equals("Medico General")&&!tipo.equals("Ecografía")&&!tipo.equals("Medicina interna")
-                                &&!tipo.equals("Ortopedía")){
-                            PreparedStatement stmt4=Conexion.prepareStatement("DELETE FROM OtroEmpleado WHERE Usuario = ?");
+                        if (!tipo.equals("Pediatria") && !tipo.equals("Administrador") && !tipo.equals("Ginecología") && !tipo.equals("Radiología") && !tipo.equals("Oftalmología") && !tipo.equals("Optometría")
+                                && !tipo.equals("Odontología general") && !tipo.equals("Cardiología") && !tipo.equals("Medico General") && !tipo.equals("Ecografía") && !tipo.equals("Medicina interna")
+                                && !tipo.equals("Ortopedía")) {
+                            PreparedStatement stmt4 = Conexion.prepareStatement("DELETE FROM OtroEmpleado WHERE Usuario = ?");
                             stmt4.setString(1, user);
                             stmt4.executeUpdate();
                         }
@@ -3498,8 +3640,31 @@ public class Jefe extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_bt_eliminarActionPerformed
 
+    private void label_f4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_f4MouseClicked
+        bt_f4.setVisible(true);
+        bt_m4.setVisible(false);
+        s = "F";
+    }//GEN-LAST:event_label_f4MouseClicked
+
+    private void label_m4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_label_m4MouseClicked
+        bt_m4.setVisible(true);
+        bt_f4.setVisible(false);
+        s = "M";
+    }//GEN-LAST:event_label_m4MouseClicked
+
+    private void CB_GeneroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CB_GeneroItemStateChanged
+        
+    }//GEN-LAST:event_CB_GeneroItemStateChanged
+
+    private void BT_FiltrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_FiltrarMouseClicked
+        MostrarDatosTabla((String) CB_Cargos.getSelectedItem(), (String) CB_Genero.getSelectedItem());
+    }//GEN-LAST:event_BT_FiltrarMouseClicked
+
+    private void BT_FiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_FiltrarActionPerformed
+
+    }//GEN-LAST:event_BT_FiltrarActionPerformed
+
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Funciones para Panel de Crear Doctores">
     public void GuardarBD() {
 
@@ -3696,16 +3861,13 @@ public class Jefe extends javax.swing.JFrame {
     public void GuardarBD1() {
 
         try {
+
             Connection Conexion = null;
             ConexionBD BD = new ConexionBD();
             Conexion = BD.getConexion();
             Statement st = Conexion.createStatement();
-
-            //Para guardar en la tabla Jefe
-            String SQL = "insert into Administradores(Nombre_Apellido, Telefono, Genero,"
-                    + "Edad, No_documento, Fecha_registro, Estado, Usuario, Contraseña) values (?,?,?,?,?,?,?,?,?)";
-
-            //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
+            String SQL = "insert into Admin(Nombre_Apellido, Telefono, Genero,"
+                    + "Edad, Numero_Documento, Usuario, Contraseña, Estado, Fecha_Registro) values (?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = Conexion.prepareStatement(SQL);
 
             String Genero = null;
@@ -3716,27 +3878,23 @@ public class Jefe extends javax.swing.JFrame {
                 Genero = "Masculino";
             }
 
-            //Utilizacion de POO para crear una instancia de tipo administrador 
             Date fecha = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             String fechaComoString = sdf.format(fecha);
-
             String state = "Activo";
-            Clases.Administrador A = new Clases.Administrador(TX_NombreApellido1.getText().toUpperCase(), Genero,
-                    Integer.parseInt(TX_NoDocumento1.getText()), Integer.parseInt(TX_Edad1.getText()),
-                    Integer.parseInt(TX_Telefono1.getText()), fechaComoString, state, TX_Usuario1.getText().toUpperCase(), TX_Contraseña1.getText());
 
-            //Guarda cada valor en su respectiva columna, la columna se define por el primer paramatro
-            //Guardo cada atributo del objeto J en su columna correspondiete, con los Getters
+            
+            Clases.Administrador A = new Clases.Administrador(TX_NombreApellido1.getText(), Genero, Double.parseDouble(TX_NoDocumento1.getText()), Double.parseDouble(TX_Edad1.getText()), Double.parseDouble(TX_Telefono1.getText()), fechaComoString, state, TX_Usuario1.getText(), TX_Contraseña1.getText());
             pst.setString(1, A.getNombre_Apellido());
             pst.setDouble(2, A.getNo_Telefono());
             pst.setString(3, A.getGenero());
             pst.setDouble(4, A.getEdad());
             pst.setDouble(5, A.getNo_Documento());
-            pst.setString(6, A.getfecharegistro());
-            pst.setString(7, A.getestado());
-            pst.setString(8, A.getusuario());
-            pst.setString(9, A.getcontraseña());
+            pst.setString(6, A.getusuario());
+            pst.setString(7, A.getcontraseña());
+            pst.setString(8, A.getestado());
+            pst.setString(9, A.getfecharegistro());
+            
 
             int n = pst.executeUpdate(); //Para guardar los datos
 
@@ -3962,7 +4120,7 @@ public class Jefe extends javax.swing.JFrame {
     public Boolean TamañoMinimo(JTextField JTextField, String Campo, int min) {
         //Si no tiene el tamaño minimo de caracteres, muestra error
         if (JTextField.getText().length() < min) {
-            new Warming("Tamaño minimo de " + Campo + ":" + min).setVisible(true);
+            new Warning("Tamaño minimo de " + Campo + ":" + min).setVisible(true);
             return false;
         } else {
             return true;
@@ -3972,7 +4130,7 @@ public class Jefe extends javax.swing.JFrame {
     public Boolean TamañoTelefono(JTextField JTextField) {
         //Si no tiene el tamaño minimo de caracteres, muestra error
         if (JTextField.getText().length() != 7 && JTextField.getText().length() != 10) {
-            new Warming("Tamaño minimo telefono: 7-10 números").setVisible(true);
+            new Warning("Tamaño minimo telefono: 7-10 números").setVisible(true);
             return false;
         } else {
             return true;
@@ -4057,78 +4215,206 @@ public class Jefe extends javax.swing.JFrame {
     }
 
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Funciones del Panel de Inicio">
-    public void showrecords() {
+    
+    public void Showdata() {
+        DefaultTableModel Mytable = (DefaultTableModel) table.getModel();
+        String heads[] = {"Nombre", "Telefono", "Genero", "Edad", "ID", "Cargo", "Usuario"};
+        Mytable = new DefaultTableModel(null, heads);
+        table.setModel(Mytable);
+    }
+
+    int num_doc = 0, num_admin = 0, num_emp = 0;
+    
+    public void MostrarDatosTabla(String Cargo, String Genero) {
+                
         try {
+
             Connection Conexion = null;
-            DefaultTableModel sametable = (DefaultTableModel) table.getModel();
+            DefaultTableModel ModeloTabla = (DefaultTableModel) table.getModel();
             ConexionBD BD = new ConexionBD();
             Conexion = BD.getConexion();
-            String registros[] = new String[8];
+            String registros[] = new String[7];
             String SQL1 = "Select * from Doctores";
             String SQL2 = "Select * from Admin";
             String SQL3 = "Select * from OtroEmpleado";
             Statement sentence = Conexion.createStatement();
-            ResultSet rst = sentence.executeQuery(SQL1);
-            ResultSet rst2 = sentence.executeQuery(SQL2);
-            ResultSet rst3 = sentence.executeQuery(SQL3);
-            
-            int doctores = 0, administradores = 0, empleados =0;
-            
-            while (rst.next()) {
-                registros[0] = "  " + rst.getString("Nombre_Apellido");
-                registros[1] = rst.getString("Telefono");
-                registros[2] = rst.getString("Genero");
-                registros[3] = rst.getString("Edad");
-                registros[4] = rst.getString("Numero_Documento");
-                registros[5] = rst.getString("Especialidad");
-                registros[6] = rst.getString("Usuario");
-                sametable.addRow(registros);
-                doctores = doctores +1;
+
+            String SQL = "SELECT DISTINCT Especialidad FROM Doctores";
+            ResultSet rs = sentence.executeQuery(SQL);
+            String Dato;
+            boolean Doc = false;
+            while (rs.next()) {
+
+                Dato = rs.getString("Especialidad");
+                if (Dato == Cargo) {
+                    Doc = true;
+                    break;
+                }
 
             }
-            
-            label_doctor.setText(String.valueOf(doctores));
-            
-            while (rst2.next()) {
-                registros[0] = "  " + rst2.getString("Nombre_Apellido");
-                registros[1] = rst2.getString("Telefono");
-                registros[2] = rst2.getString("Genero");
-                registros[3] = rst2.getString("Edad");
-                registros[4] = rst2.getString("Numero_Documento");
-                registros[5] = "Administrador";
-                registros[6] = rst2.getString("Usuario");
-                sametable.addRow(registros);
-                administradores = administradores +1;
-            }
-            
-            label_administrador.setText(String.valueOf(administradores));
-            
-            while (rst3.next()) {
-                registros[0] = "  " + rst3.getString("Nombre_Apellido");
-                registros[1] = rst3.getString("Telefono");
-                registros[2] = rst3.getString("Genero");
-                registros[3] = rst3.getString("Edad");
-                registros[4] = rst3.getString("No_Documento");
-                registros[5] = rst3.getString("Puesto");
-                registros[6] = rst3.getString("Usuario");
-                sametable.addRow(registros);
-                empleados = empleados +1;
 
-            }
-            
-            label_empleado.setText(String.valueOf(empleados));
+            ModeloTabla.setRowCount(0);
+            if (Cargo == "Todos") {
+                if (Genero != "-") {
+                    SQL1 += " WHERE Genero = '" + Genero + "'";
+                    SQL2 += " WHERE Genero = '" + Genero + "'";
+                    SQL3 += " WHERE Genero = '" + Genero + "'";
+                }
+                ResultSet rst = sentence.executeQuery(SQL1);
+                ResultSet rst2 = sentence.executeQuery(SQL2);
+                ResultSet rst3 = sentence.executeQuery(SQL3);
 
-            table.setModel(sametable);
+                while (rst.next()) {
+                    registros[0] = "  "+FormatoNombre(rst.getString("Nombre_Apellido"));
+                    
+                    registros[1] = String.valueOf((long) rst.getDouble("Telefono"));
+                    registros[2] = rst.getString("Genero");
+                    registros[3] = String.valueOf((int) rst.getDouble("Edad"));
+                    registros[4] = String.valueOf((long) rst.getDouble("Numero_Documento"));
+                    registros[5] = rst.getString("Especialidad");
+                    registros[6] = rst.getString("Usuario");
+                    ModeloTabla.addRow(registros);
+                    num_doc = num_doc + 1;
+
+                }
+                while (rst2.next()) {
+                    registros[0] = "  "+FormatoNombre(rst2.getString("Nombre_Apellido"));
+                    registros[1] = String.valueOf((long) rst2.getDouble("Telefono"));
+                    registros[2] = rst2.getString("Genero");
+                    registros[3] = String.valueOf((int) rst2.getDouble("Edad"));
+                    registros[4] = String.valueOf((long) rst2.getDouble("Numero_Documento"));
+                    registros[5] = "Administrador";
+                    registros[6] = rst2.getString("Usuario");
+                    ModeloTabla.addRow(registros);
+                    System.out.println(registros[0]);
+                    num_admin = num_admin + 1;
+
+                }
+                while (rst3.next()) {
+                    registros[0] = "  "+FormatoNombre(rst3.getString("Nombre_Apellido"));
+                    registros[1] = String.valueOf((long) rst3.getDouble("Telefono"));
+                    registros[2] = rst3.getString("Genero");
+                    registros[3] = String.valueOf((int) rst3.getDouble("Edad"));
+                    registros[4] = String.valueOf((long) rst3.getDouble("No_Documento"));
+                    registros[5] = rst3.getString("Puesto");
+                    registros[6] = rst3.getString("Usuario");
+                    ModeloTabla.addRow(registros);
+                    num_emp = num_emp + 1;
+
+                }
+
+                table.setModel(ModeloTabla);
+            } else if (Cargo == "Administrador") {
+                if (Genero != "-") {
+                    SQL2 += " WHERE Genero = '" + Genero + "'";
+                }
+                ResultSet rst2 = sentence.executeQuery(SQL2);
+                while (rst2.next()) {
+                    registros[0] = "  "+FormatoNombre(rst2.getString("Nombre_Apellido"));
+                    registros[1] = String.valueOf((long) rst2.getDouble("Telefono"));
+                    registros[2] = rst2.getString("Genero");
+                    registros[3] = String.valueOf((int) rst2.getDouble("Edad"));
+                    registros[4] = String.valueOf((long) rst2.getDouble("Numero_Documento"));
+                    registros[5] = "Administrador";
+                    registros[6] = rst2.getString("Usuario");
+                    ModeloTabla.addRow(registros);
+                    table.setModel(ModeloTabla);
+                }
+            } else if (Doc == true) {
+
+                SQL1 += " WHERE Especialidad = '" + Cargo + "'";
+                if (Genero != "-") {
+                    SQL1 += " AND Genero = '" + Genero + "'";
+                }
+                ResultSet rst = sentence.executeQuery(SQL1);
+                while (rst.next()) {
+                    registros[0] = "  "+FormatoNombre(rst.getString("Nombre_Apellido"));
+                    registros[1] = String.valueOf((long) rst.getDouble("Telefono"));
+                    registros[2] = rst.getString("Genero");
+                    registros[3] = String.valueOf((int) rst.getDouble("Edad"));
+                    registros[4] = String.valueOf((long) rst.getDouble("Numero_Documento"));
+                    registros[5] = rst.getString("Especialidad");
+                    registros[6] = rst.getString("Usuario");
+                    ModeloTabla.addRow(registros);
+                    table.setModel(ModeloTabla);
+                }
+            } else {
+
+                SQL3 += " WHERE Puesto = '" + Cargo + "'";
+                if (Genero != "-") {
+                    SQL3 += " AND Genero = '" + Genero + "'";
+                }
+
+                ResultSet rst3 = sentence.executeQuery(SQL3);
+                while (rst3.next()) {
+                    registros[0] = "  "+FormatoNombre(rst3.getString("Nombre_Apellido"));
+                    registros[1] = String.valueOf((long) rst3.getDouble("Telefono"));
+                    registros[2] = rst3.getString("Genero");
+                    registros[3] = String.valueOf((int) rst3.getDouble("Edad"));
+                    registros[4] = String.valueOf((long) rst3.getDouble("No_Documento"));
+                    registros[5] = rst3.getString("Puesto");
+                    registros[6] = rst3.getString("Usuario");
+                    ModeloTabla.addRow(registros);
+                    table.setModel(ModeloTabla);
+                }
+            }
 
         } catch (Exception e) {
-            new Error("Error al eliminar Datos").setVisible(true);
+            new Error("Error al cargar datos").setVisible(true);
         }
     }
     
+        
+     public void MostrarPuestos() {
+        try {
+
+            CB_Cargos.removeAllItems();
+            CB_Cargos.addItem("Todos");
+
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            String SQL = "SELECT DISTINCT Especialidad FROM Doctores";
+
+            ResultSet rs = st.executeQuery(SQL);
+
+            while (rs.next()) {
+
+                CB_Cargos.addItem(rs.getString("Especialidad"));
+
+            }
+
+            SQL = "SELECT * FROM Admin";
+
+            rs = st.executeQuery(SQL);
+
+            while (rs.next()) {
+
+                CB_Cargos.addItem("Administrador");
+                break;
+
+            }
+
+            SQL = "SELECT DISTINCT Puesto FROM OtroEmpleado";
+
+            rs = st.executeQuery(SQL);
+
+            while (rs.next()) {
+
+                CB_Cargos.addItem(rs.getString("Puesto"));
+
+            }
+
+        } catch (SQLException ex) {
+
+        }
+    }
+
     // </editor-fold>
-    
+    // <editor-fold defaultstate="collapsed" desc="Funciones para Panel Actualizar Datos">
     //Función que extrae los datos de la base de datos de jefe y los almacena en un vector para mostrarlo en la ventana de actualiación
     String[] extraer() {
         String user[] = new String[7];
@@ -4157,7 +4443,7 @@ public class Jefe extends javax.swing.JFrame {
         }
         return user;
     }
-    
+
     //Función para eliminar al jefe actual del hospital y cambiar sus datos
     public void eliminarjefeact() {
         try {
@@ -4173,13 +4459,12 @@ public class Jefe extends javax.swing.JFrame {
             PreparedStatement stmt = Conexion.prepareStatement("DELETE FROM Usuarios WHERE Usuario = ?");
             stmt.setString(1, jefeact);
             stmt.executeUpdate();
-                    
 
         } catch (SQLException e) {
             new Error("Error al actualizar Datos").setVisible(true);
         }
     }
-    
+
     //Para poner una cadena en formato de un nombre 
     public static String FormatoNombre(String Cadena) {
         if (Cadena == null || Cadena.isEmpty()) {
@@ -4201,7 +4486,134 @@ public class Jefe extends javax.swing.JFrame {
 
         return sb.toString();
     }
-    
+
+    //Función para validar que ninguno de los datos a actualizar le pertenexcan a otro empleado en el hospital  
+    public Boolean Existencia() {
+
+        try {
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            //Para buscar si existe el usuario a crear
+            String SQL1 = "SELECT * FROM Admin WHERE Usuario = ?";
+            String SQL2 = "SELECT * FROM Doctores WHERE Usuario = ?";
+            String SQL3 = "SELECT * FROM OtroEmpleado WHERE Usuario = ?";
+            String SQL4 = "SELECT * FROM Admin WHERE Numero_Documento = ?";
+            String SQL5 = "SELECT * FROM Doctores WHERE Numero_Documento = ?";
+            String SQL6 = "SELECT * FROM OtroEmpleado WHERE Numero_Documento = ?";
+            String SQL7 = "SELECT * FROM Admin WHERE Telefono = ?";
+            String SQL8 = "SELECT * FROM Doctores WHERE Telefono = ?";
+            String SQL9 = "SELECT * FROM OtroEmpleado WHERE Telefono = ?";
+
+            PreparedStatement pst1 = Conexion.prepareStatement(SQL1);
+            PreparedStatement pst2 = Conexion.prepareStatement(SQL2);
+            PreparedStatement pst3 = Conexion.prepareStatement(SQL3);
+            PreparedStatement pst4 = Conexion.prepareStatement(SQL4);
+            PreparedStatement pst5 = Conexion.prepareStatement(SQL5);
+            PreparedStatement pst6 = Conexion.prepareStatement(SQL6);
+            PreparedStatement pst7 = Conexion.prepareStatement(SQL7);
+            PreparedStatement pst8 = Conexion.prepareStatement(SQL8);
+            PreparedStatement pst9 = Conexion.prepareStatement(SQL9);
+
+            pst1.setString(1, update_user.getText());
+            pst2.setString(1, update_user.getText());
+            pst3.setString(1, update_user.getText());
+            pst4.setString(1, update_id.getText());
+            pst5.setString(1, update_id.getText());
+            pst6.setString(1, update_id.getText());
+            pst7.setString(1, Update_phone.getText());
+            pst8.setString(1, Update_phone.getText());
+            pst9.setString(1, Update_phone.getText());
+            //Extrae el conjunto de resultados 
+            ResultSet rs1 = pst1.executeQuery();
+            ResultSet rs2 = pst2.executeQuery();
+            ResultSet rs3 = pst3.executeQuery();
+            ResultSet rs4 = pst4.executeQuery();
+            ResultSet rs5 = pst5.executeQuery();
+            ResultSet rs6 = pst6.executeQuery();
+            ResultSet rs7 = pst7.executeQuery();
+            ResultSet rs8 = pst8.executeQuery();
+            ResultSet rs9 = pst9.executeQuery();
+
+            //Si hay mas de un resultado: true
+            if (rs1.next() || rs2.next() || rs3.next() || rs4.next() || rs5.next() || rs6.next() || rs7.next() || rs8.next() || rs9.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException | HeadlessException e) {
+            return false;
+        }
+
+    }
+
+    public void ActualizarBD() {
+
+        try {
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            //Para guardar en la tabla Jefe
+            String SQL = "insert into Jefe(Nombre_Apellido, Telefono, Genero,"
+                    + "Edad, Numero_Documento, Usuario, Contraseña) values (?,?,?,?,?,?,?)";
+
+            //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
+            PreparedStatement pst = Conexion.prepareStatement(SQL);
+
+            String Genero = null;
+            if ("F".equals(s)) {
+                Genero = "Femenino";
+            }
+            if ("M".equals(s)) {
+                Genero = "Masculino";
+            }
+
+            //Utilizacion de POO
+            Clases.Jefe J = new Clases.Jefe(Update_name.getText().toUpperCase(), Genero,
+                    Double.parseDouble(update_id.getText()), Double.parseDouble(update_age.getText()),
+                    Double.parseDouble(Update_phone.getText()), update_user.getText(),
+                    Update_password.getText());
+            //Guarda cada valor en su respectiva columna, la columna se define por el primer paramatro
+            //Guardo cada atributo del objeto J en su columna correspondiete, con los Getters
+            pst.setString(1, J.getNombre_Apellido());
+            pst.setDouble(2, J.getNo_Telefono());
+            pst.setString(3, J.getGenero());
+            pst.setDouble(4, Double.parseDouble(update_age.getText()));
+            pst.setDouble(5, J.getNo_Documento());
+            pst.setString(6, J.getUsuario());
+            pst.setString(7, J.getContraseña());
+
+            int n = pst.executeUpdate(); //Para guardar los datos
+
+            SQL = "insert into Usuarios(Usuario, Contraseña, Tipo) values(?,?,?)";
+
+            //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
+            pst = Conexion.prepareStatement(SQL);
+
+            pst.setString(1, J.getUsuario());
+            pst.setString(2, J.getContraseña());
+            pst.setString(3, "Jefe");
+            int n1 = pst.executeUpdate(); //Para guardar los datos
+
+            //Si es mayor que 0 quiere decir que se se inserto bien en la BD
+            if (n > 0 && n1 > 0) {
+                //Mensaje de confirmacion
+                new Success("Datos actualizados").setVisible(true);
+
+            }
+
+        } catch (SQLException | HeadlessException e) {
+            //Error x si acaso
+            new Error("Error al actualizar datos").setVisible(true);
+
+        }
+    }
+
+    // </editor-fold>
     /**
      * @param args the command line arguments
      */
@@ -4250,6 +4662,7 @@ public class Jefe extends javax.swing.JFrame {
     private javax.swing.JLabel BT_Desplegar1;
     private Componentes.AllButton BT_Doctor;
     private Componentes.AllButton BT_Empleado;
+    private Componentes.AllButton BT_Filtrar;
     private Componentes.AllButton BT_Inicio;
     private Componentes.AllButton BT_Menu;
     private Componentes.AllButton BT_Registrarse1;
@@ -4260,6 +4673,8 @@ public class Jefe extends javax.swing.JFrame {
     private javax.swing.JLabel BT_Replegar1;
     private Componentes.AllButton BT_Siguiente;
     private Componentes.BlurBackground Background;
+    private Componentes.ComboBoxSuggestion CB_Cargos;
+    private Componentes.ComboBoxSuggestion CB_Genero;
     private javax.swing.JPanel CardLayout;
     private org.example.Custom.PanelRound ConfirmarContr;
     private org.example.Custom.PanelRound ConfirmarContr1;
@@ -4407,9 +4822,11 @@ public class Jefe extends javax.swing.JFrame {
     private javax.swing.JLabel label_f;
     private javax.swing.JLabel label_f1;
     private javax.swing.JLabel label_f2;
+    private javax.swing.JLabel label_f4;
     private javax.swing.JLabel label_m;
     private javax.swing.JLabel label_m1;
     private javax.swing.JLabel label_m2;
+    private javax.swing.JLabel label_m4;
     private javax.swing.JLabel lb_doctor;
     private javax.swing.JLabel lb_eliminar;
     private javax.swing.JLabel nu_ad;
@@ -4433,4 +4850,5 @@ public class Jefe extends javax.swing.JFrame {
     private javax.swing.JLabel ver8;
     private javax.swing.JLabel ver9;
     // End of variables declaration//GEN-END:variables
+
 }

@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -26,8 +25,6 @@ public class CrearJefe extends javax.swing.JFrame {
      */
     
     String sx;
-    int op;
-    String TipoDocumento = "";
     
     public CrearJefe() {
         initComponents();
@@ -39,7 +36,6 @@ public class CrearJefe extends javax.swing.JFrame {
         esconder.setVisible(false);
         esconder1.setVisible(false);
         sx = "M";
-        op = 0;
     }
     
     
@@ -108,7 +104,7 @@ public class CrearJefe extends javax.swing.JFrame {
                 BT_RegistrarseActionPerformed(evt);
             }
         });
-        blurBackground1.add(BT_Registrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, 240, 38));
+        blurBackground1.add(BT_Registrarse, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 440, 240, 42));
 
         barra_superior.setOpaque(false);
         barra_superior.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -173,9 +169,9 @@ public class CrearJefe extends javax.swing.JFrame {
                 TX_NombreApellidoKeyTyped(evt);
             }
         });
-        NombreApellido.add(TX_NombreApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        NombreApellido.add(TX_NombreApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground1.add(NombreApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 130, 370, 40));
+        blurBackground1.add(NombreApellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 130, 370, 45));
 
         Telefono.setRadius(20);
         Telefono.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -189,9 +185,9 @@ public class CrearJefe extends javax.swing.JFrame {
                 TX_TelefonoKeyTyped(evt);
             }
         });
-        Telefono.add(TX_Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        Telefono.add(TX_Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 370, 40));
+        blurBackground1.add(Telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(115, 238, 370, 45));
 
         Edad.setRadius(20);
         Edad.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -205,9 +201,9 @@ public class CrearJefe extends javax.swing.JFrame {
                 TX_EdadKeyTyped(evt);
             }
         });
-        Edad.add(TX_Edad, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 190, 40));
+        Edad.add(TX_Edad, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 190, 45));
 
-        blurBackground1.add(Edad, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 330, 220, 40));
+        blurBackground1.add(Edad, new org.netbeans.lib.awtextra.AbsoluteConstraints(265, 345, 220, 45));
 
         Usuario.setRadius(20);
         Usuario.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -221,9 +217,9 @@ public class CrearJefe extends javax.swing.JFrame {
                 TX_UsuarioKeyTyped(evt);
             }
         });
-        Usuario.add(TX_Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        Usuario.add(TX_Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground1.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 230, 370, 40));
+        blurBackground1.add(Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 238, 370, 45));
 
         NoDocumento.setRadius(20);
         NoDocumento.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -237,9 +233,9 @@ public class CrearJefe extends javax.swing.JFrame {
                 TX_NoDocumentoKeyTyped(evt);
             }
         });
-        NoDocumento.add(TX_NoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 40));
+        NoDocumento.add(TX_NoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 0, 340, 45));
 
-        blurBackground1.add(NoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 130, 370, 40));
+        blurBackground1.add(NoDocumento, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 130, 370, 45));
 
         Contraseña.setRadius(20);
         Contraseña.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -270,9 +266,9 @@ public class CrearJefe extends javax.swing.JFrame {
                 TX_ContraseñaKeyTyped(evt);
             }
         });
-        Contraseña.add(TX_Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
+        Contraseña.add(TX_Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 45));
 
-        blurBackground1.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 370, 40));
+        blurBackground1.add(Contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 345, 370, 45));
 
         ConfirmarContr.setRadius(20);
         ConfirmarContr.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -307,29 +303,29 @@ public class CrearJefe extends javax.swing.JFrame {
                 TX_ConfirmarContraKeyTyped(evt);
             }
         });
-        ConfirmarContr.add(TX_ConfirmarContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 40));
+        ConfirmarContr.add(TX_ConfirmarContra, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 330, 45));
 
-        blurBackground1.add(ConfirmarContr, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 430, 370, 40));
+        blurBackground1.add(ConfirmarContr, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 460, 370, 45));
 
         label_f.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 label_fMouseClicked(evt);
             }
         });
-        blurBackground1.add(label_f, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 30, 40));
+        blurBackground1.add(label_f, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 340, 30, 40));
 
         label_m.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 label_mMouseClicked(evt);
             }
         });
-        blurBackground1.add(label_m, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 320, 40, 40));
+        blurBackground1.add(label_m, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, 40, 40));
 
         bt_f.setIcon(new javax.swing.ImageIcon(getClass().getResource("/F.png"))); // NOI18N
-        blurBackground1.add(bt_f, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 320, 80, 50));
+        blurBackground1.add(bt_f, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, 80, 50));
 
         bt_m.setIcon(new javax.swing.ImageIcon(getClass().getResource("/M.png"))); // NOI18N
-        blurBackground1.add(bt_m, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 320, 80, 50));
+        blurBackground1.add(bt_m, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, 80, 50));
 
         getContentPane().add(blurBackground1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 550));
 
@@ -341,34 +337,23 @@ public class CrearJefe extends javax.swing.JFrame {
         
             // <editor-fold defaultstate="collapsed" desc="Valida si faltan campos por llenar">
         if (TX_NombreApellido.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "FALTA INGRESAR EL NOMBRE Y APELLIDO", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            TX_NombreApellido.requestFocus();
+            new Warning("Falta ingresar el Nombre").setVisible(true);
         } else if (!"F".equals(sx) && !"M".equals(sx)) {
-            JOptionPane.showMessageDialog(this, "FALTA SELECCIONAR EL GENERO", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            new Warning("Falta seleccionar el Genero").setVisible(true);
         } else if (TX_NoDocumento.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "FALTA INGRESAR EL NUMERO DE DOCUMENTO", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            TX_NoDocumento.requestFocus();
-        } else if (op != 1 && op != 2 && op != 3 && op != 4) {
-            JOptionPane.showMessageDialog(this, "FALTA El tipo de Documento", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            TX_NoDocumento.requestFocus();
+            new Warning("Falta ingresar el Documento").setVisible(true);
         } else if (TX_NoDocumento.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "FALTA INGRESAR LA EDAD", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            TX_NoDocumento.requestFocus();
+            new Warning("Falta ingresar la Edad").setVisible(true);
         } else if (TX_Telefono.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "FALTA INGRESAR EL TELEFONO", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            TX_Telefono.requestFocus();
+            new Warning("Falta ingresar el Telefono").setVisible(true);
         } else if (TX_Usuario.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "FALTA INGRESAR EL USUARIO", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            TX_Usuario.requestFocus();
+            new Warning("Falta ingresar el Usuario").setVisible(true);
         } else if (TX_Contraseña.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "FALTA INGRESAR LA CONTRASEÑA", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            TX_Contraseña.requestFocus();
+            new Warning("Falta ingresar el Contraseña").setVisible(true);
         } else if (TX_ConfirmarContra.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "FALTA CONFIRMAR LA CONTRASEÑA", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            TX_ConfirmarContra.requestFocus();
+            new Warning("Falta confirmar la Contraseña").setVisible(true);
         } else if (!TX_ConfirmarContra.getText().equals(TX_Contraseña.getText())) {
-            JOptionPane.showMessageDialog(this, "LAS CONTRASEÑAS NO CONCIDEN", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            TX_ConfirmarContra.requestFocus();
+            new Warning("Las contraseñas no coinciden").setVisible(true);
         } else {
             // </editor-fold>
             //Valida los tamaños minimo de cada TX
@@ -379,14 +364,11 @@ public class CrearJefe extends javax.swing.JFrame {
                     && TamañoMinimo(TX_Usuario, "Usuario", 4)
                     && TamañoMinimo(TX_Contraseña, "Contraseña", 4)) {
                 if (UsuarioExiste() == true) {
-                    JOptionPane.showMessageDialog(this, "EL USUARIO YA EXISTE", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    new Warning("El Usuario ya existe").setVisible(true);
                     TX_Usuario.requestFocus();
                 } else if (NoDocumentoExiste() == true) {
-                    JOptionPane.showMessageDialog(this, "YA HAY UN USUARIO REGISTRADO CON ESE NUMERO DE DOCUMENTO", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    new Warning("Cédula ya existente").setVisible(true);
                     TX_NoDocumento.requestFocus();
-                } else if (TelefonoExiste() == true) {
-                    JOptionPane.showMessageDialog(this, "YA HAY UN USUARIO REGISTRADO CON ESE NUMERO DE TELEFONO", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                    TX_Telefono.requestFocus();
                 } else {
                     GuardarBD();
                     LimpiarCampos();
@@ -582,19 +564,14 @@ public class CrearJefe extends javax.swing.JFrame {
     public void GuardarBD() {
 
         try {
-            //Variable tipo Connection para que funcione
             Connection Conexion = null;
-            //Crear un objeto de la clase Conexion para poder conectar con la BD
             ConexionBD BD = new ConexionBD();
-            //Se conceta con la BD
             Conexion = BD.getConexion();
-            //No se pa q sirve, pero ahi esta x si acaso
             Statement st = Conexion.createStatement();
 
-            //Variable para almacenar la instruccion SQL
-            //Para guardar en la tabla Pacientes
-            String SQL = "insert into Pacientes(Nombre_Apellido, Telefono, Genero,"
-                    + "Edad, Tipo_Documento, Numero_Documento, Usuario, Contraseña) values (?,?,?,?,?,?,?,?)";
+            //Para guardar en la tabla Jefe
+            String SQL = "insert into Jefe(Nombre_Apellido, Telefono, Genero,"
+                    + "Edad, Numero_Documento, Usuario, Contraseña) values (?,?,?,?,?,?,?)";
 
             //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
             PreparedStatement pst = Conexion.prepareStatement(SQL);
@@ -606,40 +583,22 @@ public class CrearJefe extends javax.swing.JFrame {
             if ("M".equals(sx)) {
                 Genero = "Masculino";
             }
-            String TipoDocumento = "";
-            switch (op) {
-                case (1):
-                    TipoDocumento = "Cedula de Ciudadania";
-                    break;
-                case (2):
-                    TipoDocumento = "Cedula de Extranjeria";
-                    break;
-                case (3):
-                    TipoDocumento = "Tarjeta de Identidad";
-                    break;
-                case (4):
-                    TipoDocumento = "Registro Civil";
-                    break;
-            }
 
             //Utilizacion de POO
-            //Creo un objeto temporal de la clase Paciente "P" para guardar los datos que se ingresan
-            //Asigno los valores a los atributos de Paciente
-            Clases.Paciente P = new Clases.Paciente(TX_NombreApellido.getText().toUpperCase(), Genero,
+            Clases.Jefe J = new Clases.Jefe(TX_NombreApellido.getText().toUpperCase(), Genero,
                     Double.parseDouble(TX_NoDocumento.getText()), Double.parseDouble(TX_Edad.getText()),
-                    TipoDocumento, Double.parseDouble(TX_Telefono.getText()),
-                    TX_Usuario.getText().toUpperCase(), TX_Contraseña.getText());
-
+                    Double.parseDouble(TX_Telefono.getText()), TX_Usuario.getText().toUpperCase(),
+                    TX_Contraseña.getText());
             //Guarda cada valor en su respectiva columna, la columna se define por el primer paramatro
-            //Guardo cada atributo del objeto P en su columna correspondiete, con los Getters
-            pst.setString(1, P.getNombre_Apellido());
-            pst.setDouble(2, P.getNo_Telefono());
-            pst.setString(3, P.getGenero());
-            pst.setDouble(4, P.getEdad());
-            pst.setString(5, P.getTipo_Documento());
-            pst.setDouble(6, P.getNo_Documento());
-            pst.setString(7, P.getUsuario());
-            pst.setString(8, P.getContraseña());
+            //Guardo cada atributo del objeto J en su columna correspondiete, con los Getters
+            pst.setString(1, J.getNombre_Apellido());
+            pst.setDouble(2, J.getNo_Telefono());
+            pst.setString(3, J.getGenero());
+            pst.setDouble(4, Double.parseDouble(TX_Edad.getText()));
+            pst.setDouble(5, J.getNo_Documento());
+            pst.setString(6, J.getUsuario());
+            pst.setString(7, J.getContraseña());
+
 
             int n = pst.executeUpdate(); //Para guardar los datos
 
@@ -648,21 +607,21 @@ public class CrearJefe extends javax.swing.JFrame {
             //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
             pst = Conexion.prepareStatement(SQL);
 
-            pst.setString(1, P.getUsuario());
-            pst.setString(2, P.getContraseña());
-            pst.setString(3, "Paciente");
+            pst.setString(1, J.getUsuario());
+            pst.setString(2, J.getContraseña());
+            pst.setString(3, "Jefe");
             int n1 = pst.executeUpdate(); //Para guardar los datos
 
             //Si es mayor que 0 quiere decir que se se inserto bien en la BD
             if (n > 0 && n1 > 0) {
                 //Mensaje de confirmacion
-                JOptionPane.showMessageDialog(this, "DATOS GUARDADOS CORRECTAMENTE");
+                new Success("Datos guardados correctamente").setVisible(true);
 
             }
 
         } catch (SQLException | HeadlessException ex) {
             //Error x si acaso
-            JOptionPane.showMessageDialog(this, "LOS DATOS NO HAN SIDO GUARDADOS CORRECTAMENTE", "Error", JOptionPane.ERROR_MESSAGE);
+            new Error("Error al guardar datos").setVisible(true);
 
         }
 
@@ -719,39 +678,10 @@ public class CrearJefe extends javax.swing.JFrame {
 
     }
 
-    public Boolean TelefonoExiste() {
-
-        try {
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            //Para buscar si el No Documento existe 
-            String SQL = "SELECT * FROM Pacientes WHERE Telefono = ?";
-
-            PreparedStatement pst = Conexion.prepareStatement(SQL);
-
-            pst.setString(1, TX_Telefono.getText());
-
-            //Extrae el conjunto de resultados 
-            ResultSet rs = pst.executeQuery();
-
-            //Si hay mas de un resultado: true
-            return rs.next();
-        } catch (SQLException | HeadlessException ex) {
-            return false;
-        }
-
-    }
-
     public Boolean TamañoMinimo(JTextField JTextField, String Campo, int min) {
         //Si no tiene el tamaño minimo de caracteres, muestra error
         if (JTextField.getText().length() < min) {
-            JOptionPane.showMessageDialog(null,
-                    "Tamaño no aceptado, minimo " + min + " caracteres en el campo: " + Campo
-                    + "\n\t                    Intente de nuevo",
-                    "Advertencia", JOptionPane.WARNING_MESSAGE);
+            new Warning("Tamaño minimo" + min).setVisible(true);
             return false;
         } else {
             return true;
@@ -761,9 +691,7 @@ public class CrearJefe extends javax.swing.JFrame {
     public Boolean TamañoTelefono(JTextField JTextField) {
         //Si no tiene el tamaño minimo de caracteres, muestra error
         if (JTextField.getText().length() != 7 && JTextField.getText().length() != 10) {
-            JOptionPane.showMessageDialog(null,
-                    "Numero de Telefono no valido, tiene que ser de 7 o 10 numeros, intente de nuevo",
-                    "Advertencia", JOptionPane.WARNING_MESSAGE);
+            new Warning("Tamaño minimo: 7-10 números").setVisible(true);
             return false;
         } else {
             return true;
