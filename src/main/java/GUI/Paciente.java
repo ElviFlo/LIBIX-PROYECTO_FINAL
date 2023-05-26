@@ -5,6 +5,7 @@
 package GUI;
 
 import ConexionBD.ConexionBD;
+import static GUI.Jefe.FormatoNombre;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.HeadlessException;
@@ -15,6 +16,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,6 +32,7 @@ public class Paciente extends javax.swing.JFrame {
     String Servicio;
     String Horario;
     String Observaciones;
+    private String Usuario;
 
     //Para hacer el Modelo de la tabla del horario
     DefaultTableModel ModeloTabla = new DefaultTableModel();
@@ -46,16 +50,33 @@ public class Paciente extends javax.swing.JFrame {
         CB_Servicio.addItem("-");
         CB_Doctor.addItem("-");
         CB_Hora.addItem("-");
+        JCB_servicio.addItem("-");
 
-        MostraServicios();
+        MostraServicios(CB_Servicio);
+        
 
         CB_Doctor.setEnabled(false);
         Calendario.setEnabled(false);
         CB_Hora.setEnabled(false);
         BT_EnviarSolicitud.setEnabled(false);
         TX_Observaciones.setEnabled(false);
+
+        JCB_confirmacion.addItem("-");
+        JCB_confirmacion.addItem("Si");
+        JCB_confirmacion.addItem("No");
+        JCB_estadocita.addItem("-");
+        JCB_estadocita.addItem("En Espera");
+        JCB_estadocita.addItem("Por Asistir");
+        JCB_estadocita.addItem("Cancelada");
+        JCB_estadocita.addItem("Completada");
+        JCB_orden.addItem("-");
+        JCB_orden.addItem("Ascendente");
+        JCB_orden.addItem("Descendente");
+
+        ModeloTabla();
+        Llenar("-", "-", "-", "-");
         
-        BT_Home.setColor1Background(new Color(82,132,192));
+        
     }
 
 
@@ -125,10 +146,8 @@ public class Paciente extends javax.swing.JFrame {
         bt_minimizar6 = new Componentes.AllButton();
         panelRound1 = new org.example.Custom.PanelRound();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new Componentes.Table();
+        Citas_paciente = new Componentes.Table();
         jLabel1 = new javax.swing.JLabel();
-        bt_eliminar = new Componentes.AllButton();
-        lb_eliminar = new javax.swing.JLabel();
         panelRound2 = new org.example.Custom.PanelRound();
         icon_do = new Componentes.BlurBackground();
         lb_doctor = new javax.swing.JLabel();
@@ -144,6 +163,11 @@ public class Paciente extends javax.swing.JFrame {
         icon_em = new javax.swing.JLabel();
         label_empleado = new javax.swing.JLabel();
         nu_em = new javax.swing.JLabel();
+        JCB_confirmacion = new Componentes.ComboBoxSuggestion();
+        JCB_estadocita = new Componentes.ComboBoxSuggestion();
+        JCB_servicio = new Componentes.ComboBoxSuggestion();
+        JCB_orden = new Componentes.ComboBoxSuggestion();
+        BT_Filtrar = new Componentes.AllButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -325,6 +349,7 @@ public class Paciente extends javax.swing.JFrame {
         NombreApellido.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Update_name.setForeground(new java.awt.Color(0, 0, 0));
+        Update_name.setEnabled(false);
         Update_name.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         Update_name.setHint("Ej: Rodolfo Rivera");
         Update_name.setHintColor(new java.awt.Color(153, 153, 153));
@@ -401,6 +426,7 @@ public class Paciente extends javax.swing.JFrame {
         NoDocumento.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         update_id.setForeground(new java.awt.Color(0, 0, 0));
+        update_id.setEnabled(false);
         update_id.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         update_id.setHint("Ej: 32692328");
         update_id.setHintColor(new java.awt.Color(153, 153, 153));
@@ -742,12 +768,12 @@ public class Paciente extends javax.swing.JFrame {
         panelRound1.setRadius(10);
         panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        table.setModel(new javax.swing.table.DefaultTableModel(
+        Citas_paciente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nombre", "Teléfono", "Género", "Edad", "ID", "Ocupación", "Usuario"
+                "Servicio", "Doctor", "Fecha", "Hora", "Confirmación", "Estado de la Cita", "Consultorio"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -758,9 +784,9 @@ public class Paciente extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table.setGridColor(new java.awt.Color(242, 242, 242));
-        table.setSelectionBackground(new java.awt.Color(204, 204, 204));
-        jScrollPane1.setViewportView(table);
+        Citas_paciente.setGridColor(new java.awt.Color(242, 242, 242));
+        Citas_paciente.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        jScrollPane1.setViewportView(Citas_paciente);
 
         panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 47, 829, 210));
 
@@ -768,31 +794,6 @@ public class Paciente extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(127, 127, 127));
         jLabel1.setText("Lista de Citas:");
         panelRound1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 11, -1, -1));
-
-        bt_eliminar.setBorder(null);
-        bt_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basura.png"))); // NOI18N
-        bt_eliminar.setColor1Background(new java.awt.Color(255, 255, 254));
-        bt_eliminar.setColor2Over(new java.awt.Color(176, 207, 240));
-        bt_eliminar.setColor3Click(new java.awt.Color(163, 176, 212));
-        bt_eliminar.setEnableColorGradient(true);
-        bt_eliminar.setEnableShadow(true);
-        bt_eliminar.setRadius(32);
-        bt_eliminar.setRippleColor(new java.awt.Color(255, 255, 255));
-        bt_eliminar.setRoundBottomLeft(10);
-        bt_eliminar.setRoundBottomRight(10);
-        bt_eliminar.setRoundTopLeft(10);
-        bt_eliminar.setRoundTopRight(10);
-        bt_eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_eliminarActionPerformed(evt);
-            }
-        });
-        panelRound1.add(bt_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 5, 45, 40));
-
-        lb_eliminar.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
-        lb_eliminar.setForeground(new java.awt.Color(127, 127, 127));
-        lb_eliminar.setText("Eliminar Registro");
-        panelRound1.add(lb_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 13, -1, -1));
 
         blurBackground10.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 870, 275));
 
@@ -859,6 +860,57 @@ public class Paciente extends javax.swing.JFrame {
 
         blurBackground10.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 40, 270, 130));
 
+        JCB_confirmacion.setBackground(new java.awt.Color(248, 247, 247));
+        JCB_confirmacion.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        blurBackground10.add(JCB_confirmacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
+
+        JCB_estadocita.setBackground(new java.awt.Color(248, 247, 247));
+        JCB_estadocita.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        blurBackground10.add(JCB_estadocita, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, -1, -1));
+
+        JCB_servicio.setBackground(new java.awt.Color(248, 247, 247));
+        JCB_servicio.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        JCB_servicio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JCB_servicioItemStateChanged(evt);
+            }
+        });
+        blurBackground10.add(JCB_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, -1, -1));
+
+        JCB_orden.setBackground(new java.awt.Color(248, 247, 247));
+        JCB_orden.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        JCB_orden.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JCB_ordenItemStateChanged(evt);
+            }
+        });
+        blurBackground10.add(JCB_orden, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 200, -1, -1));
+
+        BT_Filtrar.setBorder(null);
+        BT_Filtrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filtrar.png"))); // NOI18N
+        BT_Filtrar.setColor1Background(new java.awt.Color(255, 255, 254));
+        BT_Filtrar.setColor2Over(new java.awt.Color(176, 207, 240));
+        BT_Filtrar.setColor3Click(new java.awt.Color(163, 176, 212));
+        BT_Filtrar.setEnableColorGradient(true);
+        BT_Filtrar.setEnableShadow(true);
+        BT_Filtrar.setRadius(32);
+        BT_Filtrar.setRippleColor(new java.awt.Color(255, 255, 255));
+        BT_Filtrar.setRoundBottomLeft(10);
+        BT_Filtrar.setRoundBottomRight(10);
+        BT_Filtrar.setRoundTopLeft(10);
+        BT_Filtrar.setRoundTopRight(10);
+        BT_Filtrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BT_FiltrarMouseClicked(evt);
+            }
+        });
+        BT_Filtrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_FiltrarActionPerformed(evt);
+            }
+        });
+        blurBackground10.add(BT_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(854, 198, 48, 46));
+
         home.add(blurBackground10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 580));
 
         CardLayout.add(home, "Inicio");
@@ -871,6 +923,8 @@ public class Paciente extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // <editor-fold defaultstate="collapsed" desc="Frame de Paciente">
+    
     int mouseX, mouseY;
 
     private void BT_HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_HomeMouseClicked
@@ -882,6 +936,7 @@ public class Paciente extends javax.swing.JFrame {
 
     private void BT_SolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_SolicitudMouseClicked
         cardLayout.show(CardLayout, "Solicitud");
+        MostraServicios();
         BT_Home.setColor1Background(new Color(122,173,252));
         BT_Solicitud.setColor1Background(new Color(82,132,192));
         BT_Datos.setColor1Background(new Color(122,173,252));
@@ -938,7 +993,7 @@ public class Paciente extends javax.swing.JFrame {
         mouseY = evt.getY();
     }//GEN-LAST:event_barra_superiorMousePressed
 
-    // </editor-fold>
+    
 
     private void BT_CerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_CerrarSesionMouseClicked
         Login lg = new Login();
@@ -968,59 +1023,6 @@ public class Paciente extends javax.swing.JFrame {
         mouseX = evt.getX();
         mouseY = evt.getY();
     }//GEN-LAST:event_barra_superior8MousePressed
-
-    private void bt_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_eliminarActionPerformed
-        int filaseleccionada = table.getSelectedRow();
-        if (filaseleccionada == -1) {
-            new Warning("Debe seleccionar una fila").setVisible(true);
-        } else {
-            DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-            String tipo = (String) modelo.getValueAt(filaseleccionada, 5);
-            String user = (String) modelo.getValueAt(filaseleccionada, 6);
-            try {
-                //Se establece la conexión con la base de datos
-                Connection Conexion = null;
-                ConexionBD BD = new ConexionBD();
-                Conexion = BD.getConexion();
-                Statement st = Conexion.createStatement();
-                //Inicialmente se elimina el registro de la tabla de usuarios
-                PreparedStatement stmt = Conexion.prepareStatement("DELETE FROM Usuarios WHERE Usuario = ?");
-                stmt.setString(1, user);
-                stmt.executeUpdate();
-                //Ahora se hace la comparación del tipo de empleado que es para eliminarlo de su tabla correspondiente en nuestra base de datos de
-                //Microsoft Access
-                //Elimación en la tabla de doctores
-                if (tipo.equals("Pediatria") || tipo.equals("Ginecología") || tipo.equals("Radiología") || tipo.equals("Oftalmología") || tipo.equals("Optometría")
-                        //Cambiar MEDICO GENERAL POR MEDICINA GENERAL CUANDO SE VAYA A PASAAAARR IMPORTAAAANTEEEE
-                        || tipo.equals("Odontología general") || tipo.equals("Cardiología") || tipo.equals("Medico General") || tipo.equals("Ecografía") || tipo.equals("Medicina interna")
-                        || tipo.equals("Ortopedía") || !tipo.equals("Psiquiatría")) {
-                    PreparedStatement stmt2 = Conexion.prepareStatement("DELETE FROM Doctores WHERE Usuario = ?");
-                    stmt2.setString(1, user);
-                    stmt2.executeUpdate();
-                } else {
-                    //Eliminación en la tabla de administradores
-                    if (tipo.equals("Administrador")) {
-                        PreparedStatement stmt3 = Conexion.prepareStatement("DELETE FROM Admin WHERE Usuario = ?");
-                        stmt3.setString(1, user);
-                        stmt3.executeUpdate();
-                    } else {
-                        //Eliminación en la tabla de los demás empleados del hospital
-                        if (!tipo.equals("Pediatria") && !tipo.equals("Administrador") && !tipo.equals("Ginecología") && !tipo.equals("Radiología") && !tipo.equals("Oftalmología") && !tipo.equals("Optometría")
-                                && !tipo.equals("Odontología general") && !tipo.equals("Cardiología") && !tipo.equals("Medico General") && !tipo.equals("Ecografía") && !tipo.equals("Medicina interna")
-                                && !tipo.equals("Ortopedía")) {
-                            PreparedStatement stmt4 = Conexion.prepareStatement("DELETE FROM OtroEmpleado WHERE Usuario = ?");
-                            stmt4.setString(1, user);
-                            stmt4.executeUpdate();
-                        }
-                    }
-                }
-                modelo.removeRow(filaseleccionada);
-                new Success("Empleado eliminado correctamente").setVisible(true);
-            } catch (SQLException e) {
-                new Error("Error al eliminar el empleado").setVisible(true);
-            }
-        }
-    }//GEN-LAST:event_bt_eliminarActionPerformed
 
     private void BT_ActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_ActualizarMouseClicked
         // <editor-fold defaultstate="collapsed" desc="Validaciones de datos">
@@ -1294,6 +1296,25 @@ public class Paciente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Update_nameKeyTyped
 
+    private void JCB_servicioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JCB_servicioItemStateChanged
+
+    }//GEN-LAST:event_JCB_servicioItemStateChanged
+
+    private void JCB_ordenItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JCB_ordenItemStateChanged
+
+    }//GEN-LAST:event_JCB_ordenItemStateChanged
+
+    private void BT_FiltrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_FiltrarMouseClicked
+    }//GEN-LAST:event_BT_FiltrarMouseClicked
+
+    private void BT_FiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_FiltrarActionPerformed
+        aplicarfiltro();
+    }//GEN-LAST:event_BT_FiltrarActionPerformed
+
+ // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Funciones Panel solicitud">
+    
     public String ObtenerDia() {
 
         int Dia_Semana = Calendario.getCalendar().get(java.util.Calendar.DAY_OF_WEEK);
@@ -1453,7 +1474,13 @@ public class Paciente extends javax.swing.JFrame {
         }
     }
     
-
+    public void LimpiarCampos_Solicitud() {
+        TX_Observaciones.setText("");
+        Calendario.setDate(null);
+        CB_Hora.setSelectedIndex(0);
+        CB_Servicio.setSelectedIndex(0);
+    }
+  
     public void GuardarBD() {
         try {
             //Función que guarda un objeto de tipo solicitud en la tabla Solicitudes de la base de datos
@@ -1501,96 +1528,9 @@ public class Paciente extends javax.swing.JFrame {
 
         }
     }
-
-    public void LimpiarCampos_Solicitud() {
-        TX_Observaciones.setText("");
-        Calendario.setDate(null);
-        CB_Hora.setSelectedIndex(0);
-        CB_Servicio.setSelectedIndex(0);
-    }
-
-    public Boolean UsuarioExiste() {
-
-        try {
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            //Para buscar si existe el usuario a crear
-            String SQL = "SELECT * FROM Usuarios WHERE Usuario = ?";
-
-            PreparedStatement pst = Conexion.prepareStatement(SQL);
-
-            pst.setString(1, update_user.getText());
-            //Extrae el conjunto de resultados 
-            ResultSet rs = pst.executeQuery();
-
-            //Si hay mas de un resultado: true
-            return rs.next();
-        } catch (SQLException | HeadlessException ex) {
-            return false;
-        }
-
-    }
-
-    public Boolean NoDocumentoExiste() {
-
-        try {
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            //Para buscar si el No Documento existe 
-            String SQL = "SELECT * FROM Pacientes WHERE Numero_Documento = ?";
-
-            PreparedStatement pst = Conexion.prepareStatement(SQL);
-
-            pst.setString(1, update_id.getText());
-
-            //Extrae el conjunto de resultados 
-            ResultSet rs = pst.executeQuery();
-
-            //Si hay mas de un resultado: true
-            return rs.next();
-        } catch (SQLException | HeadlessException ex) {
-            return false;
-        }
-
-    }
-
-    public Boolean TamañoMinimo(JTextField JTextField, String Campo, int min) {
-        //Si no tiene el tamaño minimo de caracteres, muestra error
-        if (JTextField.getText().length() < min) {
-            new Warning("Tamaño minimo" + min).setVisible(true);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public Boolean TamañoTelefono(JTextField JTextField) {
-        //Si no tiene el tamaño minimo de caracteres, muestra error
-        if (JTextField.getText().length() != 7 && JTextField.getText().length() != 10) {
-            new Warning("Tamaño minimo: 7-10 números").setVisible(true);
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public void LimpiarCampos() {
-        update_tdoc.setText("");
-        Update_name.setText("");
-        update_id.setText("");
-        update_age.setText("");
-        Update_phone.setText("");
-        update_user.setText("");
-        Update_password.setText("");
-        update_confirm.setText("");
-
-    }
+    
+    // </editor-fold>
+        
     // <editor-fold defaultstate="collapsed" desc="Funciones para Panel Actualizar Datos">
     
     //Función que extrae los datos de la base de datos de pacientey los almacena en un vector para mostrarlo en la ventana de actualiación
@@ -1818,7 +1758,507 @@ public class Paciente extends javax.swing.JFrame {
         }
     }
     
+    public Boolean UsuarioExiste() {
+
+        try {
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            //Para buscar si existe el usuario a crear
+            String SQL = "SELECT * FROM Usuarios WHERE Usuario = ?";
+
+            PreparedStatement pst = Conexion.prepareStatement(SQL);
+
+            pst.setString(1, update_user.getText());
+            //Extrae el conjunto de resultados 
+            ResultSet rs = pst.executeQuery();
+
+            //Si hay mas de un resultado: true
+            return rs.next();
+        } catch (SQLException | HeadlessException ex) {
+            return false;
+        }
+
+    }
+
+    public Boolean NoDocumentoExiste() {
+
+        try {
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            //Para buscar si el No Documento existe 
+            String SQL = "SELECT * FROM Pacientes WHERE Numero_Documento = ?";
+
+            PreparedStatement pst = Conexion.prepareStatement(SQL);
+
+            pst.setString(1, update_id.getText());
+
+            //Extrae el conjunto de resultados 
+            ResultSet rs = pst.executeQuery();
+
+            //Si hay mas de un resultado: true
+            return rs.next();
+        } catch (SQLException | HeadlessException ex) {
+            return false;
+        }
+
+    }
+
+    public Boolean TamañoMinimo(JTextField JTextField, String Campo, int min) {
+        //Si no tiene el tamaño minimo de caracteres, muestra error
+        if (JTextField.getText().length() < min) {
+            new Warning("Tamaño minimo" + min).setVisible(true);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public Boolean TamañoTelefono(JTextField JTextField) {
+        //Si no tiene el tamaño minimo de caracteres, muestra error
+        if (JTextField.getText().length() != 7 && JTextField.getText().length() != 10) {
+            new Warning("Tamaño minimo: 7-10 números").setVisible(true);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void LimpiarCampos() {
+        update_tdoc.setText("");
+        Update_name.setText("");
+        update_id.setText("");
+        update_age.setText("");
+        Update_phone.setText("");
+        update_user.setText("");
+        Update_password.setText("");
+        update_confirm.setText("");
+    }
+    
     // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Funciones Panel Inicio">
+    //Funcion que lee en la BD todas los diferentes servicios (especialidad) de cada doctor
+    public void MostraServicios(JComboBox<String> combobox) {
+        try {
+
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+
+            //Seleciona las diferentes especialidades de la tabla doctores
+            String SQL = "SELECT DISTINCT Especialidad FROM Doctores";
+            Statement stmt = Conexion.createStatement();
+
+            //Guarda en rs los resultados de la busqueda SQL, osea las diferentes especialidades
+            ResultSet rs = stmt.executeQuery(SQL);
+
+            //Mientras que en los resultados de rs exista mas resultados
+            while (rs.next()) {
+                //Obtengo el valor de la columna Especialidad y La agrego en el ComboBox de Servicios
+                combobox.addItem(rs.getString("Especialidad"));
+            }
+
+        } catch (SQLException ex) {
+            new Error("Error al seleccionar datos").setVisible(true);
+        }
+    }
+
+    public void Serviciospaciente(String Usuario) {
+        try {
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            String SQL = "SELECT DISTINCT Servicio FROM Solicitudes WHERE Usuario = ?";
+            Statement stmt = Conexion.createStatement();
+            PreparedStatement st = Conexion.prepareStatement(SQL);
+            st.setString(1, Usuario);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                JCB_servicio.addItem(rs.getString("Servicio"));
+            }
+
+        } catch (Exception ex) {
+            new Error("Error al seleccionar datos").setVisible(true);
+        }
+    }
+    
+    public double ObtenerTelefono() {
+        try {
+
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+
+            //Seleciona las diferentes especialidades de la tabla doctores
+            String SQL = "SELECT Telefono FROM Pacientes WHERE Usuario = '" + Login.Usuario + "'";
+            Statement stmt = Conexion.createStatement();
+
+            //Guarda en rs los resultados de la busqueda SQL, osea las diferentes especialidades
+            ResultSet rs = stmt.executeQuery(SQL);
+
+            //Mientras que en los resultados de rs exista mas resultados
+            while (rs.next()) {
+                return rs.getDouble("Telefono");
+            }
+
+        } catch (SQLException ex) {
+
+        }
+        return 0;
+
+    }
+    
+    public void ModeloTabla() {
+        DefaultTableModel tablapaciente = (DefaultTableModel) Citas_paciente.getModel();
+        String encabezados[] = {"Servicio", "Doctor", "Fecha", "Hora", "Confirmación", "Estado de la cita", "Consultorio"};
+        tablapaciente = new DefaultTableModel(null, encabezados);
+        Citas_paciente.setModel(tablapaciente);
+
+    }
+
+    public void aplicarfiltro() {
+        switch ((String) JCB_estadocita.getSelectedItem()) {
+            case "-":
+                switch ((String) JCB_orden.getSelectedItem()) {
+                    case "-":
+                        if ("-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+                            Llenar("-", "-", "-", "-");
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("-", "-", (String) JCB_servicio.getSelectedItem(), "-");
+
+                        } else if ("-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("-", "-", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("-", "-", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                    case "Ascendente":
+
+                        if ("-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+                            Llenar("-", "ASC", "-", "-");
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("-", "ASC", (String) JCB_servicio.getSelectedItem(), "-");
+
+                        } else if ("-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("-", "ASC", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("-", "ASC", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                    case "Descendente":
+
+                        if ("-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+                            Llenar("-", "DESC", "-", "-");
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("-", "DESC", (String) JCB_servicio.getSelectedItem(), "-");
+
+                        } else if ("-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("-", "DESC", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("-", "DESC", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                }
+                break;
+            case "En Espera":
+                switch ((String) JCB_orden.getSelectedItem()) {
+                    case "-":
+                        if ("-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+                            Llenar("En Espera", "-", "-", "-");
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("En Espera", "-", (String) JCB_servicio.getSelectedItem(), "-");
+
+                        } else if ("-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("En Espera", "-", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("En Espera", "-", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                    case "Ascendente":
+
+                        if ("-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+                            Llenar("En Espera", "ASC", "-", "-");
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("En Espera", "ASC", (String) JCB_servicio.getSelectedItem(), "-");
+
+                        } else if ("-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("En Espera", "ASC", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("En Espera", "ASC", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                    case "Descendente":
+
+                        if ("-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+                            Llenar("En Espera", "DESC", "-", "-");
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("En Espera", "DESC", (String) JCB_servicio.getSelectedItem(), "-");
+
+                        } else if ("-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("En Espera", "DESC", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("En Espera", "DESC", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                }
+                break;
+            case "Por Asistir":
+                switch ((String) JCB_orden.getSelectedItem()) {
+                    case "-":
+                        if ("-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+                            Llenar("Valida", "-", "-", "-");
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("Valida", "-", (String) JCB_servicio.getSelectedItem(), "-");
+
+                        } else if ("-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("Valida", "-", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("Valida", "-", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                    case "Ascendente":
+
+                        if ("-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+                            Llenar("Valida", "ASC", "-", "-");
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("Valida", "ASC", (String) JCB_servicio.getSelectedItem(), "-");
+
+                        } else if ("-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("Valida", "ASC", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("Valida", "ASC", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                    case "Descendente":
+
+                        if ("-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+                            Llenar("Valida", "DESC", "-", "-");
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && "-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("Valida", "DESC", (String) JCB_servicio.getSelectedItem(), "-");
+
+                        } else if ("-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("Valida", "DESC", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!"-".equals((String) JCB_servicio.getSelectedItem()) && !"-".equals((String) JCB_confirmacion.getSelectedItem())) {
+
+                            Llenar("Valida", "DESC", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                }
+                break;
+            case "Cancelada":
+                switch ((String) JCB_orden.getSelectedItem()) {
+                    case "-":
+                        if (JCB_servicio.getSelectedItem().equals("-") && JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "-", "-", "-");
+                        } else if (!JCB_servicio.getSelectedItem().equals("-") && JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "-", (String) JCB_servicio.getSelectedItem(), "-");
+                        } else if (JCB_servicio.getSelectedItem().equals("-") && !JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "-", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!JCB_servicio.getSelectedItem().equals("-") && !JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "-", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                    case "Ascendente":
+                        if (JCB_servicio.getSelectedItem().equals("-") && JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "ASC", "-", "-");
+                        } else if (!JCB_servicio.getSelectedItem().equals("-") && JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "ASC", (String) JCB_servicio.getSelectedItem(), "-");
+                        } else if (JCB_servicio.getSelectedItem().equals("-") && !JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "ASC", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!JCB_servicio.getSelectedItem().equals("-") && !JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "ASC", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                    case "Descendente":
+                        if (JCB_servicio.getSelectedItem().equals("-") && JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "DESC", "-", "-");
+                        } else if (!JCB_servicio.getSelectedItem().equals("-") && JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "DESC", (String) JCB_servicio.getSelectedItem(), "-");
+                        } else if (JCB_servicio.getSelectedItem().equals("-") && !JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "DESC", "-", (String) JCB_confirmacion.getSelectedItem());
+                        } else if (!JCB_servicio.getSelectedItem().equals("-") && !JCB_confirmacion.getSelectedItem().equals("-")) {
+                            Llenar("Cancelada", "DESC", (String) JCB_servicio.getSelectedItem(), (String) JCB_confirmacion.getSelectedItem());
+                        }
+                        break;
+                }
+        }
+
+    }
+
+    public void Llenar(String estado, String orden, String servicio, String confirmacion) {
+        try {
+            Connection conexion = null;
+            ConexionBD bd = new ConexionBD();
+            conexion = bd.getConexion();
+            String sql = "SELECT Servicio, Doctor, Fecha, Hora, Confirmada, Estado_Cita FROM Solicitudes WHERE Usuario = ?";
+            int parametro = 2; // Índice del primer parámetro
+
+            if (!servicio.equals("-")) {
+                sql += " AND Servicio = ?";
+
+            }
+            if (!confirmacion.equals("-")) {
+                sql += " AND Confirmada = ?";
+
+            }
+            if (!estado.equals("-")) {
+                sql += " AND Estado_Cita = ?";
+
+            }
+
+            if (!orden.equals("-")) {
+                if (orden.equals("ASC")) {
+                    sql += " ORDER BY Fecha " + orden + ", Hora " + orden;
+                }
+                if (orden.equals("DESC")) {
+                    sql += " ORDER BY Fecha " + orden + ", Hora " + orden;
+
+                }
+            }
+
+            PreparedStatement pstmt = conexion.prepareStatement(sql);
+            pstmt.setString(1, getUsuario());
+
+            if (!servicio.equals("-")) {
+                pstmt.setString(parametro, servicio);
+                parametro++;
+
+            }
+            if (!confirmacion.equals("-")) {
+                pstmt.setString(parametro, confirmacion);
+                parametro++;
+
+            }
+            if (!estado.equals("-")) {
+                pstmt.setString(parametro, estado);
+                parametro++;
+
+            }
+
+            ResultSet rs = pstmt.executeQuery();
+            DefaultTableModel modelo = (DefaultTableModel) Citas_paciente.getModel();
+            modelo.setRowCount(0);
+
+            while (rs.next()) {
+                Object[] fila = new Object[7];
+                fila[0] = "  "+rs.getString("Servicio");
+                fila[1] = FormatoNombre(rs.getString("Doctor"));
+                fila[2] = rs.getString("Fecha");
+                fila[3] = rs.getString("Hora");
+                fila[4] = rs.getString("Confirmada");
+                fila[5] = rs.getString("Estado_Cita");
+                if (fila[5].equals("Valida")) {
+                    fila[5] = "Por Asistir";
+                }
+                fila[6] = getConsultorio((String) fila[1]);
+                modelo.addRow(fila);
+            }
+
+            Citas_paciente.setModel(modelo);
+
+        } catch (Exception e) {
+            new Error("Error al seleccionar datos").setVisible(true);
+        }
+    }
+
+    public String getConsultorio(String Doctor) {
+        String consultorio = null;
+        try {
+            Connection conexion = null;
+            ConexionBD bd = new ConexionBD();
+            conexion = bd.getConexion();
+            String sql = "SELECT No_Consultorio FROM Doctores WHERE Nombre_Apellido = ?";
+            PreparedStatement statement = conexion.prepareStatement(sql);
+            statement.setString(1, Doctor.toUpperCase());
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                consultorio = Integer.toString(rs.getInt("No_Consultorio"));
+
+            }
+            rs.close();
+            statement.close();
+            conexion.close();
+
+        } catch (Exception ex) {
+            new Error("Error al conectar con BD").setVisible(true);
+        }
+        return consultorio;
+
+    }
+
+    public void settUsuario(String user) {
+        this.Usuario = user;
+    }
+
+    public String getUsuario() {
+        return this.Usuario;
+    }
+
+    public void Datostabla(String Usuario) {
+        try {
+            Connection Conexion = null;
+            DefaultTableModel ModeloTabla = (DefaultTableModel) Citas_paciente.getModel();
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            String registros[] = new String[7];
+            ModeloTabla.setRowCount(0);
+            String SQL = "SELECT * FROM Solicitudes WHERE Usuario = ?";
+            PreparedStatement st = Conexion.prepareStatement(SQL);
+            st.setString(1, Usuario);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                registros[0] = "  "+rs.getString("Servicio");
+                registros[1] = FormatoNombre(rs.getString("Doctor"));
+                registros[2] = rs.getString("Fecha");
+                registros[3] = rs.getString("Hora");
+                registros[4] = rs.getString("Confirmada");
+                registros[5] = rs.getString("Estado_Cita");
+                registros[6]= getConsultorio(registros[1]);
+                if (registros[5].equals("Valida")) {
+                    registros[5] = "Por Asistir";
+                }
+                ModeloTabla.addRow(registros);
+            }
+            Citas_paciente.setModel(ModeloTabla);
+        } catch (Exception ex) {
+            new Error("Error al cargar datos").setVisible(true);
+        }
+    }
+    
+    // </editor-fold>
+    
 
     /**
      * @param args the command line arguments
@@ -1861,6 +2301,7 @@ public class Paciente extends javax.swing.JFrame {
     private Componentes.AllButton BT_CerrarSesion;
     private Componentes.AllButton BT_Datos;
     private Componentes.AllButton BT_EnviarSolicitud;
+    private Componentes.AllButton BT_Filtrar;
     private Componentes.AllButton BT_Home;
     private Componentes.AllButton BT_Menu;
     private Componentes.AllButton BT_Solicitud;
@@ -1870,10 +2311,15 @@ public class Paciente extends javax.swing.JFrame {
     private Componentes.ComboBoxSuggestion CB_Servicio;
     private com.toedter.calendar.JDateChooser Calendario;
     private javax.swing.JPanel CardLayout;
+    private Componentes.Table Citas_paciente;
     private org.example.Custom.PanelRound ConfirmarContr;
     private org.example.Custom.PanelRound Contraseña;
     private javax.swing.JPanel Datos;
     private org.example.Custom.PanelRound Edad;
+    private Componentes.ComboBoxSuggestion JCB_confirmacion;
+    private Componentes.ComboBoxSuggestion JCB_estadocita;
+    private Componentes.ComboBoxSuggestion JCB_orden;
+    private Componentes.ComboBoxSuggestion JCB_servicio;
     private org.example.Custom.PanelRound JP_BarraLateral;
     private javax.swing.JPanel JP_CerraSesionBarraL;
     private org.example.Custom.PanelRound NoDocumento;
@@ -1898,7 +2344,6 @@ public class Paciente extends javax.swing.JFrame {
     private Componentes.AllButton bt_cerrar;
     private Componentes.AllButton bt_cerrar2;
     private Componentes.AllButton bt_cerrar8;
-    private Componentes.AllButton bt_eliminar;
     private javax.swing.JLabel bt_f;
     private javax.swing.JLabel bt_m;
     private Componentes.AllButton bt_minimizar;
@@ -1918,7 +2363,6 @@ public class Paciente extends javax.swing.JFrame {
     private javax.swing.JLabel label_empleado;
     private javax.swing.JLabel lb_doc;
     private javax.swing.JLabel lb_doctor;
-    private javax.swing.JLabel lb_eliminar;
     private javax.swing.JLabel lb_fecha;
     private javax.swing.JLabel lb_fecha1;
     private javax.swing.JLabel lb_fecha2;
@@ -1930,7 +2374,6 @@ public class Paciente extends javax.swing.JFrame {
     private org.example.Custom.PanelRound panelRound2;
     private org.example.Custom.PanelRound panelRound3;
     private org.example.Custom.PanelRound panelRound4;
-    private Componentes.Table table;
     private org.example.Custom.AnimatedTextField update_age;
     private org.example.Custom.AnimatedPasswordField update_confirm;
     private org.example.Custom.AnimatedTextField update_id;

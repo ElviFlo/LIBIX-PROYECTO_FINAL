@@ -34,8 +34,10 @@ public class Login extends javax.swing.JFrame {
     public static String Usuario;
     Paciente JF_Paciente = new Paciente();
     Administrador JF_Admin = new Administrador();
-    CrearPaciente JF_CrearPaciente = new CrearPaciente();
+    Doctor JF_Doctor = new Doctor();
     Jefe JF_Jefe = new Jefe();
+    CrearPaciente JF_CrearPaciente = new CrearPaciente();
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -265,7 +267,8 @@ public class Login extends javax.swing.JFrame {
                     //Dependiendo del Tipo en la BD, Mostrar el JFrame correspondiente
                     switch (ObtenerTipo()) {
                         case "Doctor":
-
+                            JF_Doctor.setVisible(true);
+                            this.setVisible(false);
                             break;
                             
                         case "Administrador":
@@ -286,9 +289,12 @@ public class Login extends javax.swing.JFrame {
                 } else {
                     if ("Paciente".equals(ObtenerTipo())) {
                         JF_Paciente.setVisible(true);
+                        JF_Paciente.settUsuario(Usuario.toUpperCase());
+                        JF_Paciente.Datostabla(Usuario.toUpperCase());
+                        JF_Paciente.Serviciospaciente(Usuario.toUpperCase());
                         this.setVisible(false);
                     } else {
-                        new Warning("El usuario no es tipo Pacient").setVisible(true);
+                        new Warning("El usuario no es tipo Paciente").setVisible(true);
                     }
                 }
             }

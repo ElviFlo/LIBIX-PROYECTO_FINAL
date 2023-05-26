@@ -40,8 +40,6 @@ public class Administrador extends javax.swing.JFrame {
         bt_minimizar.setColor1Background(new Color(0, 0, 0, 0));
         bt_cerrar.setColor1Background(new Color(0, 0, 0, 0));
         cardLayout = (CardLayout) (CardLayout.getLayout());
-        bt_f1.setVisible(false);
-        bt_m1.setVisible(true);
         esconder.setVisible(false);
         esconder1.setVisible(false);
         cardLayout.show(CardLayout, "Inicio");
@@ -234,6 +232,7 @@ public class Administrador extends javax.swing.JFrame {
         NombreApellido1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Update_name.setForeground(new java.awt.Color(0, 0, 0));
+        Update_name.setEnabled(false);
         Update_name.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         Update_name.setHint("Ej: Rodolfo Rivera");
         Update_name.setHintColor(new java.awt.Color(153, 153, 153));
@@ -298,6 +297,7 @@ public class Administrador extends javax.swing.JFrame {
         NoDocumento1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         update_id.setForeground(new java.awt.Color(0, 0, 0));
+        update_id.setEnabled(false);
         update_id.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         update_id.setHint("Ej: 32692328");
         update_id.setHintColor(new java.awt.Color(153, 153, 153));
@@ -606,7 +606,6 @@ public class Administrador extends javax.swing.JFrame {
         lb_Estado.setForeground(new java.awt.Color(127, 127, 127));
         lb_Estado.setText("Cambiar Estado");
         panelRound1.add(lb_Estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 9, -1, -1));
-        lb_Estado.getAccessibleContext().setAccessibleName("Cambiar Estado");
 
         blurBackground8.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 870, 260));
 
