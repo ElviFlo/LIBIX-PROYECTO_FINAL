@@ -1404,7 +1404,7 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="label_doctor">
+                        <Component class="javax.swing.JLabel" name="label_total">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="SansSerif" size="18" style="1"/>
@@ -1482,7 +1482,7 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="label_administrador">
+                        <Component class="javax.swing.JLabel" name="label_completadas">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="SansSerif" size="18" style="1"/>
@@ -1544,7 +1544,7 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="label_empleado">
+                        <Component class="javax.swing.JLabel" name="label_pendientes">
                           <Properties>
                             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                               <Font name="SansSerif" size="18" style="1"/>

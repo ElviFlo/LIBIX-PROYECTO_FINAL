@@ -23,6 +23,7 @@ public class Bienvenida extends javax.swing.JFrame {
         setBackground(new Color(0, 0, 0, 0));
         bt_minimizar.setColor1Background(new Color(0, 0, 0, 0));
         bt_cerrar.setColor1Background(new Color(0, 0, 0, 0));
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Icon/icon.png")).getImage());
     }
 
     /**

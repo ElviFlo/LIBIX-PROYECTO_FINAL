@@ -268,6 +268,7 @@ public class Login extends javax.swing.JFrame {
                     switch (ObtenerTipo()) {
                         case "Doctor":
                             JF_Doctor.setVisible(true);
+                            JF_Doctor.setUsuarioLogin(Usuario);
                             this.setVisible(false);
                             break;
                             

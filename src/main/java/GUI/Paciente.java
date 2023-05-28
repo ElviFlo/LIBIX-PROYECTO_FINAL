@@ -5,7 +5,6 @@
 package GUI;
 
 import ConexionBD.ConexionBD;
-import static GUI.Jefe.FormatoNombre;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.HeadlessException;
@@ -17,7 +16,6 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -33,6 +31,7 @@ public class Paciente extends javax.swing.JFrame {
     String Horario;
     String Observaciones;
     private String Usuario;
+    int total_citas, num_completadas = 0, num_pendientes = 0;
 
     //Para hacer el Modelo de la tabla del horario
     DefaultTableModel ModeloTabla = new DefaultTableModel();
@@ -46,14 +45,13 @@ public class Paciente extends javax.swing.JFrame {
         bt_cerrar.setColor1Background(new Color(0, 0, 0, 0));
         cardLayout = (CardLayout) (CardLayout.getLayout());
         cardLayout.show(CardLayout, "Inicio");
-        
+
         CB_Servicio.addItem("-");
         CB_Doctor.addItem("-");
         CB_Hora.addItem("-");
         JCB_servicio.addItem("-");
 
         MostraServicios(CB_Servicio);
-        
 
         CB_Doctor.setEnabled(false);
         Calendario.setEnabled(false);
@@ -75,10 +73,13 @@ public class Paciente extends javax.swing.JFrame {
 
         ModeloTabla();
         Llenar("-", "-", "-", "-");
-        
-        
-    }
 
+        BT_Home.setColor1Background(new Color(82, 132, 192));
+        label_total.setText(String.valueOf(total_citas));
+        label_completadas.setText(String.valueOf(num_completadas));
+        label_pendientes.setText(String.valueOf(num_pendientes));
+
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -152,16 +153,16 @@ public class Paciente extends javax.swing.JFrame {
         icon_do = new Componentes.BlurBackground();
         lb_doctor = new javax.swing.JLabel();
         nu_do = new javax.swing.JLabel();
-        label_doctor = new javax.swing.JLabel();
+        label_total = new javax.swing.JLabel();
         panelRound3 = new org.example.Custom.PanelRound();
         blurBackground11 = new Componentes.BlurBackground();
         icon_ad = new javax.swing.JLabel();
         nu_ad = new javax.swing.JLabel();
-        label_administrador = new javax.swing.JLabel();
+        label_completadas = new javax.swing.JLabel();
         panelRound4 = new org.example.Custom.PanelRound();
         blurBackground12 = new Componentes.BlurBackground();
         icon_em = new javax.swing.JLabel();
-        label_empleado = new javax.swing.JLabel();
+        label_pendientes = new javax.swing.JLabel();
         nu_em = new javax.swing.JLabel();
         JCB_confirmacion = new Componentes.ComboBoxSuggestion();
         JCB_estadocita = new Componentes.ComboBoxSuggestion();
@@ -812,9 +813,9 @@ public class Paciente extends javax.swing.JFrame {
         nu_do.setText("Número: ");
         panelRound2.add(nu_do, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
 
-        label_doctor.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        label_doctor.setForeground(new java.awt.Color(127, 127, 127));
-        panelRound2.add(label_doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 110, 20));
+        label_total.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        label_total.setForeground(new java.awt.Color(127, 127, 127));
+        panelRound2.add(label_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 110, 20));
 
         blurBackground10.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 290, 130));
 
@@ -833,9 +834,9 @@ public class Paciente extends javax.swing.JFrame {
         nu_ad.setText("Número: ");
         panelRound3.add(nu_ad, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
-        label_administrador.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        label_administrador.setForeground(new java.awt.Color(127, 127, 127));
-        panelRound3.add(label_administrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 110, 20));
+        label_completadas.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        label_completadas.setForeground(new java.awt.Color(127, 127, 127));
+        panelRound3.add(label_completadas, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 110, 20));
 
         blurBackground10.add(panelRound3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, 270, 130));
 
@@ -849,9 +850,9 @@ public class Paciente extends javax.swing.JFrame {
         icon_em.setText("Citas Pendientes");
         panelRound4.add(icon_em, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
 
-        label_empleado.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        label_empleado.setForeground(new java.awt.Color(127, 127, 127));
-        panelRound4.add(label_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 110, 20));
+        label_pendientes.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        label_pendientes.setForeground(new java.awt.Color(127, 127, 127));
+        panelRound4.add(label_pendientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 110, 20));
 
         nu_em.setFont(new java.awt.Font("SansSerif", 1, 17)); // NOI18N
         nu_em.setForeground(new java.awt.Color(127, 127, 127));
@@ -924,29 +925,34 @@ public class Paciente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // <editor-fold defaultstate="collapsed" desc="Frame de Paciente">
-    
     int mouseX, mouseY;
 
     private void BT_HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_HomeMouseClicked
         cardLayout.show(CardLayout, "Inicio");
-        BT_Home.setColor1Background(new Color(82,132,192));
-        BT_Solicitud.setColor1Background(new Color(122,173,252));
-        BT_Datos.setColor1Background(new Color(122,173,252));
+        BT_Home.setColor1Background(new Color(82, 132, 192));
+        BT_Solicitud.setColor1Background(new Color(122, 173, 252));
+        BT_Datos.setColor1Background(new Color(122, 173, 252));
+        num_completadas = 0;
+        num_pendientes = 0;
+        Llenar("-", "-", "-", "-");
+        label_total.setText(String.valueOf(total_citas));
+        label_completadas.setText(String.valueOf(num_completadas));
+        label_pendientes.setText(String.valueOf(num_pendientes));
     }//GEN-LAST:event_BT_HomeMouseClicked
 
     private void BT_SolicitudMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_SolicitudMouseClicked
         cardLayout.show(CardLayout, "Solicitud");
         MostraServicios();
-        BT_Home.setColor1Background(new Color(122,173,252));
-        BT_Solicitud.setColor1Background(new Color(82,132,192));
-        BT_Datos.setColor1Background(new Color(122,173,252));
+        BT_Home.setColor1Background(new Color(122, 173, 252));
+        BT_Solicitud.setColor1Background(new Color(82, 132, 192));
+        BT_Datos.setColor1Background(new Color(122, 173, 252));
     }//GEN-LAST:event_BT_SolicitudMouseClicked
 
     private void BT_DatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_DatosMouseClicked
         cardLayout.show(CardLayout, "Datos");
-        BT_Home.setColor1Background(new Color(122,173,252));
-        BT_Solicitud.setColor1Background(new Color(122,173,252));
-        BT_Datos.setColor1Background(new Color(82,132,192));
+        BT_Home.setColor1Background(new Color(122, 173, 252));
+        BT_Solicitud.setColor1Background(new Color(122, 173, 252));
+        BT_Datos.setColor1Background(new Color(82, 132, 192));
         update_user.setText(extraer()[4]);
         update_tdoc.setText(extraer()[7]);
         Update_name.setText(extraer()[0]);
@@ -993,7 +999,6 @@ public class Paciente extends javax.swing.JFrame {
         mouseY = evt.getY();
     }//GEN-LAST:event_barra_superiorMousePressed
 
-    
 
     private void BT_CerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_CerrarSesionMouseClicked
         Login lg = new Login();
@@ -1102,9 +1107,9 @@ public class Paciente extends javax.swing.JFrame {
         GuardarBD();
         LimpiarCampos_Solicitud();
         cardLayout.show(CardLayout, "Inicio");
-        BT_Home.setColor1Background(new Color(82,132,192));
-        BT_Solicitud.setColor1Background(new Color(122,173,252));
-        BT_Datos.setColor1Background(new Color(122,173,252));
+        BT_Home.setColor1Background(new Color(82, 132, 192));
+        BT_Solicitud.setColor1Background(new Color(122, 173, 252));
+        BT_Datos.setColor1Background(new Color(122, 173, 252));
     }//GEN-LAST:event_BT_EnviarSolicitudMouseClicked
 
     private void BT_EnviarSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_EnviarSolicitudActionPerformed
@@ -1164,7 +1169,7 @@ public class Paciente extends javax.swing.JFrame {
             CB_Hora.removeAllItems(); //Borro todos los items
             CB_Hora.addItem("-");
         }
-        
+
     }//GEN-LAST:event_CalendarioPropertyChange
 
     private void update_userKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_update_userKeyTyped
@@ -1311,10 +1316,8 @@ public class Paciente extends javax.swing.JFrame {
         aplicarfiltro();
     }//GEN-LAST:event_BT_FiltrarActionPerformed
 
- // </editor-fold>
-    
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Funciones Panel solicitud">
-    
     public String ObtenerDia() {
 
         int Dia_Semana = Calendario.getCalendar().get(java.util.Calendar.DAY_OF_WEEK);
@@ -1341,7 +1344,7 @@ public class Paciente extends javax.swing.JFrame {
         }
 
     }
-    
+
     //Funcion que lee en la BD todas las diferentes Horas segun el doctor selecionado
     public void MostraHoras() {
         try {
@@ -1415,11 +1418,10 @@ public class Paciente extends javax.swing.JFrame {
             }
 
         } catch (SQLException ex) {
-            
+
         }
     }
 
-    
     //Funcion que lee en la BD todas los diferentes doctores segun la especialidad selecionada
     public void MostraDoctores() {
         try {
@@ -1443,11 +1445,10 @@ public class Paciente extends javax.swing.JFrame {
             }
 
         } catch (SQLException ex) {
-            
+
         }
     }
-    
-    
+
     //Funcion que lee en la BD todas los diferentes servicios (especialidad) de cada doctor
     public void MostraServicios() {
         try {
@@ -1470,17 +1471,17 @@ public class Paciente extends javax.swing.JFrame {
             }
 
         } catch (SQLException ex) {
-            
+
         }
     }
-    
+
     public void LimpiarCampos_Solicitud() {
         TX_Observaciones.setText("");
         Calendario.setDate(null);
         CB_Hora.setSelectedIndex(0);
         CB_Servicio.setSelectedIndex(0);
     }
-  
+
     public void GuardarBD() {
         try {
             //Función que guarda un objeto de tipo solicitud en la tabla Solicitudes de la base de datos
@@ -1528,44 +1529,41 @@ public class Paciente extends javax.swing.JFrame {
 
         }
     }
-    
+
     // </editor-fold>
-        
     // <editor-fold defaultstate="collapsed" desc="Funciones para Panel Actualizar Datos">
-    
     //Función que extrae los datos de la base de datos de pacientey los almacena en un vector para mostrarlo en la ventana de actualiación
     String user[] = new String[8];
-    
+
     public String[] extraer() {
         try {
-            
+
             String user_;
-            
+
             Connection Conexion = null;
             ConexionBD BD = new ConexionBD();
             Conexion = BD.getConexion();
             Statement st = Conexion.createStatement();
-            
-            
+
             String SQL = "Select * from Pacientes";
 
             Statement sentence = Conexion.createStatement();
             ResultSet rst = sentence.executeQuery(SQL);
             while (rst.next()) {
-                
+
                 user_ = rst.getString("Usuario");
-                
-                if (user_.equals((Login.Usuario).toUpperCase())){
-                   user[0] = FormatoNombre(rst.getString("Nombre_Apellido"));
-                   user[1] = String.valueOf((long) rst.getDouble("Telefono"));
-                   user[2] = String.valueOf((int) rst.getDouble("Edad"));
-                   user[3] = String.valueOf((long) rst.getDouble("Numero_Documento"));
-                   user[4] = rst.getString("Usuario");
-                   user[5] = rst.getString("Contraseña");
-                   user[6] = rst.getString("Genero");
-                   user[7] = rst.getString("Tipo_Documento"); 
+
+                if (user_.equals((Login.Usuario).toUpperCase())) {
+                    user[0] = FormatoNombre(rst.getString("Nombre_Apellido"));
+                    user[1] = String.valueOf((long) rst.getDouble("Telefono"));
+                    user[2] = String.valueOf((int) rst.getDouble("Edad"));
+                    user[3] = String.valueOf((long) rst.getDouble("Numero_Documento"));
+                    user[4] = rst.getString("Usuario");
+                    user[5] = rst.getString("Contraseña");
+                    user[6] = rst.getString("Genero");
+                    user[7] = rst.getString("Tipo_Documento");
                 }
-                
+
             }
         } catch (SQLException | HeadlessException e) {
             new Error("Error al buscar Datos").setVisible(true);
@@ -1573,7 +1571,7 @@ public class Paciente extends javax.swing.JFrame {
         }
         return user;
     }
-    
+
     //Función para eliminar al paciente actual del hospital y cambiar sus datos
     public void eliminar_act() {
         try {
@@ -1592,13 +1590,12 @@ public class Paciente extends javax.swing.JFrame {
             PreparedStatement stmt2 = Conexion.prepareStatement("DELETE FROM Usuarios WHERE Usuario = ?");
             stmt2.setString(1, user[4]);
             stmt2.executeUpdate();
-                    
 
         } catch (SQLException e) {
             new Error("Error al actualizar Datos").setVisible(true);
         }
     }
-    
+
     //Para poner una cadena en formato de un nombre 
     public static String FormatoNombre(String Cadena) {
         if (Cadena == null || Cadena.isEmpty()) {
@@ -1620,10 +1617,8 @@ public class Paciente extends javax.swing.JFrame {
 
         return sb.toString();
     }
-    
-    
-    //Función para validar que ninguno de los datos a actualizar le pertenexcan a otro usuario en el hospital  
 
+    //Función para validar que ninguno de los datos a actualizar le pertenexcan a otro usuario en el hospital  
     public Boolean Existencia() {
 
         try {
@@ -1684,7 +1679,7 @@ public class Paciente extends javax.swing.JFrame {
         }
 
     }
-    
+
     public void ActualizarBD() {
 
         try {
@@ -1713,15 +1708,13 @@ public class Paciente extends javax.swing.JFrame {
             }
 
             //Utilizacion de POO
-            
             Clases.Paciente P = new Clases.Paciente(Update_name.getText().toUpperCase(), Genero,
                     Double.parseDouble(update_id.getText()), Double.parseDouble(update_age.getText()),
                     update_tdoc.getText(), Double.parseDouble(Update_phone.getText()),
                     update_user.getText().toUpperCase(), Update_password.getText());
-            
+
             //Guarda cada valor en su respectiva columna, la columna se define por el primer paramatro
             //Guardo cada atributo del objeto J en su columna correspondiete, con los Getters
-            
             pst.setString(1, P.getNombre_Apellido());
             pst.setDouble(2, P.getNo_Telefono());
             pst.setString(3, P.getGenero());
@@ -1730,7 +1723,6 @@ public class Paciente extends javax.swing.JFrame {
             pst.setDouble(6, P.getNo_Documento());
             pst.setString(7, P.getUsuario());
             pst.setString(8, P.getContraseña());
-            
 
             int n = pst.executeUpdate(); //Para guardar los datos
 
@@ -1757,7 +1749,7 @@ public class Paciente extends javax.swing.JFrame {
 
         }
     }
-    
+
     public Boolean UsuarioExiste() {
 
         try {
@@ -1839,9 +1831,8 @@ public class Paciente extends javax.swing.JFrame {
         Update_password.setText("");
         update_confirm.setText("");
     }
-    
+
     // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Funciones Panel Inicio">
     //Funcion que lee en la BD todas los diferentes servicios (especialidad) de cada doctor
     public void MostraServicios(JComboBox<String> combobox) {
@@ -1887,7 +1878,7 @@ public class Paciente extends javax.swing.JFrame {
             new Error("Error al seleccionar datos").setVisible(true);
         }
     }
-    
+
     public double ObtenerTelefono() {
         try {
 
@@ -1913,7 +1904,7 @@ public class Paciente extends javax.swing.JFrame {
         return 0;
 
     }
-    
+
     public void ModeloTabla() {
         DefaultTableModel tablapaciente = (DefaultTableModel) Citas_paciente.getModel();
         String encabezados[] = {"Servicio", "Doctor", "Fecha", "Hora", "Confirmación", "Estado de la cita", "Consultorio"};
@@ -2173,7 +2164,7 @@ public class Paciente extends javax.swing.JFrame {
 
             while (rs.next()) {
                 Object[] fila = new Object[7];
-                fila[0] = "  "+rs.getString("Servicio");
+                fila[0] = "  " + rs.getString("Servicio");
                 fila[1] = FormatoNombre(rs.getString("Doctor"));
                 fila[2] = rs.getString("Fecha");
                 fila[3] = rs.getString("Hora");
@@ -2181,7 +2172,12 @@ public class Paciente extends javax.swing.JFrame {
                 fila[5] = rs.getString("Estado_Cita");
                 if (fila[5].equals("Valida")) {
                     fila[5] = "Por Asistir";
+                    num_pendientes = num_pendientes + 1;
                 }
+                if (fila[5].equals("Completada")) {
+                    num_completadas = num_completadas + 1;
+                }
+                total_citas = num_pendientes + num_completadas;
                 fila[6] = getConsultorio((String) fila[1]);
                 modelo.addRow(fila);
             }
@@ -2239,16 +2235,24 @@ public class Paciente extends javax.swing.JFrame {
             st.setString(1, Usuario);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                registros[0] = "  "+rs.getString("Servicio");
+                registros[0] = "  " + rs.getString("Servicio");
                 registros[1] = FormatoNombre(rs.getString("Doctor"));
                 registros[2] = rs.getString("Fecha");
                 registros[3] = rs.getString("Hora");
                 registros[4] = rs.getString("Confirmada");
                 registros[5] = rs.getString("Estado_Cita");
-                registros[6]= getConsultorio(registros[1]);
+                registros[6] = getConsultorio(registros[1]);
                 if (registros[5].equals("Valida")) {
                     registros[5] = "Por Asistir";
+                    num_pendientes = num_pendientes + 1;
                 }
+                if (registros[5].equals("Completada")) {
+                    num_completadas = num_completadas + 1;
+                }
+                total_citas = num_pendientes + num_completadas;
+                label_total.setText(String.valueOf(total_citas));
+                label_completadas.setText(String.valueOf(num_completadas));
+                label_pendientes.setText(String.valueOf(num_pendientes));
                 ModeloTabla.addRow(registros);
             }
             Citas_paciente.setModel(ModeloTabla);
@@ -2256,10 +2260,8 @@ public class Paciente extends javax.swing.JFrame {
             new Error("Error al cargar datos").setVisible(true);
         }
     }
-    
-    // </editor-fold>
-    
 
+    // </editor-fold>
     /**
      * @param args the command line arguments
      */
@@ -2358,9 +2360,9 @@ public class Paciente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel label_administrador;
-    private javax.swing.JLabel label_doctor;
-    private javax.swing.JLabel label_empleado;
+    private javax.swing.JLabel label_completadas;
+    private javax.swing.JLabel label_pendientes;
+    private javax.swing.JLabel label_total;
     private javax.swing.JLabel lb_doc;
     private javax.swing.JLabel lb_doctor;
     private javax.swing.JLabel lb_fecha;

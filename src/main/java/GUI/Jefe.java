@@ -2469,12 +2469,18 @@ public class Jefe extends javax.swing.JFrame {
 
     private void BT_InicioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_InicioMouseClicked
         cardLayout.show(CardLayout, "Inicio");
+        num_doc = 0;
+        num_admin = 0;
+        num_emp = 0;
         MostrarDatosTabla((String) CB_Cargos.getSelectedItem(), (String) CB_Genero.getSelectedItem());
         BT_Inicio.setColor1Background(new Color(82, 132, 192));
         BT_Datos.setColor1Background(new Color(122, 173, 252));
         BT_Doctor.setColor1Background(new Color(122, 173, 252));
         BT_Empleado.setColor1Background(new Color(122, 173, 252));
         BT_Administrador.setColor1Background(new Color(122, 173, 252));
+        label_doctor.setText(String.valueOf(num_doc));
+        label_administrador.setText(String.valueOf(num_admin));
+        label_empleado.setText(String.valueOf(num_emp));
     }//GEN-LAST:event_BT_InicioMouseClicked
 
     // </editor-fold>
@@ -3912,7 +3918,6 @@ public class Jefe extends javax.swing.JFrame {
             if (n > 0 && n1 > 0) {
                 //Mensaje de confirmacion
                 new Success("Datos guardados correctamente").setVisible(true);
-
             }
 
         } catch (SQLException | HeadlessException e) {
@@ -4076,7 +4081,6 @@ public class Jefe extends javax.swing.JFrame {
             if (n > 0 && n1 > 0) {
                 //Mensaje de confirmacion
                 new Success("Datos guardados correctamente").setVisible(true);
-
             }
 
         } catch (SQLException | HeadlessException e) {

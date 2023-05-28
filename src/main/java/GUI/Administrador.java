@@ -31,6 +31,7 @@ public class Administrador extends javax.swing.JFrame {
     static CardLayout cardLayout;
     //Para hacer el Modelo de la tabla del horario
     DefaultTableModel ModeloTabla = new DefaultTableModel();
+    int total_citas, num_completadas = 0, num_pendientes = 0;
 
     String sx;
 
@@ -54,8 +55,12 @@ public class Administrador extends javax.swing.JFrame {
         MostraDoctores();
 
         LlenarTodosDatos("Todas", "", "", "");
-        
+
         BT_Home.setColor1Background(new Color(82, 132, 192));
+        total_citas = num_completadas + num_pendientes;
+        label_total.setText(String.valueOf(total_citas));
+        label_completadas.setText(String.valueOf(num_completadas));
+        label_pendiente.setText(String.valueOf(num_pendientes));
 
     }
 
@@ -754,9 +759,15 @@ public class Administrador extends javax.swing.JFrame {
 
     private void BT_HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_HomeMouseClicked
         cardLayout.show(CardLayout, "Inicio");
+        num_completadas = 0;
+        num_pendientes = 0;
         ActualizarTabla();
         BT_Home.setColor1Background(new Color(82, 132, 192));
         BT_Datos.setColor1Background(new Color(122, 173, 252));
+        total_citas = num_completadas + num_pendientes;
+        label_total.setText(String.valueOf(total_citas));
+        label_completadas.setText(String.valueOf(num_completadas));
+        label_pendiente.setText(String.valueOf(num_pendientes));
     }//GEN-LAST:event_BT_HomeMouseClicked
 
     private void BT_DatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_DatosMouseClicked
@@ -770,7 +781,7 @@ public class Administrador extends javax.swing.JFrame {
         Update_password.setText(extraer()[5]);
         update_confirm.setText(extraer()[5]);
         update_id.setText(extraer()[3]);
-                String generoact = extraer()[6];
+        String generoact = extraer()[6];
         if (generoact.equals("Masculino")) {
             bt_m1.setVisible(true);
             bt_f1.setVisible(false);
@@ -1036,7 +1047,7 @@ public class Administrador extends javax.swing.JFrame {
     }//GEN-LAST:event_CB_DoctorItemStateChanged
 
     private void BT_CambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_CambiarEstadoActionPerformed
-       
+
     }//GEN-LAST:event_BT_CambiarEstadoActionPerformed
 
     private void BT_CambiarEstadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_CambiarEstadoMouseClicked
@@ -1078,6 +1089,14 @@ public class Administrador extends javax.swing.JFrame {
             if (seleccion >= 0 && seleccion < Opciones.length) {
                 String OpcionSelecionada = (String) ComboBox.getSelectedItem();
 
+                num_completadas = num_completadas + 1;
+                num_pendientes = num_pendientes - 1;
+
+                total_citas = num_completadas + num_pendientes;
+                label_total.setText(String.valueOf(total_citas));
+                label_completadas.setText(String.valueOf(num_completadas));
+                label_pendiente.setText(String.valueOf(num_pendientes));
+
                 UsuarioT = Tabla.getValueAt(FilaSeleccionada, 0);
                 Doctor = Tabla.getValueAt(FilaSeleccionada, 2);
                 Fecha = Tabla.getValueAt(FilaSeleccionada, 3);
@@ -1108,7 +1127,7 @@ public class Administrador extends javax.swing.JFrame {
                     pstmt.close();
                     conexion.close();
                 } catch (SQLException ex) {
-                    
+
                 }
 
             }
@@ -1117,7 +1136,7 @@ public class Administrador extends javax.swing.JFrame {
     }//GEN-LAST:event_BT_CambiarEstadoMouseClicked
 
     // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Funciones del Panel de Inicio">
+    // <editor-fold defaultstate="collapsed" desc="Funciones del Panel de Inicio">     
     public void LlenarTodosDatos(String Filtro, String Orden, String especialidad, String doctor) {
         try {
             Connection conexion = null;
@@ -1181,13 +1200,18 @@ public class Administrador extends javax.swing.JFrame {
             modeloTabla.setRowCount(0);
 
             while (resultado.next()) {
-                String usuario = resultado.getString("Usuario");
+                String usuario = "  " + resultado.getString("Usuario");
                 String servicio = resultado.getString("Servicio");
                 String nombreDoctor = FormatoNombre(resultado.getString("Doctor"));
                 String fecha = resultado.getString("Fecha");
                 String hora = resultado.getString("Hora");
                 String confirmada = resultado.getString("Confirmada");
                 String estado = resultado.getString("Estado_Cita");
+                if (confirmada.equals("Si")) {
+                    num_completadas = num_completadas + 1;
+                } else {
+                    num_pendientes = num_pendientes + 1;
+                }
                 String Telefono = String.valueOf((long) resultado.getDouble("Telefono"));
                 Object[] fila = {usuario, servicio, nombreDoctor, fecha, hora, confirmada, estado, Telefono};
                 modeloTabla.addRow(fila);
@@ -1196,7 +1220,7 @@ public class Administrador extends javax.swing.JFrame {
             new Error("Error al cargar datos").setVisible(true);
         }
     }
-    
+
     public void ActualizarTabla() {
 
         switch ((String) CB_EstadoCita.getSelectedItem()) {
@@ -1538,7 +1562,7 @@ public class Administrador extends javax.swing.JFrame {
 
                 user_ = rst.getString("Usuario");
 
-                if (user_.equals((Login.Usuario))) {
+                if (user_.equals((Login.Usuario).toUpperCase())) {
                     user[0] = FormatoNombre(rst.getString("Nombre_Apellido"));
                     user[1] = String.valueOf((long) rst.getDouble("Telefono"));
                     user[2] = String.valueOf((int) rst.getDouble("Edad"));
@@ -1643,7 +1667,7 @@ public class Administrador extends javax.swing.JFrame {
     public void ActualizarBD() {
 
         try {
-            
+
             Connection Conexion = null;
             ConexionBD BD = new ConexionBD();
             Conexion = BD.getConexion();
@@ -1665,7 +1689,6 @@ public class Administrador extends javax.swing.JFrame {
             String fechaComoString = sdf.format(fecha);
             String state = "Activo";
 
-            
             Clases.Administrador A = new Clases.Administrador(Update_name.getText(), Genero, Double.parseDouble(update_id.getText()), Double.parseDouble(update_age.getText()), Double.parseDouble(Update_phone.getText()), fechaComoString, state, update_user.getText(), Update_password.getText());
             pst.setString(1, A.getNombre_Apellido());
             pst.setDouble(2, A.getNo_Telefono());

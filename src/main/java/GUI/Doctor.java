@@ -34,6 +34,9 @@ public class Doctor extends javax.swing.JFrame {
 
     String sx;
 
+    private String UsuarioLogin;
+    int total_citas, num_completadas = 0, num_pendientes = 0;
+
     public Doctor() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
@@ -44,19 +47,41 @@ public class Doctor extends javax.swing.JFrame {
         esconder1.setVisible(false);
         cardLayout.show(CardLayout, "Inicio");
 
-        CB_Orden.addItem("-");
-        CB_Orden.addItem("Ascendente");
-        CB_Orden.addItem("Descendente");
-
-        CB_Servicio.addItem("-");
-
-        MostrarServicios();
-        MostraDoctores();
-
-        LlenarTodosDatos("Todas", "", "", "");
-
         BT_Home.setColor1Background(new Color(82, 132, 192));
 
+        MostrarPacientes(getUsuarioLogin());
+
+        String estadoCita = (String) CB_Estado.getSelectedItem();
+        String orden = (String) CB_Orden.getSelectedItem();
+        orden = orden.equalsIgnoreCase("Ascendente") ? "ASC" : "DESC";
+        String paciente = (String) CB_PacienteF.getSelectedItem();
+        String doctor = getUsuarioLogin();
+
+        switch (estadoCita) {
+            case "Todas":
+                LlenarTabla("Todas", orden, paciente, doctor);
+                break;
+            case "Por Asistir":
+                LlenarTabla("Valida", orden, paciente, doctor);
+                break;
+            case "Completada":
+                LlenarTabla("Completada", orden, paciente, doctor);
+                break;
+        }
+
+        BT_Home.setColor1Background(new Color(82, 132, 192));
+        label_total.setText(String.valueOf(total_citas));
+        label_completadas.setText(String.valueOf(num_completadas));
+        label_pendientes.setText(String.valueOf(num_pendientes));
+
+    }
+
+    public String getUsuarioLogin() {
+        return UsuarioLogin;
+    }
+
+    public void setUsuarioLogin(String UsuarioLogin) {
+        this.UsuarioLogin = UsuarioLogin;
     }
 
     /**
@@ -131,12 +156,11 @@ public class Doctor extends javax.swing.JFrame {
         panelRound4 = new org.example.Custom.PanelRound();
         blurBackground12 = new Componentes.BlurBackground();
         icon_em = new javax.swing.JLabel();
-        label_pendiente = new javax.swing.JLabel();
+        label_pendientes = new javax.swing.JLabel();
         nu_em = new javax.swing.JLabel();
-        CB_Doctor = new Componentes.ComboBoxSuggestion();
-        CB_EstadoCita = new Componentes.ComboBoxSuggestion();
+        CB_Estado = new Componentes.ComboBoxSuggestion();
         CB_Orden = new Componentes.ComboBoxSuggestion();
-        CB_Servicio = new Componentes.ComboBoxSuggestion();
+        CB_PacienteF = new Componentes.ComboBoxSuggestion();
         BT_Filtrar = new Componentes.AllButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -589,11 +613,11 @@ public class Doctor extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Usuario", "Servicio", "Doctor", "Fecha", "Hora", "Confirmada", "Estado", "Telefono"
+                "Paciente", "Fecha", "Hora", "Estado de Cita", "Telefono"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -695,9 +719,9 @@ public class Doctor extends javax.swing.JFrame {
         icon_em.setText("Citas Pendientes");
         panelRound4.add(icon_em, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 24, -1, -1));
 
-        label_pendiente.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        label_pendiente.setForeground(new java.awt.Color(127, 127, 127));
-        panelRound4.add(label_pendiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 72, 110, 20));
+        label_pendientes.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        label_pendientes.setForeground(new java.awt.Color(127, 127, 127));
+        panelRound4.add(label_pendientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 72, 110, 20));
 
         nu_em.setFont(new java.awt.Font("SansSerif", 1, 17)); // NOI18N
         nu_em.setForeground(new java.awt.Color(127, 127, 127));
@@ -706,32 +730,24 @@ public class Doctor extends javax.swing.JFrame {
 
         blurBackground8.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 40, 270, 110));
 
-        CB_Doctor.setBackground(new java.awt.Color(248, 247, 247));
-        CB_Doctor.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        CB_Doctor.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                CB_DoctorItemStateChanged(evt);
-            }
-        });
-        blurBackground8.add(CB_Doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 200, -1, -1));
-
-        CB_EstadoCita.setBackground(new java.awt.Color(248, 247, 247));
-        CB_EstadoCita.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todas", "En Espera", "Valida", "Cancelada" }));
-        CB_EstadoCita.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        blurBackground8.add(CB_EstadoCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
+        CB_Estado.setBackground(new java.awt.Color(248, 247, 247));
+        CB_Estado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Todas", "Por Asistir", "Completada" }));
+        CB_Estado.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        blurBackground8.add(CB_Estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
 
         CB_Orden.setBackground(new java.awt.Color(248, 247, 247));
+        CB_Orden.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Ascendente", "Descendente" }));
         CB_Orden.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         blurBackground8.add(CB_Orden, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, -1, -1));
 
-        CB_Servicio.setBackground(new java.awt.Color(248, 247, 247));
-        CB_Servicio.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        CB_Servicio.addItemListener(new java.awt.event.ItemListener() {
+        CB_PacienteF.setBackground(new java.awt.Color(248, 247, 247));
+        CB_PacienteF.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        CB_PacienteF.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                CB_ServicioItemStateChanged(evt);
+                CB_PacienteFItemStateChanged(evt);
             }
         });
-        blurBackground8.add(CB_Servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, -1, -1));
+        blurBackground8.add(CB_PacienteF, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, -1, -1));
 
         BT_Filtrar.setBorder(null);
         BT_Filtrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filtrar.png"))); // NOI18N
@@ -756,7 +772,7 @@ public class Doctor extends javax.swing.JFrame {
                 BT_FiltrarActionPerformed(evt);
             }
         });
-        blurBackground8.add(BT_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(854, 198, 48, 46));
+        blurBackground8.add(BT_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(675, 198, 48, 46));
 
         javax.swing.GroupLayout InicioLayout = new javax.swing.GroupLayout(Inicio);
         Inicio.setLayout(InicioLayout);
@@ -788,9 +804,31 @@ public class Doctor extends javax.swing.JFrame {
 
     private void BT_HomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_HomeMouseClicked
         cardLayout.show(CardLayout, "Inicio");
-        ActualizarTabla();
+        num_completadas = 0;
+        num_pendientes = 0;
+        LlenarTabla("Todas", "", "", getUsuarioLogin().toUpperCase());
         BT_Home.setColor1Background(new Color(82, 132, 192));
         BT_Datos.setColor1Background(new Color(122, 173, 252));
+        String estadoCita = (String) CB_Estado.getSelectedItem();
+        String orden = (String) CB_Orden.getSelectedItem();
+        orden = orden.equalsIgnoreCase("Ascendente") ? "ASC" : "DESC";
+        String paciente = (String) CB_PacienteF.getSelectedItem();
+        String doctor = getUsuarioLogin();
+
+        switch (estadoCita) {
+            case "Todas":
+                LlenarTabla("Todas", orden, paciente, doctor);
+                break;
+            case "Por Asistir":
+                LlenarTabla("Valida", orden, paciente, doctor);
+                break;
+            case "Completada":
+                LlenarTabla("Completada", orden, paciente, doctor);
+                break;
+        }
+        label_total.setText(String.valueOf(total_citas));
+        label_completadas.setText(String.valueOf(num_completadas));
+        label_pendientes.setText(String.valueOf(num_pendientes));
     }//GEN-LAST:event_BT_HomeMouseClicked
 
     private void BT_DatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_DatosMouseClicked
@@ -859,15 +897,28 @@ public class Doctor extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Panel de Inicio">
     private void BT_FiltrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_FiltrarMouseClicked
-        ActualizarTabla();
+        String estadoCita = (String) CB_Estado.getSelectedItem();
+        String orden = (String) CB_Orden.getSelectedItem();
+        orden = orden.equalsIgnoreCase("Ascendente") ? "ASC" : "DESC";
+        String paciente = (String) CB_PacienteF.getSelectedItem();
+        String doctor = getUsuarioLogin();
+
+        switch (estadoCita) {
+            case "Todas":
+                LlenarTabla("Todas", orden, paciente, doctor);
+                break;
+            case "Por Asistir":
+                LlenarTabla("Valida", orden, paciente, doctor);
+                break;
+            case "Completada":
+                LlenarTabla("Completada", orden, paciente, doctor);
+                break;
+        }
     }//GEN-LAST:event_BT_FiltrarMouseClicked
 
-    private void CB_ServicioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CB_ServicioItemStateChanged
+    private void CB_PacienteFItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CB_PacienteFItemStateChanged
 
-    }//GEN-LAST:event_CB_ServicioItemStateChanged
-
-    private void CB_DoctorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CB_DoctorItemStateChanged
-    }//GEN-LAST:event_CB_DoctorItemStateChanged
+    }//GEN-LAST:event_CB_PacienteFItemStateChanged
 
     private void BT_CambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_CambiarEstadoActionPerformed
 
@@ -1166,279 +1217,6 @@ public class Doctor extends javax.swing.JFrame {
         }
     }
 
-    public void ActualizarTabla() {
-
-        switch ((String) CB_EstadoCita.getSelectedItem()) {
-            case "Todas":
-                switch ((String) CB_Orden.getSelectedItem()) {
-                    case "-":
-                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-                            LlenarTodosDatos("Todas", "", "", "");
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Todas", "", (String) CB_Servicio.getSelectedItem(), "");
-
-                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Todas", "", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Todas", "", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                    case "Ascendente":
-
-                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-                            LlenarTodosDatos("Todas", "ASC", "", "");
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Todas", "ASC", (String) CB_Servicio.getSelectedItem(), "");
-
-                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Todas", "ASC", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Todas", "ASC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                    case "Descendente":
-
-                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-                            LlenarTodosDatos("Todas", "DESC", "", "");
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Todas", "DESC", (String) CB_Servicio.getSelectedItem(), "");
-
-                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Todas", "DESC", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Todas", "DESC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                }
-                break;
-            case "En Espera":
-                switch ((String) CB_Orden.getSelectedItem()) {
-                    case "-":
-                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-                            LlenarTodosDatos("En Espera", "", "", "");
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("En Espera", "", (String) CB_Servicio.getSelectedItem(), "");
-
-                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("En Espera", "", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("En Espera", "", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                    case "Ascendente":
-
-                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-                            LlenarTodosDatos("En Espera", "ASC", "", "");
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("En Espera", "ASC", (String) CB_Servicio.getSelectedItem(), "");
-
-                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("En Espera", "ASC", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("En Espera", "ASC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                    case "Descendente":
-
-                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-                            LlenarTodosDatos("En Espera", "DESC", "", "");
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("En Espera", "DESC", (String) CB_Servicio.getSelectedItem(), "");
-
-                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("En Espera", "DESC", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("En Espera", "DESC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                }
-                break;
-            case "Valida":
-                switch ((String) CB_Orden.getSelectedItem()) {
-                    case "-":
-                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-                            LlenarTodosDatos("Valida", "", "", "");
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Valida", "", (String) CB_Servicio.getSelectedItem(), "");
-
-                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Valida", "", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Valida", "", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                    case "Ascendente":
-
-                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-                            LlenarTodosDatos("Valida", "ASC", "", "");
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Valida", "ASC", (String) CB_Servicio.getSelectedItem(), "");
-
-                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Valida", "ASC", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Valida", "ASC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                    case "Descendente":
-
-                        if ("-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-                            LlenarTodosDatos("Valida", "DESC", "", "");
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && "-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Valida", "DESC", (String) CB_Servicio.getSelectedItem(), "");
-
-                        } else if ("-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Valida", "DESC", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!"-".equals((String) CB_Servicio.getSelectedItem()) && !"-".equals((String) CB_Doctor.getSelectedItem())) {
-
-                            LlenarTodosDatos("Valida", "DESC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                }
-                break;
-            case "Cancelada":
-                switch ((String) CB_Orden.getSelectedItem()) {
-                    case "-":
-                        if (CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "", "", "");
-                        } else if (!CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "", (String) CB_Servicio.getSelectedItem(), "");
-                        } else if (CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                    case "Ascendente":
-                        if (CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "ASC", "", "");
-                        } else if (!CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "ASC", (String) CB_Servicio.getSelectedItem(), "");
-                        } else if (CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "ASC", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "ASC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                    case "Descendente":
-                        if (CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "DESC", "", "");
-                        } else if (!CB_Servicio.getSelectedItem().equals("-") && CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "DESC", (String) CB_Servicio.getSelectedItem(), "");
-                        } else if (CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "DESC", "", (String) CB_Doctor.getSelectedItem());
-                        } else if (!CB_Servicio.getSelectedItem().equals("-") && !CB_Doctor.getSelectedItem().equals("-")) {
-                            LlenarTodosDatos("Cancelada", "DESC", (String) CB_Servicio.getSelectedItem(), (String) CB_Doctor.getSelectedItem());
-                        }
-                        break;
-                }
-        }
-
-    }
-
-    public void MostraDoctores() {
-        try {
-
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            String SQL = "SELECT DISTINCT Doctor FROM Solicitudes";
-
-            //Seleciona los nombre de los doctores segun la especialidad selecionada
-            //Guarda en rs los resultados de la busqueda SQL, osea las diferentes especialidades
-            ResultSet rs = st.executeQuery(SQL);
-            CB_Doctor.removeAllItems();
-            CB_Doctor.addItem("-");
-            //Mientras que en los resultados de rs exista mas resultados
-            while (rs.next()) {
-                //Obtengo el valor de la columna Nombre_Apellido y La agrego en el ComboBox de Doctores
-                CB_Doctor.addItem(rs.getString("Doctor"));
-
-            }
-
-        } catch (SQLException ex) {
-
-        }
-    }
-
-    public void MostraDoctoresServcio() {
-        try {
-
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            String SQL = "SELECT Doctor FROM Solicitudes WHERE Especialidad = '" + (String) CB_Servicio.getSelectedItem() + "'";
-
-            //Seleciona los nombre de los doctores segun la especialidad selecionada
-            //Guarda en rs los resultados de la busqueda SQL, osea las diferentes especialidades
-            ResultSet rs = st.executeQuery(SQL);
-            CB_Doctor.removeAllItems();
-            CB_Doctor.addItem("-");
-            //Mientras que en los resultados de rs exista mas resultados
-            while (rs.next()) {
-                //Obtengo el valor de la columna Nombre_Apellido y La agrego en el ComboBox de Doctores
-                CB_Doctor.addItem(rs.getString("Doctor"));
-
-            }
-
-        } catch (SQLException ex) {
-
-        }
-    }
-
-    public void MostrarServicios() {
-        try {
-
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            String SQL = "SELECT DISTINCT Servicio FROM Solicitudes";
-
-            ResultSet rs = st.executeQuery(SQL);
-
-            while (rs.next()) {
-
-                CB_Servicio.addItem(rs.getString("Servicio"));
-
-            }
-
-        } catch (SQLException ex) {
-
-        }
-    }
-
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Funciones Generales">
     public Boolean TamañoMinimo(JTextField JTextField, String Campo, int min) {
@@ -1471,7 +1249,7 @@ public class Doctor extends javax.swing.JFrame {
             Conexion = BD.getConexion();
             Statement st = Conexion.createStatement();
             //Eliminación de la tabla de Pacientes
-            String sql = "DELETE FROM Admin";
+            String sql = "DELETE FROM Doctores";
             PreparedStatement stmt = Conexion.prepareStatement("DELETE FROM Doctores WHERE Usuario = ?");
             stmt.setString(1, user[4]);
             stmt.executeUpdate();
@@ -1507,7 +1285,7 @@ public class Doctor extends javax.swing.JFrame {
 
                 user_ = rst.getString("Usuario");
 
-                if (user_.equals((Login.Usuario))) {
+                if (user_.equals((Login.Usuario).toUpperCase())) {
                     user[0] = FormatoNombre(rst.getString("Nombre_Apellido"));
                     user[1] = String.valueOf((long) rst.getDouble("Telefono"));
                     user[2] = String.valueOf((int) rst.getDouble("Edad"));
@@ -1679,6 +1457,151 @@ public class Doctor extends javax.swing.JFrame {
     }
     // </editor-fold>
 
+    public void LlenarTabla(String Estado, String Orden, String Usuario, String Doctor) {
+        try {
+
+            Connection conexion = null;
+            ConexionBD bd = new ConexionBD();
+            conexion = bd.getConexion();
+
+            String sql = "SELECT Usuario, Fecha, Hora, Estado_Cita, Telefono FROM Solicitudes";
+
+            if (!Estado.equals("Todas")) {
+                sql += " WHERE Estado_Cita = ?";
+            }
+
+            if (!(Usuario == null) && Doctor == null) {
+                if (!Estado.equals("Todas")) {
+                    sql += " AND Usuario = ?";
+                } else {
+                    sql += " WHERE Usuario = ?";
+                }
+            } else if (Usuario == null && !(Doctor == null)) {
+                if (!Estado.equals("Todas")) {
+                    sql += " AND Doctor = ?";
+                } else {
+                    sql += " WHERE Doctor = ?";
+                }
+            } else if (!(Usuario == null) && !(Doctor == null)) {
+                if (!Estado.equals("Todas")) {
+                    sql += " AND Usuario = ? AND Doctor = ?";
+                } else {
+                    sql += " WHERE Usuario = ? AND Doctor = ?";
+                }
+            }
+
+            if (!Orden.isEmpty()) {
+                sql += " ORDER BY Fecha " + Orden + ", Hora " + Orden;
+            }
+
+            PreparedStatement statement = conexion.prepareStatement(sql);
+
+            int parametro = 1;
+            if (!Estado.equals("Todas")) {
+                statement.setString(parametro, Estado);
+                parametro++;
+            }
+
+            if (!(Usuario == null) && Doctor == null) {
+                statement.setString(parametro, Usuario);
+                parametro++;
+            } else if (Usuario == null && !(Doctor == null)) {
+                statement.setString(parametro, Doctor);
+                parametro++;
+            } else if (!(Usuario == null) && !(Doctor == null)) {
+                statement.setString(parametro, Usuario);
+                parametro++;
+                statement.setString(parametro, Doctor);
+                parametro++;
+            }
+
+            ResultSet resultado = statement.executeQuery();
+
+            DefaultTableModel modeloTabla = (DefaultTableModel) Tabla.getModel();
+            modeloTabla.setRowCount(0);
+
+            while (resultado.next()) {
+                String usuario = "  " + MostrarNombre(resultado.getString("Usuario"));
+                String fecha = resultado.getString("Fecha");
+                String hora = resultado.getString("Hora");
+                String estado = resultado.getString("Estado_Cita");
+                if (estado.equals("Valida")) {
+                    estado = "Por Asistir";
+                    num_pendientes = num_pendientes + 1;
+                }
+                if (estado.equals("Completada")) {
+                    num_completadas = num_completadas + 1;
+                }
+                total_citas = num_pendientes + num_completadas;
+                if ("Cancelada".equals(estado) || "En Espera".equals(estado)) {
+                    break;
+                }
+                String telefono = String.valueOf((long) resultado.getDouble("Telefono"));
+                Object[] fila = {usuario, fecha, hora, estado, telefono};
+                modeloTabla.addRow(fila);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al cargar datos", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println(ex);
+        }
+    }
+
+    public String MostrarNombre(String Usuario) {
+        try {
+
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            String SQL = "SELECT Nombre_Apellido FROM Pacientes WHERE Usuario = '" + Usuario + "'";
+
+            ResultSet rs = st.executeQuery(SQL);
+
+            while (rs.next()) {
+                return FormatoNombre(rs.getString("Nombre_Apellido"));
+
+            }
+
+        } catch (SQLException ex) {
+
+        }
+        return null;
+
+    }
+
+    public void MostrarPacientes(String Usuario) {
+        try {
+
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            String SQL = "SELECT DISTINCT Usuario FROM Solicitudes WHERE Doctor = '" + Usuario + "' AND ( Estado_Cita = 'Valida' OR Estado_Cita = 'Completada')";
+
+            ResultSet rs = st.executeQuery(SQL);
+
+            CB_PacienteF.removeAllItems();
+
+            String Dato;
+            int i = 1;
+            while (rs.next()) {
+
+                Dato = rs.getString("Usuario");
+                Dato = FormatoNombre(MostrarNombre(Dato));
+                CB_PacienteF.addItem(Dato);
+                System.out.println(i++);
+
+            }
+
+        } catch (SQLException ex) {
+
+        }
+
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1735,10 +1658,9 @@ public class Doctor extends javax.swing.JFrame {
     private Componentes.AllButton BT_Home;
     private Componentes.AllButton BT_Menu;
     private Componentes.BlurBackground Background;
-    private Componentes.ComboBoxSuggestion CB_Doctor;
-    private Componentes.ComboBoxSuggestion CB_EstadoCita;
+    private Componentes.ComboBoxSuggestion CB_Estado;
     private Componentes.ComboBoxSuggestion CB_Orden;
-    private Componentes.ComboBoxSuggestion CB_Servicio;
+    private Componentes.ComboBoxSuggestion CB_PacienteF;
     private javax.swing.JPanel CardLayout;
     private org.example.Custom.PanelRound ConfirmarContr;
     private org.example.Custom.PanelRound Contraseña;
@@ -1778,7 +1700,7 @@ public class Doctor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel label_completadas;
-    private javax.swing.JLabel label_pendiente;
+    private javax.swing.JLabel label_pendientes;
     private javax.swing.JLabel label_total;
     private javax.swing.JLabel lb_Estado;
     private javax.swing.JLabel lb_doctor;
