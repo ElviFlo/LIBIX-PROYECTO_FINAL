@@ -1230,13 +1230,14 @@ public class Administrador extends javax.swing.JFrame {
                 String hora = resultado.getString("Hora");
                 String confirmada = resultado.getString("Confirmada");
                 String estado = resultado.getString("Estado_Cita");
+                String telefono = resultado.getString("Telefono");
                 if (confirmada.equals("Si")) {
                     num_completadas = num_completadas + 1;
                 } else {
                     num_pendientes = num_pendientes + 1;
                 }
                 String Telefono = String.valueOf((long) resultado.getDouble("Telefono"));
-                Object[] fila = {usuario, servicio, nombreDoctor, fecha, hora, confirmada, estado, Telefono};
+                Object[] fila = {usuario, servicio, nombreDoctor, fecha, hora, confirmada, estado, telefono};
                 modeloTabla.addRow(fila);
             }
         } catch (SQLException ex) {

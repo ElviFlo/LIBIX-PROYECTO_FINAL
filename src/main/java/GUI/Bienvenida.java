@@ -4,10 +4,16 @@
  */
 package GUI;
 
+import ConexionBD.ConexionBD;
 import java.awt.Color;
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 
 /**
  *
@@ -157,13 +163,46 @@ public class Bienvenida extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_cerrarMouseClicked
 
     private void boton_startMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boton_startMouseClicked
-        Login lg = new Login();
-        lg.setVisible(true);
-        this.setVisible(false);
+        //Si ya hay un Jefe, pasa al JFrame normal
+        if (JefeExiste() == true) {
+            Login lg = new Login();
+            lg.setVisible(true);
+            this.setVisible(false);
+        } else { //Si no hay Jefe Creado, pide el codigo de seguridad
+            CrearJefe JF_CrearJefe = new CrearJefe();
+            JF_CrearJefe.setVisible(true);
+            this.setVisible(false);
+        }
+
     }//GEN-LAST:event_boton_startMouseClicked
+
     
+    //Funcion para saber si ya hay algun jefe en la BD
+    public Boolean JefeExiste() {
 
+        try {
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
 
+            //Para buscar si existe algun jefe ya
+            String SQL = "SELECT * FROM Usuarios WHERE Tipo = ?";
+
+            PreparedStatement pst = Conexion.prepareStatement(SQL);
+
+            pst.setString(1, "Jefe");
+            //Extrae el conjunto de resultados 
+            ResultSet rs = pst.executeQuery();
+
+            //Si hay mas de un resultado: true
+            return true;
+        } catch (SQLException | HeadlessException ex) {
+            return false;
+        }
+
+    }
+    
     /**
      * @param args the command line arguments
      */

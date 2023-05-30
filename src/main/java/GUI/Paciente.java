@@ -1541,6 +1541,7 @@ public class Paciente extends javax.swing.JFrame {
             pst.setString(7, S.getConfirmada());
             pst.setString(8, S.getEstado_Cita());
             pst.setString(9, S.getMotivo_Cancelacion());
+            pst.setString(10, String.valueOf((int) ObtenerTelefono()));
 
             int n = pst.executeUpdate();
 

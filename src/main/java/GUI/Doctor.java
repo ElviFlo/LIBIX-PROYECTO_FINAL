@@ -1532,7 +1532,7 @@ public class Doctor extends javax.swing.JFrame {
                 label_completadas.setText(String.valueOf(num_completadas));
                 label_pendientes.setText(String.valueOf(num_pendientes));
                 
-                telefono = String.valueOf((int) resultado.getDouble("Telefono"));
+                telefono = resultado.getString("Telefono");
                 Object[] fila = {usuario, fecha, hora, estado, telefono};
                 modeloTabla.addRow(fila);
             }
