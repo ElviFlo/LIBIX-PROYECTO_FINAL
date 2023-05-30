@@ -39,6 +39,7 @@ public class CrearPaciente extends javax.swing.JFrame {
         MenuDocumentos.setVisible(false);
         sx = "M";
         op = 0;
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Icon/icon.png")).getImage());
     }
 
     @SuppressWarnings("unchecked")

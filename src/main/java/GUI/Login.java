@@ -28,6 +28,7 @@ public class Login extends javax.swing.JFrame {
         bt_minimizar.setColor1Background(new Color(0, 0, 0, 0));
         bt_cerrar.setColor1Background(new Color(0, 0, 0, 0));
         esconder.setVisible(false);
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Icon/icon.png")).getImage());
     }
     
     //Para Aceder a los diferentes JFrame
@@ -269,6 +270,7 @@ public class Login extends javax.swing.JFrame {
                         case "Doctor":
                             JF_Doctor.setVisible(true);
                             JF_Doctor.setUsuarioLogin(Usuario);
+                            JF_Doctor.MostrarPacientes(Usuario);
                             this.setVisible(false);
                             break;
                             

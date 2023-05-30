@@ -61,6 +61,8 @@ public class Administrador extends javax.swing.JFrame {
         label_total.setText(String.valueOf(total_citas));
         label_completadas.setText(String.valueOf(num_completadas));
         label_pendiente.setText(String.valueOf(num_pendientes));
+        
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Icon/icon.png")).getImage());
 
     }
 
@@ -139,6 +141,10 @@ public class Administrador extends javax.swing.JFrame {
         CB_Orden = new Componentes.ComboBoxSuggestion();
         CB_Servicio = new Componentes.ComboBoxSuggestion();
         BT_Filtrar = new Componentes.AllButton();
+        lb_servicio = new javax.swing.JLabel();
+        lb_genero1 = new javax.swing.JLabel();
+        lb_orden = new javax.swing.JLabel();
+        lb_estado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -407,7 +413,7 @@ public class Administrador extends javax.swing.JFrame {
                 BT_ActualizarActionPerformed(evt);
             }
         });
-        blurBackground3.add(BT_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 460, 240, 38));
+        blurBackground3.add(BT_Actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 460, 240, 40));
 
         bt_f1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/F.png"))); // NOI18N
         blurBackground3.add(bt_f1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 360, 80, 50));
@@ -573,6 +579,7 @@ public class Administrador extends javax.swing.JFrame {
         });
         Tabla.setGridColor(new java.awt.Color(242, 242, 242));
         Tabla.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        Tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(Tabla);
 
         panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 829, 210));
@@ -729,12 +736,28 @@ public class Administrador extends javax.swing.JFrame {
         });
         blurBackground8.add(BT_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(854, 198, 48, 46));
 
+        lb_servicio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_servicio.setText("Servicio:");
+        blurBackground8.add(lb_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 175, -1, -1));
+
+        lb_genero1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_genero1.setText("Doctor:");
+        blurBackground8.add(lb_genero1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 175, -1, -1));
+
+        lb_orden.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_orden.setText("Orden:");
+        blurBackground8.add(lb_orden, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 175, -1, -1));
+
+        lb_estado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_estado.setText("Estado de la cita:");
+        blurBackground8.add(lb_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 175, -1, -1));
+
         javax.swing.GroupLayout InicioLayout = new javax.swing.GroupLayout(Inicio);
         Inicio.setLayout(InicioLayout);
         InicioLayout.setHorizontalGroup(
             InicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(InicioLayout.createSequentialGroup()
-                .addComponent(blurBackground8, javax.swing.GroupLayout.PREFERRED_SIZE, 1004, Short.MAX_VALUE)
+                .addComponent(blurBackground8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         InicioLayout.setVerticalGroup(
@@ -1820,6 +1843,10 @@ public class Administrador extends javax.swing.JFrame {
     private javax.swing.JLabel label_total;
     private javax.swing.JLabel lb_Estado;
     private javax.swing.JLabel lb_doctor;
+    private javax.swing.JLabel lb_estado;
+    private javax.swing.JLabel lb_genero1;
+    private javax.swing.JLabel lb_orden;
+    private javax.swing.JLabel lb_servicio;
     private javax.swing.JLabel nu_ad;
     private javax.swing.JLabel nu_do;
     private javax.swing.JLabel nu_em;

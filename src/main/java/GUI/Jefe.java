@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -106,7 +107,7 @@ public class Jefe extends javax.swing.JFrame {
                 s = "F";
             }
         }
-        
+
         Showdata();
         MostrarDatosTabla("Todos", "-");
 
@@ -115,12 +116,14 @@ public class Jefe extends javax.swing.JFrame {
         CB_Genero.addItem("Femenino");
 
         MostrarPuestos();
-        
+
         label_doctor.setText(String.valueOf(num_doc));
         label_administrador.setText(String.valueOf(num_admin));
         label_empleado.setText(String.valueOf(num_emp));
-        
+
         BT_Inicio.setColor1Background(new Color(82, 132, 192));
+
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Icon/icon.png")).getImage());
 
     }
 
@@ -278,6 +281,37 @@ public class Jefe extends javax.swing.JFrame {
         barra_superior = new javax.swing.JPanel();
         bt_cerrar = new Componentes.AllButton();
         bt_minimizar = new Componentes.AllButton();
+        Inicio = new javax.swing.JPanel();
+        blurBackground8 = new Componentes.BlurBackground();
+        barra_superior6 = new javax.swing.JPanel();
+        bt_cerrar6 = new Componentes.AllButton();
+        bt_minimizar6 = new Componentes.AllButton();
+        lb_puesto = new javax.swing.JLabel();
+        lb_genero = new javax.swing.JLabel();
+        panelRound1 = new org.example.Custom.PanelRound();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new Componentes.Table();
+        jLabel1 = new javax.swing.JLabel();
+        bt_eliminar = new Componentes.AllButton();
+        lb_eliminar = new javax.swing.JLabel();
+        panelRound2 = new org.example.Custom.PanelRound();
+        icon_do = new Componentes.BlurBackground();
+        lb_doctor = new javax.swing.JLabel();
+        nu_do = new javax.swing.JLabel();
+        label_doctor = new javax.swing.JLabel();
+        panelRound3 = new org.example.Custom.PanelRound();
+        blurBackground9 = new Componentes.BlurBackground();
+        icon_ad = new javax.swing.JLabel();
+        nu_ad = new javax.swing.JLabel();
+        label_administrador = new javax.swing.JLabel();
+        panelRound4 = new org.example.Custom.PanelRound();
+        blurBackground10 = new Componentes.BlurBackground();
+        icon_em = new javax.swing.JLabel();
+        label_empleado = new javax.swing.JLabel();
+        nu_em = new javax.swing.JLabel();
+        CB_Cargos = new Componentes.ComboBoxSuggestion();
+        CB_Genero = new Componentes.ComboBoxSuggestion();
+        BT_Filtrar = new Componentes.AllButton();
         Datos = new javax.swing.JPanel();
         blurBackground5 = new Componentes.BlurBackground();
         BT_Actualizar = new Componentes.AllButton();
@@ -306,35 +340,6 @@ public class Jefe extends javax.swing.JFrame {
         label_m4 = new javax.swing.JLabel();
         bt_f4 = new javax.swing.JLabel();
         bt_m4 = new javax.swing.JLabel();
-        Inicio = new javax.swing.JPanel();
-        blurBackground8 = new Componentes.BlurBackground();
-        barra_superior6 = new javax.swing.JPanel();
-        bt_cerrar6 = new Componentes.AllButton();
-        bt_minimizar6 = new Componentes.AllButton();
-        panelRound1 = new org.example.Custom.PanelRound();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table = new Componentes.Table();
-        jLabel1 = new javax.swing.JLabel();
-        bt_eliminar = new Componentes.AllButton();
-        lb_eliminar = new javax.swing.JLabel();
-        panelRound2 = new org.example.Custom.PanelRound();
-        icon_do = new Componentes.BlurBackground();
-        lb_doctor = new javax.swing.JLabel();
-        nu_do = new javax.swing.JLabel();
-        label_doctor = new javax.swing.JLabel();
-        panelRound3 = new org.example.Custom.PanelRound();
-        blurBackground9 = new Componentes.BlurBackground();
-        icon_ad = new javax.swing.JLabel();
-        nu_ad = new javax.swing.JLabel();
-        label_administrador = new javax.swing.JLabel();
-        panelRound4 = new org.example.Custom.PanelRound();
-        blurBackground10 = new Componentes.BlurBackground();
-        icon_em = new javax.swing.JLabel();
-        label_empleado = new javax.swing.JLabel();
-        nu_em = new javax.swing.JLabel();
-        CB_Cargos = new Componentes.ComboBoxSuggestion();
-        CB_Genero = new Componentes.ComboBoxSuggestion();
-        BT_Filtrar = new Componentes.AllButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -493,7 +498,7 @@ public class Jefe extends javax.swing.JFrame {
         TPuesto.add(BT_Replegar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 12, -1, 20));
 
         TipoPuesto.setEditable(false);
-        TipoPuesto.setForeground(new java.awt.Color(153, 153, 153));
+        TipoPuesto.setForeground(new java.awt.Color(0, 0, 0));
         TipoPuesto.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         TipoPuesto.setHint("Seleccione una opción");
         TipoPuesto.setHintColor(new java.awt.Color(153, 153, 153));
@@ -777,7 +782,7 @@ public class Jefe extends javax.swing.JFrame {
                 BT_Registrarse2ActionPerformed(evt);
             }
         });
-        blurBackground4.add(BT_Registrarse2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 500, 280, 38));
+        blurBackground4.add(BT_Registrarse2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 505, 280, 42));
 
         ConfirmarContr2.setRadius(20);
         ConfirmarContr2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1907,6 +1912,248 @@ public class Jefe extends javax.swing.JFrame {
         CardLayout.add(Doctores, "Doctores");
         Doctores.getAccessibleContext().setAccessibleName("");
 
+        Inicio.setBackground(new java.awt.Color(255, 255, 255));
+        Inicio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        blurBackground8.setEnableCustomRectangle(true);
+        blurBackground8.setImage(new javax.swing.ImageIcon(getClass().getResource("/Todos empleados.png"))); // NOI18N
+        blurBackground8.setRadius(1);
+        blurBackground8.setRoundBottomLeft(1);
+        blurBackground8.setRoundBottomRight(40);
+        blurBackground8.setRoundTopLeft(1);
+        blurBackground8.setRoundTopRight(40);
+        blurBackground8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        barra_superior6.setOpaque(false);
+        barra_superior6.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                barra_superior6MouseDragged(evt);
+            }
+        });
+        barra_superior6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                barra_superior6MousePressed(evt);
+            }
+        });
+        barra_superior6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        bt_cerrar6.setText("X");
+        bt_cerrar6.setChangeCoefficient(15);
+        bt_cerrar6.setColor1Background(new java.awt.Color(172, 206, 252));
+        bt_cerrar6.setColor2Over(new java.awt.Color(102, 153, 255));
+        bt_cerrar6.setColor3Click(new java.awt.Color(0, 102, 255));
+        bt_cerrar6.setEnableColorGradient(true);
+        bt_cerrar6.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        bt_cerrar6.setRoundBottomLeft(0);
+        bt_cerrar6.setRoundBottomRight(0);
+        bt_cerrar6.setRoundTopLeft(0);
+        bt_cerrar6.setRoundTopRight(15);
+        bt_cerrar6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_cerrar6MouseClicked(evt);
+            }
+        });
+        bt_cerrar6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_cerrar6ActionPerformed(evt);
+            }
+        });
+        barra_superior6.add(bt_cerrar6, new org.netbeans.lib.awtextra.AbsoluteConstraints(954, 0, 50, 22));
+
+        bt_minimizar6.setText("-");
+        bt_minimizar6.setChangeCoefficient(15);
+        bt_minimizar6.setColor1Background(new java.awt.Color(172, 206, 252));
+        bt_minimizar6.setColor2Over(new java.awt.Color(102, 153, 255));
+        bt_minimizar6.setColor3Click(new java.awt.Color(0, 102, 255));
+        bt_minimizar6.setEnableColorGradient(true);
+        bt_minimizar6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        bt_minimizar6.setRoundBottomLeft(15);
+        bt_minimizar6.setRoundBottomRight(0);
+        bt_minimizar6.setRoundTopLeft(0);
+        bt_minimizar6.setRoundTopRight(0);
+        bt_minimizar6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_minimizar6MouseClicked(evt);
+            }
+        });
+        barra_superior6.add(bt_minimizar6, new org.netbeans.lib.awtextra.AbsoluteConstraints(904, 0, 50, 22));
+
+        blurBackground8.add(barra_superior6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 30));
+
+        lb_puesto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_puesto.setText("Puesto:");
+        blurBackground8.add(lb_puesto, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 195, -1, -1));
+
+        lb_genero.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_genero.setText("Genero:");
+        blurBackground8.add(lb_genero, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 195, -1, -1));
+
+        panelRound1.setBackground(new java.awt.Color(248, 247, 247));
+        panelRound1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panelRound1.setRadius(10);
+        panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Teléfono", "Género", "Edad", "ID", "Ocupación", "Usuario"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table.setGridColor(new java.awt.Color(242, 242, 242));
+        table.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        table.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(table);
+
+        panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 829, 210));
+
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(127, 127, 127));
+        jLabel1.setText("Lista de Empleados:");
+        panelRound1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 8, -1, -1));
+
+        bt_eliminar.setBorder(null);
+        bt_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basura.png"))); // NOI18N
+        bt_eliminar.setColor1Background(new java.awt.Color(255, 255, 254));
+        bt_eliminar.setColor2Over(new java.awt.Color(176, 207, 240));
+        bt_eliminar.setColor3Click(new java.awt.Color(163, 176, 212));
+        bt_eliminar.setEnableColorGradient(true);
+        bt_eliminar.setEnableShadow(true);
+        bt_eliminar.setRadius(32);
+        bt_eliminar.setRippleColor(new java.awt.Color(255, 255, 255));
+        bt_eliminar.setRoundBottomLeft(10);
+        bt_eliminar.setRoundBottomRight(10);
+        bt_eliminar.setRoundTopLeft(10);
+        bt_eliminar.setRoundTopRight(10);
+        bt_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_eliminarActionPerformed(evt);
+            }
+        });
+        panelRound1.add(bt_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 2, 45, 40));
+
+        lb_eliminar.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        lb_eliminar.setForeground(new java.awt.Color(127, 127, 127));
+        lb_eliminar.setText("Eliminar Empleado");
+        panelRound1.add(lb_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 9, -1, -1));
+
+        blurBackground8.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, 870, 260));
+
+        panelRound2.setBackground(new java.awt.Color(163, 193, 225));
+        panelRound2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        icon_do.setImage(new javax.swing.ImageIcon(getClass().getResource("/doctor.png"))); // NOI18N
+        panelRound2.add(icon_do, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
+
+        lb_doctor.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
+        lb_doctor.setText("Doctores ");
+        panelRound2.add(lb_doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, -1, -1));
+
+        nu_do.setFont(new java.awt.Font("SansSerif", 1, 17)); // NOI18N
+        nu_do.setForeground(new java.awt.Color(127, 127, 127));
+        nu_do.setText("Número: ");
+        panelRound2.add(nu_do, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
+        label_doctor.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        label_doctor.setForeground(new java.awt.Color(127, 127, 127));
+        panelRound2.add(label_doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 110, 20));
+
+        blurBackground8.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 290, 130));
+
+        panelRound3.setBackground(new java.awt.Color(176, 207, 240));
+        panelRound3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        blurBackground9.setImage(new javax.swing.ImageIcon(getClass().getResource("/administrador.png"))); // NOI18N
+        panelRound3.add(blurBackground9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
+
+        icon_ad.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
+        icon_ad.setText("Administradores");
+        panelRound3.add(icon_ad, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, -1, -1));
+
+        nu_ad.setFont(new java.awt.Font("SansSerif", 1, 17)); // NOI18N
+        nu_ad.setForeground(new java.awt.Color(127, 127, 127));
+        nu_ad.setText("Número: ");
+        panelRound3.add(nu_ad, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+
+        label_administrador.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        label_administrador.setForeground(new java.awt.Color(127, 127, 127));
+        panelRound3.add(label_administrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 110, 20));
+
+        blurBackground8.add(panelRound3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, 270, 130));
+
+        panelRound4.setBackground(new java.awt.Color(163, 193, 225));
+        panelRound4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        blurBackground10.setImage(new javax.swing.ImageIcon(getClass().getResource("/empleado.png"))); // NOI18N
+        panelRound4.add(blurBackground10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
+
+        icon_em.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
+        icon_em.setText("Otros Empleados");
+        panelRound4.add(icon_em, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
+
+        label_empleado.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        label_empleado.setForeground(new java.awt.Color(127, 127, 127));
+        panelRound4.add(label_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 110, 20));
+
+        nu_em.setFont(new java.awt.Font("SansSerif", 1, 17)); // NOI18N
+        nu_em.setForeground(new java.awt.Color(127, 127, 127));
+        nu_em.setText("Número: ");
+        panelRound4.add(nu_em, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+
+        blurBackground8.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 40, 270, 130));
+
+        CB_Cargos.setBackground(new java.awt.Color(248, 247, 247));
+        CB_Cargos.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        blurBackground8.add(CB_Cargos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 200, -1));
+
+        CB_Genero.setBackground(new java.awt.Color(248, 247, 247));
+        CB_Genero.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        CB_Genero.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CB_GeneroItemStateChanged(evt);
+            }
+        });
+        blurBackground8.add(CB_Genero, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 200, -1));
+
+        BT_Filtrar.setBorder(null);
+        BT_Filtrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filtrar.png"))); // NOI18N
+        BT_Filtrar.setColor1Background(new java.awt.Color(255, 255, 254));
+        BT_Filtrar.setColor2Over(new java.awt.Color(176, 207, 240));
+        BT_Filtrar.setColor3Click(new java.awt.Color(163, 176, 212));
+        BT_Filtrar.setEnableColorGradient(true);
+        BT_Filtrar.setEnableShadow(true);
+        BT_Filtrar.setRadius(32);
+        BT_Filtrar.setRippleColor(new java.awt.Color(255, 255, 255));
+        BT_Filtrar.setRoundBottomLeft(10);
+        BT_Filtrar.setRoundBottomRight(10);
+        BT_Filtrar.setRoundTopLeft(10);
+        BT_Filtrar.setRoundTopRight(10);
+        BT_Filtrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BT_FiltrarMouseClicked(evt);
+            }
+        });
+        BT_Filtrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_FiltrarActionPerformed(evt);
+            }
+        });
+        blurBackground8.add(BT_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 216, 48, 46));
+
+        Inicio.add(blurBackground8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 570));
+
+        CardLayout.add(Inicio, "Inicio");
+        Inicio.getAccessibleContext().setAccessibleName("");
+
         Datos.setBackground(new java.awt.Color(255, 255, 255));
 
         blurBackground5.setImage(new javax.swing.ImageIcon(getClass().getResource("/Crear Jefe.png"))); // NOI18N
@@ -2174,239 +2421,6 @@ public class Jefe extends javax.swing.JFrame {
         );
 
         CardLayout.add(Datos, "Datos");
-
-        Inicio.setBackground(new java.awt.Color(255, 255, 255));
-        Inicio.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        blurBackground8.setEnableCustomRectangle(true);
-        blurBackground8.setImage(new javax.swing.ImageIcon(getClass().getResource("/Todos empleados.png"))); // NOI18N
-        blurBackground8.setRadius(1);
-        blurBackground8.setRoundBottomLeft(1);
-        blurBackground8.setRoundBottomRight(40);
-        blurBackground8.setRoundTopLeft(1);
-        blurBackground8.setRoundTopRight(40);
-        blurBackground8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        barra_superior6.setOpaque(false);
-        barra_superior6.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                barra_superior6MouseDragged(evt);
-            }
-        });
-        barra_superior6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                barra_superior6MousePressed(evt);
-            }
-        });
-        barra_superior6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        bt_cerrar6.setText("X");
-        bt_cerrar6.setChangeCoefficient(15);
-        bt_cerrar6.setColor1Background(new java.awt.Color(172, 206, 252));
-        bt_cerrar6.setColor2Over(new java.awt.Color(102, 153, 255));
-        bt_cerrar6.setColor3Click(new java.awt.Color(0, 102, 255));
-        bt_cerrar6.setEnableColorGradient(true);
-        bt_cerrar6.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
-        bt_cerrar6.setRoundBottomLeft(0);
-        bt_cerrar6.setRoundBottomRight(0);
-        bt_cerrar6.setRoundTopLeft(0);
-        bt_cerrar6.setRoundTopRight(15);
-        bt_cerrar6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_cerrar6MouseClicked(evt);
-            }
-        });
-        bt_cerrar6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_cerrar6ActionPerformed(evt);
-            }
-        });
-        barra_superior6.add(bt_cerrar6, new org.netbeans.lib.awtextra.AbsoluteConstraints(954, 0, 50, 22));
-
-        bt_minimizar6.setText("-");
-        bt_minimizar6.setChangeCoefficient(15);
-        bt_minimizar6.setColor1Background(new java.awt.Color(172, 206, 252));
-        bt_minimizar6.setColor2Over(new java.awt.Color(102, 153, 255));
-        bt_minimizar6.setColor3Click(new java.awt.Color(0, 102, 255));
-        bt_minimizar6.setEnableColorGradient(true);
-        bt_minimizar6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        bt_minimizar6.setRoundBottomLeft(15);
-        bt_minimizar6.setRoundBottomRight(0);
-        bt_minimizar6.setRoundTopLeft(0);
-        bt_minimizar6.setRoundTopRight(0);
-        bt_minimizar6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                bt_minimizar6MouseClicked(evt);
-            }
-        });
-        barra_superior6.add(bt_minimizar6, new org.netbeans.lib.awtextra.AbsoluteConstraints(904, 0, 50, 22));
-
-        blurBackground8.add(barra_superior6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 30));
-
-        panelRound1.setBackground(new java.awt.Color(248, 247, 247));
-        panelRound1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        panelRound1.setRadius(10);
-        panelRound1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nombre", "Teléfono", "Género", "Edad", "ID", "Ocupación", "Usuario"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        table.setGridColor(new java.awt.Color(242, 242, 242));
-        table.setSelectionBackground(new java.awt.Color(204, 204, 204));
-        jScrollPane1.setViewportView(table);
-
-        panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 829, 210));
-
-        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(127, 127, 127));
-        jLabel1.setText("Lista de Empleados:");
-        panelRound1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 8, -1, -1));
-
-        bt_eliminar.setBorder(null);
-        bt_eliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/basura.png"))); // NOI18N
-        bt_eliminar.setColor1Background(new java.awt.Color(255, 255, 254));
-        bt_eliminar.setColor2Over(new java.awt.Color(176, 207, 240));
-        bt_eliminar.setColor3Click(new java.awt.Color(163, 176, 212));
-        bt_eliminar.setEnableColorGradient(true);
-        bt_eliminar.setEnableShadow(true);
-        bt_eliminar.setRadius(32);
-        bt_eliminar.setRippleColor(new java.awt.Color(255, 255, 255));
-        bt_eliminar.setRoundBottomLeft(10);
-        bt_eliminar.setRoundBottomRight(10);
-        bt_eliminar.setRoundTopLeft(10);
-        bt_eliminar.setRoundTopRight(10);
-        bt_eliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_eliminarActionPerformed(evt);
-            }
-        });
-        panelRound1.add(bt_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 2, 45, 40));
-
-        lb_eliminar.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
-        lb_eliminar.setForeground(new java.awt.Color(127, 127, 127));
-        lb_eliminar.setText("Eliminar Registro");
-        panelRound1.add(lb_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 9, -1, -1));
-
-        blurBackground8.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, 870, 260));
-
-        panelRound2.setBackground(new java.awt.Color(163, 193, 225));
-        panelRound2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        icon_do.setImage(new javax.swing.ImageIcon(getClass().getResource("/doctor.png"))); // NOI18N
-        panelRound2.add(icon_do, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
-
-        lb_doctor.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
-        lb_doctor.setText("Doctores ");
-        panelRound2.add(lb_doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, -1, -1));
-
-        nu_do.setFont(new java.awt.Font("SansSerif", 1, 17)); // NOI18N
-        nu_do.setForeground(new java.awt.Color(127, 127, 127));
-        nu_do.setText("Número: ");
-        panelRound2.add(nu_do, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
-
-        label_doctor.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        label_doctor.setForeground(new java.awt.Color(127, 127, 127));
-        panelRound2.add(label_doctor, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 110, 20));
-
-        blurBackground8.add(panelRound2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 290, 130));
-
-        panelRound3.setBackground(new java.awt.Color(176, 207, 240));
-        panelRound3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        blurBackground9.setImage(new javax.swing.ImageIcon(getClass().getResource("/administrador.png"))); // NOI18N
-        panelRound3.add(blurBackground9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
-
-        icon_ad.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
-        icon_ad.setText("Administradores");
-        panelRound3.add(icon_ad, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, -1, -1));
-
-        nu_ad.setFont(new java.awt.Font("SansSerif", 1, 17)); // NOI18N
-        nu_ad.setForeground(new java.awt.Color(127, 127, 127));
-        nu_ad.setText("Número: ");
-        panelRound3.add(nu_ad, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
-
-        label_administrador.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        label_administrador.setForeground(new java.awt.Color(127, 127, 127));
-        panelRound3.add(label_administrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 110, 20));
-
-        blurBackground8.add(panelRound3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, 270, 130));
-
-        panelRound4.setBackground(new java.awt.Color(163, 193, 225));
-        panelRound4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        blurBackground10.setImage(new javax.swing.ImageIcon(getClass().getResource("/empleado.png"))); // NOI18N
-        panelRound4.add(blurBackground10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 40, 40));
-
-        icon_em.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
-        icon_em.setText("Otros Empleados");
-        panelRound4.add(icon_em, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
-
-        label_empleado.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        label_empleado.setForeground(new java.awt.Color(127, 127, 127));
-        panelRound4.add(label_empleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 110, 20));
-
-        nu_em.setFont(new java.awt.Font("SansSerif", 1, 17)); // NOI18N
-        nu_em.setForeground(new java.awt.Color(127, 127, 127));
-        nu_em.setText("Número: ");
-        panelRound4.add(nu_em, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
-
-        blurBackground8.add(panelRound4, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 40, 270, 130));
-
-        CB_Cargos.setBackground(new java.awt.Color(248, 247, 247));
-        CB_Cargos.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        blurBackground8.add(CB_Cargos, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 200, -1));
-
-        CB_Genero.setBackground(new java.awt.Color(248, 247, 247));
-        CB_Genero.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        CB_Genero.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                CB_GeneroItemStateChanged(evt);
-            }
-        });
-        blurBackground8.add(CB_Genero, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 200, -1));
-
-        BT_Filtrar.setBorder(null);
-        BT_Filtrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filtrar.png"))); // NOI18N
-        BT_Filtrar.setColor1Background(new java.awt.Color(255, 255, 254));
-        BT_Filtrar.setColor2Over(new java.awt.Color(176, 207, 240));
-        BT_Filtrar.setColor3Click(new java.awt.Color(163, 176, 212));
-        BT_Filtrar.setEnableColorGradient(true);
-        BT_Filtrar.setEnableShadow(true);
-        BT_Filtrar.setRadius(32);
-        BT_Filtrar.setRippleColor(new java.awt.Color(255, 255, 255));
-        BT_Filtrar.setRoundBottomLeft(10);
-        BT_Filtrar.setRoundBottomRight(10);
-        BT_Filtrar.setRoundTopLeft(10);
-        BT_Filtrar.setRoundTopRight(10);
-        BT_Filtrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_FiltrarMouseClicked(evt);
-            }
-        });
-        BT_Filtrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_FiltrarActionPerformed(evt);
-            }
-        });
-        blurBackground8.add(BT_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 216, 48, 46));
-
-        Inicio.add(blurBackground8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 570));
-
-        CardLayout.add(Inicio, "Inicio");
-        Inicio.getAccessibleContext().setAccessibleName("");
 
         Background.add(CardLayout, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 1010, 600));
 
@@ -2956,6 +2970,16 @@ public class Jefe extends javax.swing.JFrame {
                 } else {
                     GuardarBD1();
                     LimpiarCampos1();
+                    cardLayout.show(CardLayout, "Inicio");
+                    num_doc = 0;
+                    num_admin = 0;
+                    num_emp = 0;
+                    MostrarDatosTabla((String) CB_Cargos.getSelectedItem(), (String) CB_Genero.getSelectedItem());
+                    BT_Inicio.setColor1Background(new Color(82, 132, 192));
+                    BT_Administrador.setColor1Background(new Color(122, 173, 252));
+                    label_doctor.setText(String.valueOf(num_doc));
+                    label_administrador.setText(String.valueOf(num_admin));
+                    label_empleado.setText(String.valueOf(num_emp));
                 }
             }
 
@@ -3165,6 +3189,16 @@ public class Jefe extends javax.swing.JFrame {
                 } else {
                     GuardarBD2();
                     LimpiarCampos2();
+                    cardLayout.show(CardLayout, "Inicio");
+                    num_doc = 0;
+                    num_admin = 0;
+                    num_emp = 0;
+                    MostrarDatosTabla((String) CB_Cargos.getSelectedItem(), (String) CB_Genero.getSelectedItem());
+                    BT_Inicio.setColor1Background(new Color(82, 132, 192));
+                    BT_Empleado.setColor1Background(new Color(122, 173, 252));
+                    label_doctor.setText(String.valueOf(num_doc));
+                    label_administrador.setText(String.valueOf(num_admin));
+                    label_empleado.setText(String.valueOf(num_emp));
                 }
             }
 
@@ -3557,9 +3591,19 @@ public class Jefe extends javax.swing.JFrame {
             }
             //Guarda los demas datos de registro en la BD
             GuardarBD();
+            new Success("Datos guardados correctamente").setVisible(true);
             LimpiarCampos();
             DesmarcarCasillas();
-            cardLayout.show(CardLayout, "Doctores1");
+            cardLayout.show(CardLayout, "Inicio");
+            num_doc = 0;
+            num_admin = 0;
+            num_emp = 0;
+            MostrarDatosTabla((String) CB_Cargos.getSelectedItem(), (String) CB_Genero.getSelectedItem());
+            BT_Inicio.setColor1Background(new Color(82, 132, 192));
+            BT_Doctor.setColor1Background(new Color(122, 173, 252));
+            label_doctor.setText(String.valueOf(num_doc));
+            label_administrador.setText(String.valueOf(num_admin));
+            label_empleado.setText(String.valueOf(num_emp));
         }
     }//GEN-LAST:event_BT_Registrarse4MouseClicked
 
@@ -3594,54 +3638,63 @@ public class Jefe extends javax.swing.JFrame {
     }//GEN-LAST:event_bt_cerrar6ActionPerformed
 
     private void bt_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_eliminarActionPerformed
-        int filaseleccionada = table.getSelectedRow();
-        if (filaseleccionada == -1) {
-            new Warning("Debe seleccionar una fila").setVisible(true);
-        } else {
-            DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-            String tipo = (String) modelo.getValueAt(filaseleccionada, 5);
-            String user = (String) modelo.getValueAt(filaseleccionada, 6);
-            try {
-                //Se establece la conexión con la base de datos 
-                Connection Conexion = null;
-                ConexionBD BD = new ConexionBD();
-                Conexion = BD.getConexion();
-                Statement st = Conexion.createStatement();
-                //Inicialmente se elimina el registro de la tabla de usuarios
-                PreparedStatement stmt = Conexion.prepareStatement("DELETE FROM Usuarios WHERE Usuario = ?");
-                stmt.setString(1, user);
-                stmt.executeUpdate();
-                //Ahora se hace la comparación del tipo de empleado que es para eliminarlo de su tabla correspondiente en nuestra base de datos de
-                //Microsoft Access
-                //Elimación en la tabla de doctores
-                if (tipo.equals("Pediatria") || tipo.equals("Ginecología") || tipo.equals("Radiología") || tipo.equals("Oftalmología") || tipo.equals("Optometría")
-                        //Cambiar MEDICO GENERAL POR MEDICINA GENERAL CUANDO SE VAYA A PASAAAARR IMPORTAAAANTEEEE        
-                        || tipo.equals("Odontología general") || tipo.equals("Cardiología") || tipo.equals("Medico General") || tipo.equals("Ecografía") || tipo.equals("Medicina interna")
-                        || tipo.equals("Ortopedía") || !tipo.equals("Psiquiatría")) {
-                    PreparedStatement stmt2 = Conexion.prepareStatement("DELETE FROM Doctores WHERE Usuario = ?");
-                    stmt2.setString(1, user);
-                    stmt2.executeUpdate();
-                } else {
+        int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este empleado del sistema?", "Confirmación", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            int filaseleccionada = table.getSelectedRow();
+            if (filaseleccionada == -1) {
+                new Warning("Debe seleccionar una fila").setVisible(true);
+            } else {
+                DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+                String tipo = (String) modelo.getValueAt(filaseleccionada, 5);
+                String user = (String) modelo.getValueAt(filaseleccionada, 6);
+                String userupper = user.toUpperCase();
+
+                try {
+                    //Se establece la conexión con la base de datos 
+                    Connection Conexion = null;
+                    ConexionBD BD = new ConexionBD();
+                    Conexion = BD.getConexion();
+                    Statement st = Conexion.createStatement();
+                    //Inicialmente se elimina el registro de la tabla de usuarios
+                    PreparedStatement stmt = Conexion.prepareStatement("DELETE FROM Usuarios WHERE Usuario = ?");
+                    stmt.setString(1, userupper);
+                    stmt.executeUpdate();
+                    //Ahora se hace la comparación del tipo de empleado que es para eliminarlo de su tabla correspondiente en nuestra base de datos de
+                    //Microsoft Access
+                    //Elimación en la tabla de doctores
+                    if (tipo.equals("Pediatria") || tipo.equals("Ginecología") || tipo.equals("Radiología") || tipo.equals("Oftalmología") || tipo.equals("Optometría")
+                            || tipo.equals("Odontología general") || tipo.equals("Cardiología") || tipo.equals("Medico General") || tipo.equals("Ecografía") || tipo.equals("Medicina interna")
+                            || tipo.equals("Ortopedía") || !tipo.equals("Psiquiatría")) {
+                        PreparedStatement stmt2 = Conexion.prepareStatement("DELETE FROM Doctores WHERE Usuario = ?");
+                        stmt2.setString(1, userupper);
+                        stmt2.executeUpdate();
+                        //Eliminación del horario del doctor
+                        PreparedStatement sch = Conexion.prepareStatement("DELETE FROM Horario_Doctores WHERE Usuario_Doctor = ?");
+                        sch.setString(1, userupper);
+                        sch.executeUpdate();
+                    }
+
                     //Eliminación en la tabla de administradores
                     if (tipo.equals("Administrador")) {
                         PreparedStatement stmt3 = Conexion.prepareStatement("DELETE FROM Admin WHERE Usuario = ?");
-                        stmt3.setString(1, user);
+                        stmt3.setString(1, userupper);
                         stmt3.executeUpdate();
-                    } else {
-                        //Eliminación en la tabla de los demás empleados del hospital
-                        if (!tipo.equals("Pediatria") && !tipo.equals("Administrador") && !tipo.equals("Ginecología") && !tipo.equals("Radiología") && !tipo.equals("Oftalmología") && !tipo.equals("Optometría")
-                                && !tipo.equals("Odontología general") && !tipo.equals("Cardiología") && !tipo.equals("Medico General") && !tipo.equals("Ecografía") && !tipo.equals("Medicina interna")
-                                && !tipo.equals("Ortopedía")) {
-                            PreparedStatement stmt4 = Conexion.prepareStatement("DELETE FROM OtroEmpleado WHERE Usuario = ?");
-                            stmt4.setString(1, user);
-                            stmt4.executeUpdate();
-                        }
                     }
+
+                    //Eliminación en la tabla de los demás empleados del hospital
+                    if (!tipo.equals("Pediatria") && !tipo.equals("Administrador") && !tipo.equals("Ginecología") && !tipo.equals("Radiología") && !tipo.equals("Oftalmología") && !tipo.equals("Optometría")
+                            && !tipo.equals("Odontología general") && !tipo.equals("Cardiología") && !tipo.equals("Medico General") && !tipo.equals("Ecografía") && !tipo.equals("Medicina interna")
+                            && !tipo.equals("Ortopedía")) {
+                        PreparedStatement stmt4 = Conexion.prepareStatement("DELETE FROM OtroEmpleado WHERE Usuario = ?");
+                        stmt4.setString(1, userupper);
+                        stmt4.executeUpdate();
+
+                    }
+                    modelo.removeRow(filaseleccionada);
+                    new Success("Eliminado correctamente").setVisible(true);
+                } catch (SQLException e) {
+                    new Error("Error al eliminar el empleado").setVisible(true);
                 }
-                modelo.removeRow(filaseleccionada);
-                new Success("Empleado eliminado correctamente").setVisible(true);
-            } catch (SQLException e) {
-                new Error("Error al eliminar el empleado").setVisible(true);
             }
         }
     }//GEN-LAST:event_bt_eliminarActionPerformed
@@ -3659,7 +3712,7 @@ public class Jefe extends javax.swing.JFrame {
     }//GEN-LAST:event_label_m4MouseClicked
 
     private void CB_GeneroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CB_GeneroItemStateChanged
-        
+
     }//GEN-LAST:event_CB_GeneroItemStateChanged
 
     private void BT_FiltrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_FiltrarMouseClicked
@@ -3766,12 +3819,6 @@ public class Jefe extends javax.swing.JFrame {
             pst.setString(2, D.getContraseña());
             pst.setString(3, "Doctor");
             int n1 = pst.executeUpdate(); //Para guardar los datos
-
-            //Si es mayor que 0 quiere decir que se se inserto bien en la BD
-            if (n > 0 && n1 > 0) {
-                //Mensaje de confirmacion
-                new Success("Datos guardados correctamente").setVisible(true);
-            }
 
         } catch (SQLException | HeadlessException e) {
             //Error x si acaso
@@ -3889,7 +3936,6 @@ public class Jefe extends javax.swing.JFrame {
             String fechaComoString = sdf.format(fecha);
             String state = "Activo";
 
-            
             Clases.Administrador A = new Clases.Administrador(TX_NombreApellido1.getText(), Genero, Double.parseDouble(TX_NoDocumento1.getText()), Double.parseDouble(TX_Edad1.getText()), Double.parseDouble(TX_Telefono1.getText()), fechaComoString, state, TX_Usuario1.getText(), TX_Contraseña1.getText());
             pst.setString(1, A.getNombre_Apellido());
             pst.setDouble(2, A.getNo_Telefono());
@@ -3900,7 +3946,6 @@ public class Jefe extends javax.swing.JFrame {
             pst.setString(7, A.getcontraseña());
             pst.setString(8, A.getestado());
             pst.setString(9, A.getfecharegistro());
-            
 
             int n = pst.executeUpdate(); //Para guardar los datos
 
@@ -4009,11 +4054,12 @@ public class Jefe extends javax.swing.JFrame {
             Statement st = Conexion.createStatement();
 
             //Para guardar en la tabla Jefe
-            String SQL = "insert into Otro(Nombre_apellido, Telefono, Genero,"
-                    + "Edad, No_documento, Puesto, Usuario, Contraseña) values (?,?,?,?,?,?,?,?)";
+            String SQL = "insert into OtroEmpleado (Nombre_Apellido, Telefono, Genero,"
+                    + "Edad, No_Documento, Puesto, Usuario, Contraseña) values (?,?,?,?,?,?,?,?)";
 
             //Se utiliza para poder ejecutar una instruccion SQL y para ejecutar esta instrucción múltiples veces
             PreparedStatement pst = Conexion.prepareStatement(SQL);
+
 
             String Genero = null;
             if ("F".equals(sx)) {
@@ -4044,14 +4090,13 @@ public class Jefe extends javax.swing.JFrame {
                     Puesto = "Chofer";
                     break;
                 case (19):
-                    Puesto = "Relacionista industrial";
+                    Puesto = "Relacionista";
                     break;
 
             }
-
-            //Utilizacion de POO para crear una instancia de tipo administrador 
-            Clases.Otro O = new Clases.Otro(TX_NombreApellido2.getText().toUpperCase(), Genero,
-                    Integer.parseInt(TX_Edad2.getText()), Double.parseDouble(TX_NoDocumento2.getText()),
+            
+            Clases.Otro  O= new Clases.Otro(TX_NombreApellido2.getText().toUpperCase(), Genero,
+                    Double.parseDouble(TX_Edad2.getText()), Double.parseDouble(TX_NoDocumento2.getText()),
                     Double.parseDouble(TX_Telefono2.getText()), Puesto, TX_Usuario2.getText().toUpperCase(), TX_Contraseña2.getText());
 
             //Guarda cada valor en su respectiva columna, la columna se define por el primer paramatro
@@ -4062,7 +4107,7 @@ public class Jefe extends javax.swing.JFrame {
             pst.setDouble(4, O.getEdad());
             pst.setDouble(5, O.getNo_Documento());
             pst.setString(6, O.getPuesto());
-            pst.setString(7, O.getUsuario());
+            pst.setString(7,O.getUsuario());
             pst.setString(8, O.getContraseña());
 
             int n = pst.executeUpdate(); //Para guardar los datos
@@ -4167,8 +4212,6 @@ public class Jefe extends javax.swing.JFrame {
 
             //Si es mayor que 0 quiere decir que se se inserto bien en la BD
             if (n > 0) {
-                //Mensaje de confirmacion
-                new Success("Datos guardados correctamente").setVisible(true);
 
             }
 
@@ -4220,7 +4263,6 @@ public class Jefe extends javax.swing.JFrame {
 
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Funciones del Panel de Inicio">
-    
     public void Showdata() {
         DefaultTableModel Mytable = (DefaultTableModel) table.getModel();
         String heads[] = {"Nombre", "Telefono", "Genero", "Edad", "ID", "Cargo", "Usuario"};
@@ -4229,9 +4271,9 @@ public class Jefe extends javax.swing.JFrame {
     }
 
     int num_doc = 0, num_admin = 0, num_emp = 0;
-    
+
     public void MostrarDatosTabla(String Cargo, String Genero) {
-                
+
         try {
 
             Connection Conexion = null;
@@ -4270,8 +4312,8 @@ public class Jefe extends javax.swing.JFrame {
                 ResultSet rst3 = sentence.executeQuery(SQL3);
 
                 while (rst.next()) {
-                    registros[0] = "  "+FormatoNombre(rst.getString("Nombre_Apellido"));
-                    
+                    registros[0] = "  " + FormatoNombre(rst.getString("Nombre_Apellido"));
+
                     registros[1] = String.valueOf((long) rst.getDouble("Telefono"));
                     registros[2] = rst.getString("Genero");
                     registros[3] = String.valueOf((int) rst.getDouble("Edad"));
@@ -4283,7 +4325,7 @@ public class Jefe extends javax.swing.JFrame {
 
                 }
                 while (rst2.next()) {
-                    registros[0] = "  "+FormatoNombre(rst2.getString("Nombre_Apellido"));
+                    registros[0] = "  " + FormatoNombre(rst2.getString("Nombre_Apellido"));
                     registros[1] = String.valueOf((long) rst2.getDouble("Telefono"));
                     registros[2] = rst2.getString("Genero");
                     registros[3] = String.valueOf((int) rst2.getDouble("Edad"));
@@ -4291,12 +4333,11 @@ public class Jefe extends javax.swing.JFrame {
                     registros[5] = "Administrador";
                     registros[6] = rst2.getString("Usuario");
                     ModeloTabla.addRow(registros);
-                    System.out.println(registros[0]);
                     num_admin = num_admin + 1;
 
                 }
                 while (rst3.next()) {
-                    registros[0] = "  "+FormatoNombre(rst3.getString("Nombre_Apellido"));
+                    registros[0] = "  " + FormatoNombre(rst3.getString("Nombre_Apellido"));
                     registros[1] = String.valueOf((long) rst3.getDouble("Telefono"));
                     registros[2] = rst3.getString("Genero");
                     registros[3] = String.valueOf((int) rst3.getDouble("Edad"));
@@ -4315,7 +4356,7 @@ public class Jefe extends javax.swing.JFrame {
                 }
                 ResultSet rst2 = sentence.executeQuery(SQL2);
                 while (rst2.next()) {
-                    registros[0] = "  "+FormatoNombre(rst2.getString("Nombre_Apellido"));
+                    registros[0] = "  " + FormatoNombre(rst2.getString("Nombre_Apellido"));
                     registros[1] = String.valueOf((long) rst2.getDouble("Telefono"));
                     registros[2] = rst2.getString("Genero");
                     registros[3] = String.valueOf((int) rst2.getDouble("Edad"));
@@ -4333,7 +4374,7 @@ public class Jefe extends javax.swing.JFrame {
                 }
                 ResultSet rst = sentence.executeQuery(SQL1);
                 while (rst.next()) {
-                    registros[0] = "  "+FormatoNombre(rst.getString("Nombre_Apellido"));
+                    registros[0] = "  " + FormatoNombre(rst.getString("Nombre_Apellido"));
                     registros[1] = String.valueOf((long) rst.getDouble("Telefono"));
                     registros[2] = rst.getString("Genero");
                     registros[3] = String.valueOf((int) rst.getDouble("Edad"));
@@ -4352,7 +4393,7 @@ public class Jefe extends javax.swing.JFrame {
 
                 ResultSet rst3 = sentence.executeQuery(SQL3);
                 while (rst3.next()) {
-                    registros[0] = "  "+FormatoNombre(rst3.getString("Nombre_Apellido"));
+                    registros[0] = "  " + FormatoNombre(rst3.getString("Nombre_Apellido"));
                     registros[1] = String.valueOf((long) rst3.getDouble("Telefono"));
                     registros[2] = rst3.getString("Genero");
                     registros[3] = String.valueOf((int) rst3.getDouble("Edad"));
@@ -4368,9 +4409,8 @@ public class Jefe extends javax.swing.JFrame {
             new Error("Error al cargar datos").setVisible(true);
         }
     }
-    
-        
-     public void MostrarPuestos() {
+
+    public void MostrarPuestos() {
         try {
 
             CB_Cargos.removeAllItems();
@@ -4833,6 +4873,8 @@ public class Jefe extends javax.swing.JFrame {
     private javax.swing.JLabel label_m4;
     private javax.swing.JLabel lb_doctor;
     private javax.swing.JLabel lb_eliminar;
+    private javax.swing.JLabel lb_genero;
+    private javax.swing.JLabel lb_puesto;
     private javax.swing.JLabel nu_ad;
     private javax.swing.JLabel nu_do;
     private javax.swing.JLabel nu_em;

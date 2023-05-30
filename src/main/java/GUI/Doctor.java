@@ -49,31 +49,16 @@ public class Doctor extends javax.swing.JFrame {
 
         BT_Home.setColor1Background(new Color(82, 132, 192));
 
-        MostrarPacientes(getUsuarioLogin());
-
-        String estadoCita = (String) CB_Estado.getSelectedItem();
-        String orden = (String) CB_Orden.getSelectedItem();
-        orden = orden.equalsIgnoreCase("Ascendente") ? "ASC" : "DESC";
-        String paciente = (String) CB_PacienteF.getSelectedItem();
-        String doctor = getUsuarioLogin();
-
-        switch (estadoCita) {
-            case "Todas":
-                LlenarTabla("Todas", orden, paciente, doctor);
-                break;
-            case "Por Asistir":
-                LlenarTabla("Valida", orden, paciente, doctor);
-                break;
-            case "Completada":
-                LlenarTabla("Completada", orden, paciente, doctor);
-                break;
-        }
-
+        LlenarTodosDatos("Todas", "-", "-");
+        
         BT_Home.setColor1Background(new Color(82, 132, 192));
+        total_citas = num_completadas + num_pendientes;
         label_total.setText(String.valueOf(total_citas));
         label_completadas.setText(String.valueOf(num_completadas));
         label_pendientes.setText(String.valueOf(num_pendientes));
 
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Icon/icon.png")).getImage());
+        
     }
 
     public String getUsuarioLogin() {
@@ -141,7 +126,7 @@ public class Doctor extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tabla = new Componentes.Table();
         jLabel1 = new javax.swing.JLabel();
-        BT_CambiarEstado = new Componentes.AllButton();
+        BT_Siguiente = new Componentes.AllButton();
         lb_Estado = new javax.swing.JLabel();
         panelRound2 = new org.example.Custom.PanelRound();
         icon_do = new Componentes.BlurBackground();
@@ -160,8 +145,26 @@ public class Doctor extends javax.swing.JFrame {
         nu_em = new javax.swing.JLabel();
         CB_Estado = new Componentes.ComboBoxSuggestion();
         CB_Orden = new Componentes.ComboBoxSuggestion();
-        CB_PacienteF = new Componentes.ComboBoxSuggestion();
+        CB_Paciente = new Componentes.ComboBoxSuggestion();
         BT_Filtrar = new Componentes.AllButton();
+        lb_estado = new javax.swing.JLabel();
+        lb_orden = new javax.swing.JLabel();
+        lb_servicio = new javax.swing.JLabel();
+        Siguiente = new javax.swing.JPanel();
+        blurBackground3 = new Componentes.BlurBackground();
+        barra_superior1 = new javax.swing.JPanel();
+        bt_cerrar1 = new Componentes.AllButton();
+        bt_minimizar1 = new Componentes.AllButton();
+        BT_Guardar = new Componentes.AllButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TX_MotivoCita = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        TX_Valoracion = new javax.swing.JTextArea();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        TX_Tratamiento = new javax.swing.JTextArea();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -626,6 +629,7 @@ public class Doctor extends javax.swing.JFrame {
         });
         Tabla.setGridColor(new java.awt.Color(242, 242, 242));
         Tabla.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        Tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(Tabla);
 
         panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 829, 210));
@@ -635,35 +639,35 @@ public class Doctor extends javax.swing.JFrame {
         jLabel1.setText("Lista de Citas:");
         panelRound1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 6, -1, -1));
 
-        BT_CambiarEstado.setBorder(null);
-        BT_CambiarEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/intercambiar.png"))); // NOI18N
-        BT_CambiarEstado.setColor1Background(new java.awt.Color(255, 255, 254));
-        BT_CambiarEstado.setColor2Over(new java.awt.Color(176, 207, 240));
-        BT_CambiarEstado.setColor3Click(new java.awt.Color(163, 176, 212));
-        BT_CambiarEstado.setEnableColorGradient(true);
-        BT_CambiarEstado.setEnableShadow(true);
-        BT_CambiarEstado.setRadius(32);
-        BT_CambiarEstado.setRippleColor(new java.awt.Color(255, 255, 255));
-        BT_CambiarEstado.setRoundBottomLeft(10);
-        BT_CambiarEstado.setRoundBottomRight(10);
-        BT_CambiarEstado.setRoundTopLeft(10);
-        BT_CambiarEstado.setRoundTopRight(10);
-        BT_CambiarEstado.addMouseListener(new java.awt.event.MouseAdapter() {
+        BT_Siguiente.setBorder(null);
+        BT_Siguiente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/siguiente-boton.png"))); // NOI18N
+        BT_Siguiente.setColor1Background(new java.awt.Color(255, 255, 254));
+        BT_Siguiente.setColor2Over(new java.awt.Color(176, 207, 240));
+        BT_Siguiente.setColor3Click(new java.awt.Color(163, 176, 212));
+        BT_Siguiente.setEnableColorGradient(true);
+        BT_Siguiente.setEnableShadow(true);
+        BT_Siguiente.setRadius(32);
+        BT_Siguiente.setRippleColor(new java.awt.Color(255, 255, 255));
+        BT_Siguiente.setRoundBottomLeft(10);
+        BT_Siguiente.setRoundBottomRight(10);
+        BT_Siguiente.setRoundTopLeft(10);
+        BT_Siguiente.setRoundTopRight(10);
+        BT_Siguiente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                BT_CambiarEstadoMouseClicked(evt);
+                BT_SiguienteMouseClicked(evt);
             }
         });
-        BT_CambiarEstado.addActionListener(new java.awt.event.ActionListener() {
+        BT_Siguiente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BT_CambiarEstadoActionPerformed(evt);
+                BT_SiguienteActionPerformed(evt);
             }
         });
-        panelRound1.add(BT_CambiarEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 2, 45, 40));
+        panelRound1.add(BT_Siguiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(715, 2, 45, 40));
 
         lb_Estado.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         lb_Estado.setForeground(new java.awt.Color(127, 127, 127));
-        lb_Estado.setText("Cambiar Estado");
-        panelRound1.add(lb_Estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 9, -1, -1));
+        lb_Estado.setText("Siguiente");
+        panelRound1.add(lb_Estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(764, 9, -1, -1));
 
         blurBackground8.add(panelRound1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 870, 260));
 
@@ -740,14 +744,14 @@ public class Doctor extends javax.swing.JFrame {
         CB_Orden.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
         blurBackground8.add(CB_Orden, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, -1, -1));
 
-        CB_PacienteF.setBackground(new java.awt.Color(248, 247, 247));
-        CB_PacienteF.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        CB_PacienteF.addItemListener(new java.awt.event.ItemListener() {
+        CB_Paciente.setBackground(new java.awt.Color(248, 247, 247));
+        CB_Paciente.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
+        CB_Paciente.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                CB_PacienteFItemStateChanged(evt);
+                CB_PacienteItemStateChanged(evt);
             }
         });
-        blurBackground8.add(CB_PacienteF, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, -1, -1));
+        blurBackground8.add(CB_Paciente, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, -1, -1));
 
         BT_Filtrar.setBorder(null);
         BT_Filtrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filtrar.png"))); // NOI18N
@@ -774,6 +778,18 @@ public class Doctor extends javax.swing.JFrame {
         });
         blurBackground8.add(BT_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(675, 198, 48, 46));
 
+        lb_estado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_estado.setText("Estado de la cita:");
+        blurBackground8.add(lb_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 175, -1, -1));
+
+        lb_orden.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_orden.setText("Orden:");
+        blurBackground8.add(lb_orden, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 175, -1, -1));
+
+        lb_servicio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_servicio.setText("Paciente:");
+        blurBackground8.add(lb_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 175, -1, -1));
+
         javax.swing.GroupLayout InicioLayout = new javax.swing.GroupLayout(Inicio);
         Inicio.setLayout(InicioLayout);
         InicioLayout.setHorizontalGroup(
@@ -792,6 +808,142 @@ public class Doctor extends javax.swing.JFrame {
         CardLayout.add(Inicio, "Inicio");
         Inicio.getAccessibleContext().setAccessibleName("");
 
+        Siguiente.setBackground(new java.awt.Color(255, 255, 255));
+
+        blurBackground3.setEnableCustomRectangle(true);
+        blurBackground3.setImage(new javax.swing.ImageIcon(getClass().getResource("/Crear Doctor Horario.png"))); // NOI18N
+        blurBackground3.setRadius(1);
+        blurBackground3.setRoundBottomLeft(1);
+        blurBackground3.setRoundBottomRight(40);
+        blurBackground3.setRoundTopLeft(1);
+        blurBackground3.setRoundTopRight(40);
+        blurBackground3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        barra_superior1.setOpaque(false);
+        barra_superior1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                barra_superior1MouseDragged(evt);
+            }
+        });
+        barra_superior1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                barra_superior1MousePressed(evt);
+            }
+        });
+        barra_superior1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        bt_cerrar1.setText("X");
+        bt_cerrar1.setChangeCoefficient(15);
+        bt_cerrar1.setColor1Background(new java.awt.Color(172, 206, 252));
+        bt_cerrar1.setColor2Over(new java.awt.Color(102, 153, 255));
+        bt_cerrar1.setColor3Click(new java.awt.Color(0, 102, 255));
+        bt_cerrar1.setEnableColorGradient(true);
+        bt_cerrar1.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        bt_cerrar1.setRoundBottomLeft(0);
+        bt_cerrar1.setRoundBottomRight(0);
+        bt_cerrar1.setRoundTopLeft(0);
+        bt_cerrar1.setRoundTopRight(15);
+        bt_cerrar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_cerrar1MouseClicked(evt);
+            }
+        });
+        barra_superior1.add(bt_cerrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(949, 0, 50, 22));
+
+        bt_minimizar1.setText("-");
+        bt_minimizar1.setChangeCoefficient(15);
+        bt_minimizar1.setColor1Background(new java.awt.Color(172, 206, 252));
+        bt_minimizar1.setColor2Over(new java.awt.Color(102, 153, 255));
+        bt_minimizar1.setColor3Click(new java.awt.Color(0, 102, 255));
+        bt_minimizar1.setEnableColorGradient(true);
+        bt_minimizar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        bt_minimizar1.setRoundBottomLeft(15);
+        bt_minimizar1.setRoundBottomRight(0);
+        bt_minimizar1.setRoundTopLeft(0);
+        bt_minimizar1.setRoundTopRight(0);
+        bt_minimizar1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_minimizar1MouseClicked(evt);
+            }
+        });
+        barra_superior1.add(bt_minimizar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(899, 0, 50, 22));
+
+        blurBackground3.add(barra_superior1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 30));
+
+        BT_Guardar.setText("Guardar");
+        BT_Guardar.setChangeCoefficient(20);
+        BT_Guardar.setColor1Background(new java.awt.Color(82, 132, 192));
+        BT_Guardar.setColor1Foreground(new java.awt.Color(255, 255, 255));
+        BT_Guardar.setColor2Over(new java.awt.Color(40, 76, 118));
+        BT_Guardar.setColor2OverForeground(new java.awt.Color(255, 255, 255));
+        BT_Guardar.setColor3Click(new java.awt.Color(102, 153, 255));
+        BT_Guardar.setColor3ClickForeground(new java.awt.Color(255, 255, 255));
+        BT_Guardar.setEnableColorGradient(true);
+        BT_Guardar.setEnableShadow(true);
+        BT_Guardar.setFont(new java.awt.Font("Century", 1, 15)); // NOI18N
+        BT_Guardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        BT_Guardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BT_GuardarMouseClicked(evt);
+            }
+        });
+        BT_Guardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_GuardarActionPerformed(evt);
+            }
+        });
+        blurBackground3.add(BT_Guardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 495, 215, 42));
+
+        TX_MotivoCita.setColumns(20);
+        TX_MotivoCita.setRows(5);
+        jScrollPane2.setViewportView(TX_MotivoCita);
+
+        blurBackground3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 640, -1));
+
+        TX_Valoracion.setColumns(20);
+        TX_Valoracion.setRows(5);
+        jScrollPane3.setViewportView(TX_Valoracion);
+
+        blurBackground3.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, 640, -1));
+
+        TX_Tratamiento.setColumns(20);
+        TX_Tratamiento.setRows(5);
+        jScrollPane5.setViewportView(TX_Tratamiento);
+
+        blurBackground3.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 370, 640, -1));
+
+        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel10.setFont(new java.awt.Font("Century", 1, 18)); // NOI18N
+        jLabel10.setText("Motivo de la cita:");
+        blurBackground3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 45, -1, -1));
+
+        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel11.setFont(new java.awt.Font("Century", 1, 18)); // NOI18N
+        jLabel11.setText("Valoracion:");
+        blurBackground3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 195, -1, -1));
+
+        jLabel13.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel13.setFont(new java.awt.Font("Century", 1, 18)); // NOI18N
+        jLabel13.setText("Tratamiento:");
+        blurBackground3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 335, -1, -1));
+
+        javax.swing.GroupLayout SiguienteLayout = new javax.swing.GroupLayout(Siguiente);
+        Siguiente.setLayout(SiguienteLayout);
+        SiguienteLayout.setHorizontalGroup(
+            SiguienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SiguienteLayout.createSequentialGroup()
+                .addComponent(blurBackground3, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        SiguienteLayout.setVerticalGroup(
+            SiguienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SiguienteLayout.createSequentialGroup()
+                .addComponent(blurBackground3, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 30, Short.MAX_VALUE))
+        );
+
+        CardLayout.add(Siguiente, "Siguiente");
+
         Background.add(CardLayout, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 1010, 600));
 
         getContentPane().add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 570));
@@ -806,26 +958,8 @@ public class Doctor extends javax.swing.JFrame {
         cardLayout.show(CardLayout, "Inicio");
         num_completadas = 0;
         num_pendientes = 0;
-        LlenarTabla("Todas", "", "", getUsuarioLogin().toUpperCase());
-        BT_Home.setColor1Background(new Color(82, 132, 192));
-        BT_Datos.setColor1Background(new Color(122, 173, 252));
-        String estadoCita = (String) CB_Estado.getSelectedItem();
-        String orden = (String) CB_Orden.getSelectedItem();
-        orden = orden.equalsIgnoreCase("Ascendente") ? "ASC" : "DESC";
-        String paciente = (String) CB_PacienteF.getSelectedItem();
-        String doctor = getUsuarioLogin();
-
-        switch (estadoCita) {
-            case "Todas":
-                LlenarTabla("Todas", orden, paciente, doctor);
-                break;
-            case "Por Asistir":
-                LlenarTabla("Valida", orden, paciente, doctor);
-                break;
-            case "Completada":
-                LlenarTabla("Completada", orden, paciente, doctor);
-                break;
-        }
+        ActualizarTabla();
+        total_citas = num_completadas + num_pendientes;
         label_total.setText(String.valueOf(total_citas));
         label_completadas.setText(String.valueOf(num_completadas));
         label_pendientes.setText(String.valueOf(num_pendientes));
@@ -897,36 +1031,42 @@ public class Doctor extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Panel de Inicio">
     private void BT_FiltrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_FiltrarMouseClicked
-        String estadoCita = (String) CB_Estado.getSelectedItem();
-        String orden = (String) CB_Orden.getSelectedItem();
-        orden = orden.equalsIgnoreCase("Ascendente") ? "ASC" : "DESC";
-        String paciente = (String) CB_PacienteF.getSelectedItem();
-        String doctor = getUsuarioLogin();
-
-        switch (estadoCita) {
-            case "Todas":
-                LlenarTabla("Todas", orden, paciente, doctor);
-                break;
-            case "Por Asistir":
-                LlenarTabla("Valida", orden, paciente, doctor);
-                break;
-            case "Completada":
-                LlenarTabla("Completada", orden, paciente, doctor);
-                break;
-        }
+        num_completadas = 0;
+        num_pendientes = 0;
+        ActualizarTabla();
     }//GEN-LAST:event_BT_FiltrarMouseClicked
 
-    private void CB_PacienteFItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CB_PacienteFItemStateChanged
+    private void CB_PacienteItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CB_PacienteItemStateChanged
 
-    }//GEN-LAST:event_CB_PacienteFItemStateChanged
+    }//GEN-LAST:event_CB_PacienteItemStateChanged
 
-    private void BT_CambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_CambiarEstadoActionPerformed
+    private void BT_SiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_SiguienteActionPerformed
 
-    }//GEN-LAST:event_BT_CambiarEstadoActionPerformed
+    }//GEN-LAST:event_BT_SiguienteActionPerformed
 
-    private void BT_CambiarEstadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_CambiarEstadoMouseClicked
+    private void BT_SiguienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_SiguienteMouseClicked
+        int filaSeleccionada = Tabla.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            new Warning("Debe seleccionar una fila").setVisible(true);
+        } else {
 
-    }//GEN-LAST:event_BT_CambiarEstadoMouseClicked
+            Object[] valores = ObtenerValoresFilaSeleccionada();
+            if ("Por Asistir".equals((String) valores[3])) {
+                BT_Guardar.setText("Guardar");
+                TX_MotivoCita.setText("");
+                TX_Tratamiento.setText("");
+                TX_Valoracion.setText("");
+                TX_MotivoCita.setEditable(true);
+                TX_Tratamiento.setEditable(true);
+                TX_Valoracion.setEditable(true);
+                cardLayout.show(CardLayout, "Siguiente");
+
+            } else {
+                BT_Guardar.setText("Volver");
+                cardLayout.show(CardLayout, "Siguiente");
+            }
+        }
+    }//GEN-LAST:event_BT_SiguienteMouseClicked
 
     private void Update_nameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Update_nameKeyTyped
         //Para que el TX acepte solo letras
@@ -1136,84 +1276,322 @@ public class Doctor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_BT_ActualizarActionPerformed
 
+    private void bt_cerrar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cerrar1MouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_bt_cerrar1MouseClicked
+
+    private void bt_minimizar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_minimizar1MouseClicked
+        this.setState(ICONIFIED);
+    }//GEN-LAST:event_bt_minimizar1MouseClicked
+
+    private void barra_superior1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barra_superior1MouseDragged
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x - mouseX, y - mouseY);
+    }//GEN-LAST:event_barra_superior1MouseDragged
+
+    private void barra_superior1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_barra_superior1MousePressed
+        mouseX = evt.getX();
+        mouseY = evt.getY();
+    }//GEN-LAST:event_barra_superior1MousePressed
+
+    private void BT_GuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BT_GuardarMouseClicked
+        Object[] valores = ObtenerValoresFilaSeleccionada();
+
+        if ("Guardar".equals(BT_Guardar.getText())) {
+
+            if ("".equals(TX_MotivoCita.getText())) {
+                new Warning("Falta el Motivo de la Cita").setVisible(true);
+            } else if ("".equals(TX_Tratamiento.getText())) {
+                new Warning("Falta el Tratamiento").setVisible(true);
+            } else if ("".equals(TX_Valoracion.getText())) {
+                new Warning("Falta la Valoracion").setVisible(true);
+            } else {
+
+                try {
+                    //Función que guarda un objeto de tipo solicitud en la tabla Solicitudes de la base de datos
+                    Connection Conexion = null;
+                    ConexionBD BD = new ConexionBD();
+                    Conexion = BD.getConexion();
+                    //Creación del SQL
+
+                    String SQL = "INSERT INTO Historial_Medico(UsuarioPaciente,"
+                            + " FechaCita, HoraCita, Motivo_Cita, Valoracion, Tratamiento, Doctor) values (?,?,?,?,?,?,?)";
+                    PreparedStatement pst = Conexion.prepareStatement(SQL);
+
+                    pst.setString(1, (String) valores[0]);
+                    pst.setString(2, (String) valores[1]);
+                    pst.setString(3, (String) valores[2]);
+                    pst.setString(4, TX_MotivoCita.getText());
+                    pst.setString(5, TX_Valoracion.getText());
+                    pst.setString(6, TX_Tratamiento.getText());
+                    pst.setString(7, getUsuarioLogin());
+
+                    int n = pst.executeUpdate();
+
+                    SQL = "UPDATE Solicitudes SET Estado_Cita = ? WHERE Usuario = ? AND Doctor = ? AND Fecha = ? AND Hora = ?";
+                    PreparedStatement pstmt = Conexion.prepareStatement(SQL);
+                    pstmt.setString(1, "Completada");
+                    pstmt.setString(2, (String) valores[0]);
+                    pstmt.setString(3, getUsuarioLogin());
+                    pstmt.setString(4, String.valueOf((String) valores[1]));
+                    pstmt.setString(5, String.valueOf((String) valores[2]));
+
+                    int n1 = pstmt.executeUpdate();
+
+                    if (n > 0 && n1 > 0) {
+                        new Success("Guardado correctamente").setVisible(true);
+                        cardLayout.show(CardLayout, "Inicio");
+                        BT_Home.setColor1Background(new Color(82, 132, 192));
+                        BT_Datos.setColor1Background(new Color(122, 173, 252));
+                        ActualizarTabla();
+
+                    }
+
+                } catch (SQLException ex) {
+                    System.out.println(ex);
+                }
+
+            }
+        } else {
+            cardLayout.show(CardLayout, "Inicio");
+            BT_Home.setColor1Background(new Color(82, 132, 192));
+            BT_Datos.setColor1Background(new Color(122, 173, 252));
+
+            TX_MotivoCita.setEditable(false);
+            TX_Tratamiento.setEditable(false);
+            TX_Valoracion.setEditable(false);
+
+            try {
+                Connection Conexion = null;
+                ConexionBD BD = new ConexionBD();
+                Conexion = BD.getConexion();
+
+                String SQL = "SELECT * FROM Historial_Medico "
+                        + "WHERE UsuarioPaciente = ? AND FechaCita = ? AND HoraCita = ? AND Doctor = ?";
+                PreparedStatement pst = Conexion.prepareStatement(SQL);
+                pst.setString(1, (String) valores[0]);
+                pst.setString(2, (String) valores[1]);
+                pst.setString(3, (String) valores[2]);
+                pst.setString(4, getUsuarioLogin());
+
+                ResultSet rs = pst.executeQuery();
+
+                if (rs.next()) {
+                    String motivoCita = rs.getString("Motivo_Cita");
+                    String valoracion = rs.getString("Valoracion");
+                    String tratamiento = rs.getString("Tratamiento");
+
+                    TX_MotivoCita.setText(motivoCita);
+                    TX_Tratamiento.setText(tratamiento);
+                    TX_Valoracion.setText(valoracion);
+                }
+
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+
+        }
+
+    }//GEN-LAST:event_BT_GuardarMouseClicked
+
+    private void BT_GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_GuardarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BT_GuardarActionPerformed
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Funciones del Panel de Inicio">
-    public void LlenarTodosDatos(String Filtro, String Orden, String especialidad, String doctor) {
+    public void ActualizarTabla() {
+        String estado = (String) CB_Estado.getSelectedItem();
+        String orden = (String) CB_Orden.getSelectedItem();
+        String paciente = (String) CB_Paciente.getSelectedItem();
+
+        switch (estado) {
+            case "Todas":
+                switch (orden) {
+                    case "-":
+                        LlenarTodosDatos("Todas", "-", paciente);
+                        break;
+                    case "Ascendente":
+                        LlenarTodosDatos("Todas", "ASC", paciente);
+                        break;
+                    case "Descendente":
+                        LlenarTodosDatos("Todas", "DESC", paciente);
+                        break;
+                }
+                break;
+            case "Por Asistir":
+                switch (orden) {
+                    case "-":
+                        LlenarTodosDatos("Valida", "", paciente);
+                        break;
+                    case "Ascendente":
+                        LlenarTodosDatos("Valida", "ASC", paciente);
+                        break;
+                    case "Descendente":
+                        LlenarTodosDatos("Valida", "DESC", paciente);
+                        break;
+                }
+                break;
+            case "Completada":
+                switch (orden) {
+                    case "-":
+                        LlenarTodosDatos("Completada", "", paciente);
+                        break;
+                    case "Ascendente":
+                        LlenarTodosDatos("Completada", "ASC", paciente);
+                        break;
+                    case "Descendente":
+                        LlenarTodosDatos("Completada", "DESC", paciente);
+                        break;
+                }
+                break;
+        }
+    }
+
+    public Object[] ObtenerValoresFilaSeleccionada() {
+        int filaSeleccionada = Tabla.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            return null; // No se ha seleccionado ninguna fila
+        }
+
+        Object[] valores = new Object[4];
+        for (int columna = 0; columna < 4; columna++) {
+            valores[columna] = Tabla.getValueAt(filaSeleccionada, columna);
+        }
+
+        return valores;
+    }
+
+    public void LlenarTodosDatos(String Estado, String Orden, String Paciente) {
         try {
             Connection conexion = null;
             ConexionBD bd = new ConexionBD();
             conexion = bd.getConexion();
 
-            String sql = "SELECT Usuario, Servicio, Doctor, Fecha, Hora, Confirmada, Estado_Cita, Telefono FROM Solicitudes";
+            String sql = "SELECT Usuario, Servicio, Doctor, Fecha, Hora, Confirmada, Estado_Cita, Telefono FROM Solicitudes WHERE ";
 
-            if (!Filtro.equals("Todas")) {
-                sql += " WHERE Estado_Cita = ?";
+            if (!Estado.equals("Todas")) {
+                sql += "Estado_Cita = ? AND ";
             }
 
-            if (!especialidad.isEmpty() && doctor.isEmpty()) {
-                if (!Filtro.equals("Todas")) {
-                    sql += " AND Servicio = ?";
-                } else {
-                    sql += " WHERE Servicio = ?";
-                }
-            } else if (especialidad.isEmpty() && !doctor.isEmpty()) {
-                if (!Filtro.equals("Todas")) {
-                    sql += " AND Doctor = ?";
-                } else {
-                    sql += " WHERE Doctor = ?";
-                }
-            } else if (!especialidad.isEmpty() && !doctor.isEmpty()) {
-                if (!Filtro.equals("Todas")) {
-                    sql += " AND Servicio = ? AND Doctor = ?";
-                } else {
-                    sql += " WHERE Servicio = ? AND Doctor = ?";
-                }
+            if (!Paciente.equals("-")) {
+                sql += "Usuario = ? AND ";
             }
 
-            if (!Orden.isEmpty()) {
+            // Agregar el filtro para el doctor fijo
+            sql += "Doctor = ?";
+
+            if (!Orden.equals("-")) {
                 sql += " ORDER BY CDate(Fecha) " + Orden + ", Hora " + Orden;
             }
 
             PreparedStatement statement = conexion.prepareStatement(sql);
-
             int parametro = 1;
-            if (!Filtro.equals("Todas")) {
-                statement.setString(parametro, Filtro);
+
+            if (!Estado.equals("Todas")) {
+                statement.setString(parametro, Estado);
                 parametro++;
             }
 
-            if (!especialidad.isEmpty() && doctor.isEmpty()) {
-                statement.setString(parametro, especialidad);
-                parametro++;
-            } else if (especialidad.isEmpty() && !doctor.isEmpty()) {
-                statement.setString(parametro, doctor);
-                parametro++;
-            } else if (!especialidad.isEmpty() && !doctor.isEmpty()) {
-                statement.setString(parametro, especialidad);
-                parametro++;
-                statement.setString(parametro, doctor);
+            if (!Paciente.equals("-")) {
+                statement.setString(parametro, Paciente);
                 parametro++;
             }
+
+            statement.setString(parametro, getUsuarioLogin());
 
             ResultSet resultado = statement.executeQuery();
 
             DefaultTableModel modeloTabla = (DefaultTableModel) Tabla.getModel();
             modeloTabla.setRowCount(0);
 
+            String usuario, fecha, hora, estado, telefono;
+
             while (resultado.next()) {
-                String usuario = resultado.getString("Usuario");
-                String servicio = resultado.getString("Servicio");
-                String nombreDoctor = FormatoNombre(resultado.getString("Doctor"));
-                String fecha = resultado.getString("Fecha");
-                String hora = resultado.getString("Hora");
-                String confirmada = resultado.getString("Confirmada");
-                String estado = resultado.getString("Estado_Cita");
-                String Telefono = String.valueOf((long) resultado.getDouble("Telefono"));
-                Object[] fila = {usuario, servicio, nombreDoctor, fecha, hora, confirmada, estado, Telefono};
+                usuario = "  "+MostrarNombre(resultado.getString("Usuario"));
+                fecha = resultado.getString("Fecha");
+                hora = resultado.getString("Hora");
+                estado = resultado.getString("Estado_Cita");
+
+                if ("Valida".equals(estado)) {
+                    estado = "Por Asistir";
+                    num_pendientes = num_pendientes + 1;
+                }
+
+                if ("Completada".equals(estado)) {
+                    num_completadas = num_completadas + 1;
+                }
+
+                if ("Cancelada".equals(estado) || "En Espera".equals(estado)) {
+                    break;
+                }
+                
+                total_citas = num_completadas + num_pendientes;
+                label_total.setText(String.valueOf(total_citas));
+                label_completadas.setText(String.valueOf(num_completadas));
+                label_pendientes.setText(String.valueOf(num_pendientes));
+                
+                telefono = String.valueOf((int) resultado.getDouble("Telefono"));
+                Object[] fila = {usuario, fecha, hora, estado, telefono};
                 modeloTabla.addRow(fila);
             }
         } catch (SQLException ex) {
             new Error("Error al cargar datos").setVisible(true);
+            System.out.println(ex);
+        }
+    }
+
+    public String MostrarNombre(String Usuario) {
+        try {
+
+            Connection Conexion = null;
+            ConexionBD BD = new ConexionBD();
+            Conexion = BD.getConexion();
+            Statement st = Conexion.createStatement();
+
+            String SQL = "SELECT Nombre_Apellido FROM Pacientes WHERE Usuario = '" + Usuario.toUpperCase() + "'";
+
+            ResultSet rs = st.executeQuery(SQL);
+
+            while (rs.next()) {
+                return FormatoNombre(rs.getString("Nombre_Apellido"));
+
+            }
+
+        } catch (SQLException ex) {
+
+        }
+        return null;
+
+    }
+
+    public void MostrarPacientes(String Usuario) {
+        try {
+            Connection conexion = null;
+            ConexionBD bd = new ConexionBD();
+            conexion = bd.getConexion();
+            Statement st = conexion.createStatement();
+
+            String sql = "SELECT DISTINCT Usuario FROM Solicitudes WHERE Doctor = ? AND (Estado_Cita = 'Valida' OR Estado_Cita = 'Completada')";
+            PreparedStatement statement = conexion.prepareStatement(sql);
+            statement.setString(1, Usuario);
+
+            ResultSet rs = statement.executeQuery();
+
+            CB_Paciente.removeAllItems();
+            CB_Paciente.addItem("-");
+
+            while (rs.next()) {
+                String usuario = rs.getString("Usuario");
+                //String nombrePaciente = FormatoNombre(MostrarNombre(usuario));
+                CB_Paciente.addItem(usuario);
+            }
+
+            rs.close();
+            statement.close();
+            conexion.close();
+        } catch (SQLException ex) {
         }
     }
 
@@ -1457,151 +1835,6 @@ public class Doctor extends javax.swing.JFrame {
     }
     // </editor-fold>
 
-    public void LlenarTabla(String Estado, String Orden, String Usuario, String Doctor) {
-        try {
-
-            Connection conexion = null;
-            ConexionBD bd = new ConexionBD();
-            conexion = bd.getConexion();
-
-            String sql = "SELECT Usuario, Fecha, Hora, Estado_Cita, Telefono FROM Solicitudes";
-
-            if (!Estado.equals("Todas")) {
-                sql += " WHERE Estado_Cita = ?";
-            }
-
-            if (!(Usuario == null) && Doctor == null) {
-                if (!Estado.equals("Todas")) {
-                    sql += " AND Usuario = ?";
-                } else {
-                    sql += " WHERE Usuario = ?";
-                }
-            } else if (Usuario == null && !(Doctor == null)) {
-                if (!Estado.equals("Todas")) {
-                    sql += " AND Doctor = ?";
-                } else {
-                    sql += " WHERE Doctor = ?";
-                }
-            } else if (!(Usuario == null) && !(Doctor == null)) {
-                if (!Estado.equals("Todas")) {
-                    sql += " AND Usuario = ? AND Doctor = ?";
-                } else {
-                    sql += " WHERE Usuario = ? AND Doctor = ?";
-                }
-            }
-
-            if (!Orden.isEmpty()) {
-                sql += " ORDER BY Fecha " + Orden + ", Hora " + Orden;
-            }
-
-            PreparedStatement statement = conexion.prepareStatement(sql);
-
-            int parametro = 1;
-            if (!Estado.equals("Todas")) {
-                statement.setString(parametro, Estado);
-                parametro++;
-            }
-
-            if (!(Usuario == null) && Doctor == null) {
-                statement.setString(parametro, Usuario);
-                parametro++;
-            } else if (Usuario == null && !(Doctor == null)) {
-                statement.setString(parametro, Doctor);
-                parametro++;
-            } else if (!(Usuario == null) && !(Doctor == null)) {
-                statement.setString(parametro, Usuario);
-                parametro++;
-                statement.setString(parametro, Doctor);
-                parametro++;
-            }
-
-            ResultSet resultado = statement.executeQuery();
-
-            DefaultTableModel modeloTabla = (DefaultTableModel) Tabla.getModel();
-            modeloTabla.setRowCount(0);
-
-            while (resultado.next()) {
-                String usuario = "  " + MostrarNombre(resultado.getString("Usuario"));
-                String fecha = resultado.getString("Fecha");
-                String hora = resultado.getString("Hora");
-                String estado = resultado.getString("Estado_Cita");
-                if (estado.equals("Valida")) {
-                    estado = "Por Asistir";
-                    num_pendientes = num_pendientes + 1;
-                }
-                if (estado.equals("Completada")) {
-                    num_completadas = num_completadas + 1;
-                }
-                total_citas = num_pendientes + num_completadas;
-                if ("Cancelada".equals(estado) || "En Espera".equals(estado)) {
-                    break;
-                }
-                String telefono = String.valueOf((long) resultado.getDouble("Telefono"));
-                Object[] fila = {usuario, fecha, hora, estado, telefono};
-                modeloTabla.addRow(fila);
-            }
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al cargar datos", "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println(ex);
-        }
-    }
-
-    public String MostrarNombre(String Usuario) {
-        try {
-
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            String SQL = "SELECT Nombre_Apellido FROM Pacientes WHERE Usuario = '" + Usuario + "'";
-
-            ResultSet rs = st.executeQuery(SQL);
-
-            while (rs.next()) {
-                return FormatoNombre(rs.getString("Nombre_Apellido"));
-
-            }
-
-        } catch (SQLException ex) {
-
-        }
-        return null;
-
-    }
-
-    public void MostrarPacientes(String Usuario) {
-        try {
-
-            Connection Conexion = null;
-            ConexionBD BD = new ConexionBD();
-            Conexion = BD.getConexion();
-            Statement st = Conexion.createStatement();
-
-            String SQL = "SELECT DISTINCT Usuario FROM Solicitudes WHERE Doctor = '" + Usuario + "' AND ( Estado_Cita = 'Valida' OR Estado_Cita = 'Completada')";
-
-            ResultSet rs = st.executeQuery(SQL);
-
-            CB_PacienteF.removeAllItems();
-
-            String Dato;
-            int i = 1;
-            while (rs.next()) {
-
-                Dato = rs.getString("Usuario");
-                Dato = FormatoNombre(MostrarNombre(Dato));
-                CB_PacienteF.addItem(Dato);
-                System.out.println(i++);
-
-            }
-
-        } catch (SQLException ex) {
-
-        }
-
-    }
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1651,16 +1884,17 @@ public class Doctor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Componentes.AllButton BT_Actualizar;
-    private Componentes.AllButton BT_CambiarEstado;
     private Componentes.AllButton BT_CerrarSesion;
     private Componentes.AllButton BT_Datos;
     private Componentes.AllButton BT_Filtrar;
+    private Componentes.AllButton BT_Guardar;
     private Componentes.AllButton BT_Home;
     private Componentes.AllButton BT_Menu;
+    private Componentes.AllButton BT_Siguiente;
     private Componentes.BlurBackground Background;
     private Componentes.ComboBoxSuggestion CB_Estado;
     private Componentes.ComboBoxSuggestion CB_Orden;
-    private Componentes.ComboBoxSuggestion CB_PacienteF;
+    private Componentes.ComboBoxSuggestion CB_Paciente;
     private javax.swing.JPanel CardLayout;
     private org.example.Custom.PanelRound ConfirmarContr;
     private org.example.Custom.PanelRound Contraseña;
@@ -1672,7 +1906,11 @@ public class Doctor extends javax.swing.JFrame {
     private org.example.Custom.PanelRound NoConsultorio;
     private org.example.Custom.PanelRound NoDocumento;
     private org.example.Custom.PanelRound NombreApellido;
+    private javax.swing.JPanel Siguiente;
     private org.example.Custom.PanelRound TEspecialidad;
+    private javax.swing.JTextArea TX_MotivoCita;
+    private javax.swing.JTextArea TX_Tratamiento;
+    private javax.swing.JTextArea TX_Valoracion;
     private Componentes.Table Tabla;
     private org.example.Custom.PanelRound Telefono;
     private org.example.Custom.AnimatedTextField Update_name;
@@ -1680,17 +1918,21 @@ public class Doctor extends javax.swing.JFrame {
     private org.example.Custom.AnimatedTextField Update_phone;
     private org.example.Custom.PanelRound Usuario;
     private javax.swing.JPanel barra_superior;
+    private javax.swing.JPanel barra_superior1;
     private javax.swing.JPanel barra_superior2;
     private Componentes.BlurBackground blurBackground11;
     private Componentes.BlurBackground blurBackground12;
     private Componentes.BlurBackground blurBackground2;
+    private Componentes.BlurBackground blurBackground3;
     private Componentes.BlurBackground blurBackground8;
     private javax.swing.ButtonGroup botones;
     private Componentes.AllButton bt_cerrar;
+    private Componentes.AllButton bt_cerrar1;
     private Componentes.AllButton bt_cerrar2;
     private javax.swing.JLabel bt_f;
     private javax.swing.JLabel bt_m;
     private Componentes.AllButton bt_minimizar;
+    private Componentes.AllButton bt_minimizar1;
     private Componentes.AllButton bt_minimizar2;
     private javax.swing.JLabel esconder;
     private javax.swing.JLabel esconder1;
@@ -1698,12 +1940,21 @@ public class Doctor extends javax.swing.JFrame {
     private Componentes.BlurBackground icon_do;
     private javax.swing.JLabel icon_em;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel label_completadas;
     private javax.swing.JLabel label_pendientes;
     private javax.swing.JLabel label_total;
     private javax.swing.JLabel lb_Estado;
     private javax.swing.JLabel lb_doctor;
+    private javax.swing.JLabel lb_estado;
+    private javax.swing.JLabel lb_orden;
+    private javax.swing.JLabel lb_servicio;
     private javax.swing.JLabel nu_ad;
     private javax.swing.JLabel nu_do;
     private javax.swing.JLabel nu_em;

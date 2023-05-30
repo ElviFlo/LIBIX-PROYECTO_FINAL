@@ -36,6 +36,7 @@ public class CrearJefe extends javax.swing.JFrame {
         esconder.setVisible(false);
         esconder1.setVisible(false);
         sx = "M";
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Icon/icon.png")).getImage());
     }
     
     

@@ -16,6 +16,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -78,6 +79,7 @@ public class Paciente extends javax.swing.JFrame {
         label_total.setText(String.valueOf(total_citas));
         label_completadas.setText(String.valueOf(num_completadas));
         label_pendientes.setText(String.valueOf(num_pendientes));
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/Icon/icon.png")).getImage());
 
     }
 
@@ -169,6 +171,10 @@ public class Paciente extends javax.swing.JFrame {
         JCB_servicio = new Componentes.ComboBoxSuggestion();
         JCB_orden = new Componentes.ComboBoxSuggestion();
         BT_Filtrar = new Componentes.AllButton();
+        lb_estado = new javax.swing.JLabel();
+        lb_orden = new javax.swing.JLabel();
+        lb_servicio = new javax.swing.JLabel();
+        lb_genero1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -616,6 +622,7 @@ public class Paciente extends javax.swing.JFrame {
         lb_fecha2.setText("Observaciones Adicionales");
         blurBackground2.add(lb_fecha2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 250, -1, -1));
 
+        TX_Observaciones.setFont(new java.awt.Font("Century", 0, 17)); // NOI18N
         TX_Observaciones.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 TX_ObservacionesKeyTyped(evt);
@@ -672,7 +679,7 @@ public class Paciente extends javax.swing.JFrame {
         blurBackground2.add(BT_EnviarSolicitud, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 480, 210, 40));
 
         Calendario.setBackground(new java.awt.Color(227, 226, 226));
-        Calendario.setFont(new java.awt.Font("Century", 0, 15)); // NOI18N
+        Calendario.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
         Calendario.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 CalendarioPropertyChange(evt);
@@ -787,6 +794,7 @@ public class Paciente extends javax.swing.JFrame {
         });
         Citas_paciente.setGridColor(new java.awt.Color(242, 242, 242));
         Citas_paciente.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        Citas_paciente.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(Citas_paciente);
 
         panelRound1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 47, 829, 210));
@@ -863,11 +871,11 @@ public class Paciente extends javax.swing.JFrame {
 
         JCB_confirmacion.setBackground(new java.awt.Color(248, 247, 247));
         JCB_confirmacion.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        blurBackground10.add(JCB_confirmacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, -1, -1));
+        blurBackground10.add(JCB_confirmacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, -1, -1));
 
         JCB_estadocita.setBackground(new java.awt.Color(248, 247, 247));
         JCB_estadocita.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
-        blurBackground10.add(JCB_estadocita, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, -1, -1));
+        blurBackground10.add(JCB_estadocita, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, -1, -1));
 
         JCB_servicio.setBackground(new java.awt.Color(248, 247, 247));
         JCB_servicio.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
@@ -876,7 +884,7 @@ public class Paciente extends javax.swing.JFrame {
                 JCB_servicioItemStateChanged(evt);
             }
         });
-        blurBackground10.add(JCB_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, -1, -1));
+        blurBackground10.add(JCB_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 210, -1, -1));
 
         JCB_orden.setBackground(new java.awt.Color(248, 247, 247));
         JCB_orden.setFont(new java.awt.Font("Century", 0, 14)); // NOI18N
@@ -885,7 +893,7 @@ public class Paciente extends javax.swing.JFrame {
                 JCB_ordenItemStateChanged(evt);
             }
         });
-        blurBackground10.add(JCB_orden, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 200, -1, -1));
+        blurBackground10.add(JCB_orden, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 210, -1, -1));
 
         BT_Filtrar.setBorder(null);
         BT_Filtrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/filtrar.png"))); // NOI18N
@@ -910,7 +918,23 @@ public class Paciente extends javax.swing.JFrame {
                 BT_FiltrarActionPerformed(evt);
             }
         });
-        blurBackground10.add(BT_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(854, 198, 48, 46));
+        blurBackground10.add(BT_Filtrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(854, 205, 48, 46));
+
+        lb_estado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_estado.setText("Confirmación:");
+        blurBackground10.add(lb_estado, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 185, -1, -1));
+
+        lb_orden.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_orden.setText("Estado de la cita:");
+        blurBackground10.add(lb_orden, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 185, -1, -1));
+
+        lb_servicio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_servicio.setText("Servicio:");
+        blurBackground10.add(lb_servicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 185, -1, -1));
+
+        lb_genero1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_genero1.setText("Orden:");
+        blurBackground10.add(lb_genero1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 185, -1, -1));
 
         home.add(blurBackground10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 580));
 
@@ -1323,7 +1347,7 @@ public class Paciente extends javax.swing.JFrame {
         int Dia_Semana = Calendario.getCalendar().get(java.util.Calendar.DAY_OF_WEEK);
         // DAY_OF_WEEK devuelve un número entero que representa el día de la semana,
         // donde 1 es domingo, 2 es lunes, 3 es martes, etc.
-
+ 
         switch (Dia_Semana) {
             case 1:
                 return "Domingo";
@@ -2365,10 +2389,14 @@ public class Paciente extends javax.swing.JFrame {
     private javax.swing.JLabel label_total;
     private javax.swing.JLabel lb_doc;
     private javax.swing.JLabel lb_doctor;
+    private javax.swing.JLabel lb_estado;
     private javax.swing.JLabel lb_fecha;
     private javax.swing.JLabel lb_fecha1;
     private javax.swing.JLabel lb_fecha2;
     private javax.swing.JLabel lb_fecha3;
+    private javax.swing.JLabel lb_genero1;
+    private javax.swing.JLabel lb_orden;
+    private javax.swing.JLabel lb_servicio;
     private javax.swing.JLabel nu_ad;
     private javax.swing.JLabel nu_do;
     private javax.swing.JLabel nu_em;
